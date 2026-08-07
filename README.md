@@ -1,70 +1,110 @@
-# HPC Training Module Outine Plan
+# HPC Training Initiative
 
-**Top-Level Structure:** one new GitHub repo, folders `101/` `201/` `301/` `401/`, each with a `README.md` sequencing that module's files in order, plus a top-level `/pdf-exports/` folder holding the Scribe PDF versions (unused for now, kept for reference)
+The HPC Training Initiative is a structured, beginner-friendly onboarding path for Human Augment Analytics Group (HAAG) researchers using Georgia Tech's PACE Instructional Cluster Environment (ICE).
 
-**WHEN ARE ARE GOING TO USE A SCRIBE EXPORT, .MD FILE THAT WE CREATE, OR A HYBRID OF BOTH**
-- **Scribe** 
-  - Screen-recorded click-through, exported as markdown with screenshots 
-  - Use when there's real navigation ambiguity (which button, which field, multi-screen)
-- **Hybrid** 
-  - Scribe recording of the terminal/CLI session AND a markdown code block with the exact copy-pasteable commands when it makes sense to add
-- **Markdown Explainer**  
-  - Written by us, explaining what something is and when/why to use it 
-  - When little to no screenshots are needed for clarity
-- **Markdown References??** 
-  - A short paragraph & link out to someone else's existing resource (official KB, peer repo, HAAG tool)
-  - Explain it enough to be useful, don't reproduce same repo here so we're not fully duplicating efforts
+## Group information
 
----
+**Working group:** HPC Training Initiative<br>
+**Course:** CS 8803 Management & Leadership, Summer 2026<br>
+**Team members:** Bilal Assaad, Pranav Angadi, Ahsan Subzwari, and Charlie Clark
 
-## Module 101 — Access & Setup
+## Problem and scope
 
-| # | File | Type | Source / Content | Notes |
-|---|------|------|-------------------|-------|
-| 1 | `101-01-How to Install and Configure GlobalProtect VPN.md` | Scribe | GlobalProtect VPN install | **Done** - Bilal's existing capture, rename to fit numbering |
-| 2 | `101-02-Logging Into OnDemand and SSH.md` | Scribe | First OnDemand/SSH login after VPN connects | **There's a gap here** - not yet captured, recommend adding |
-| 3 | `101-03-Understanding the PACE Ecosystem.md` | Markdown Explainer | PACE Homepage, Get Started with PACE | What PACE is, ICE vs. Phoenix vs. Firebird at a glance, PI vs. PACESHIP access paths (I'M ALSO FINE WITH LEAVING THIS OUT (ASK CHARLIE IF THIS WILL BE USEFUL))|
-| 4 | `101-04-Requesting ICE Access.md` | Markdown References | Request ICE Access (Form) | This will be short, we just explain who needs to file it and link the form. No screenshots most likely |
-| 5 | `101-05-Orientation Resources.md` | Markdown References | User Orientation (KB), PACE Setup Video, PACE Orientation Videos | Roundup of official/peer orientation material - explain what each covers so people pick the right one |
-|  | `README.md` |  |  |  |
+New HAAG researchers could obtain PACE/ICE access yet still struggle to run an HPC workload independently. Instructions for credentials, Duo, GlobalProtect VPN, SSH, Open OnDemand, storage, Slurm, and GPU selection were spread across Georgia Tech knowledge-base pages, Slack conversations, and separate GitHub repositories. The same questions therefore resurfaced, onboarding knowledge remained concentrated in a few people, and a researcher's first successful job could take far longer than necessary.
 
----
+The Summer 2026 scope was to organize those materials into one guided learning sequence. The team prioritized the core journey from access through a verified first job and routine troubleshooting. It did not include a formal learner pilot, a HAAG-wide rollout, production feedback forms, or completed specialized-workload training.
 
-## Module 201 — Running Your First Job
+## Intended outcome
 
-| # | File | Type | Source / Content | Notes |
-|---|------|------|-------------------|-------|
-| 1 | `201-01-The Four Numbers Before You Submit.md` | Markdown Explainer | Concept intro | CPU / GPU-VRAM / RAM / storage, why guessing costs you |
-| 2 | `201-02-Finding Your Sizing Recipe.md` | Markdown References | HAAG Compute & Storage Guide — recipe index | Explain the 4 workload recipes and the verdict-table format, link out |
-| 3 | `201-03-Choosing Your GPU.md` | Markdown References | Part 3 — GPU decision tree | Explain the 3-question funnel, and add a link out |
-| 4 | `201-04-Using the VRAM Calculator.md` | Markdown Explainer | VRAM Calculator | Explain what it calculates, when to use it, walk through the math conceptually a bit then link to the live tool |
-| 5 | `201-05-Submitting Your First Job.md` | **Hybrid** | Sample Slurm Script & live terminal | Scribe recording of the terminal session (`sbatch`, `squeue`, checking `.out`)and a markdown code block with the exact commands, copy-pasteable |
-| 6 | `201-06-Further Reading.md` | Markdown Explainer | Intro-To-PACE-ICE (Guru) | This is the deep dive |
-|  | `README.md` |  |  |  |
+The intended byproduct is a maintainable, task-centered curriculum that lets a new HAAG researcher:
 
----
+1. obtain and verify access;
+2. size and submit a safe first Slurm job;
+3. verify output, manage storage, and find support; and
+4. continue into validated, domain-specific workloads as those modules are added.
 
-## Module 301 — Storage, Troubleshooting & Support
+Success next semester means a new researcher can complete onboarding and submit a first HPC job independently, with fewer repeated support requests and documented feedback for improvement.
 
-| # | File | Type | Source / Content | Notes |
-|---|------|------|-------------------|-------|
-| 1 | `301-01-Storage on ICE.md` | Markdown Explainer | Storage Guide (ICE) KB | Official KB is good, explain tiers/quotas and why it matters, link to source |
-| 2 | `301-02-Auditing Your Storage Usage.md` | Markdown References | Storage Audit (Justin Yiu) | Explain when to use it / use case, light touch, contact link |
-| 3 | `301-03-Validating Your Job Before Submission.md` | Markdown References | PACE Job Submission Validator (Zach Wallace) | When/why to use it, contact link |
-| 4 | `301-04-Checking System Status.md` | Markdown Explainer | PACE System Status | Will be short, teaches people to check this before assuming their own script is broken |
-| 5 | `301-05-Getting Help.md` | Markdown Explainer | Consultation Sessions, PACE Policies, support contacts | Consolidates the scattered contact points into one "who do I ask" page |
-|  | `README.md` |  |  |  |
+## Solutions and work completed
 
----
+The repository uses a 100/200/300/400 sequence so learners can follow the complete path or enter at the stage they need. Scribe walkthroughs are used where screen navigation is ambiguous, Markdown and PDFs explain concepts and copyable commands, hybrid guides combine both, and official Georgia Tech sources are linked instead of duplicated.
 
-## Module 401 — Specialized Workloads & Staying Current
+| Module | Semester-end status | Work completed |
+|---|---|---|
+| 100 - Access and Setup | In progress (presented as approximately 70%) | Completed the VPN and login walkthroughs; drafted the PACE ecosystem, ICE access, and orientation guidance. |
+| 200 - Running Your First Job | Complete as an authored module; learner validation remains | Completed procedures 201-206, including sizing, GPU selection, a VRAM calculator guide, and a tested/Scribed first-job workflow with a command reference. |
+| 300 - Storage, Troubleshooting & Support | Complete as an authored module; learner validation remains | Completed procedures 301-305 covering storage, auditing, job validation, system status, and escalation. |
+| 400 - Specialized Workloads & Staying Current | Deferred to a future semester | Preserved a clearly labeled plan for Ollama, staying current, distributed training, and bioinformatics. No training procedure was completed. |
 
-| # | File | Type | Source / Content | Notes |
-|---|------|------|-------------------|-------|
-| 1 | `401-01-Running LLMs with Ollama.md` | Hybrid ( most likely??) | PACE + HAAG: Ollama KB | This KB likely has real install/run CLI steps, treat like Scribe + code blocks?? |
-| 2 | `401-02-Staying Current.md` | Markdown References | PACE Trainings, Workshops & Events | Why to check the calendar periodically, link out |
-| 3 | `401-03-Distributed Training.md` | *Placeholder* | Fall 2026 Build track | Not yet built, fill in once the recipe ships |
-| 4 | `401-04-Bioinformatics.md` | *Placeholder* | Fall 2026 Build track | Not yet built, fill in once the recipe ships |
-|  | `README.md` |  |  |  |
+The team performed internal author self-testing, including the first-job workflow in Procedure 205. This established that the procedure worked for its author, but it is not evidence that a new learner can complete the path independently.
 
----
+## Implementation status
+
+**No formal implementation occurred during Summer 2026.** There was no independent learner pilot and no broader HAAG rollout. ICE access arrived late, much of the material was completed near the end of a compressed summer term, and the team chose to finish higher-quality core documentation rather than rush a weak pilot. Module 400 was also deferred until subject-matter experts and validation owners can confirm specialized guidance. Long-term hosting for Scribe demonstration videos remained unresolved.
+
+The repository is prepared for structured learner testing. See the [implementation record](implementation/README.md) for the pilot design, evidence limitations, proposed Microsoft Forms, success measures, and next-semester handoff.
+
+## Repository guide
+
+- [Procedures overview](procedures/README.md) - curriculum design, completion status, maintenance rules, and module links.
+- [100 - Access and Setup](procedures/100%20-%20Access%20and%20Setup/README.md) - VPN, ICE login, ecosystem, access, and orientation.
+- [200 - Running Your First Job](procedures/200%20-%20Running%20Your%20First%20Job/README.md) - resource sizing through a verified Slurm output.
+- [300 - Storage, Troubleshooting & Support](procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/README.md) - storage stewardship, validation, status, and help.
+- [400 - Specialized Workloads & Staying Current](procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.md) - explicitly deferred topics and build requirements.
+- [Implementation record](implementation/README.md) - what was and was not tested, why implementation stopped, and what the next cohort should do.
+
+## Individual contributions
+
+### Pranav Angadi
+
+- Built the repository's 100-400 structure and organized the combined deliverable.
+- Owned and completed Module 200 (Procedures 201-206).
+- Tested and created the Scribe walkthrough for Procedure 205, Submitting Your First Job.
+- Created the Scribe walkthrough for Procedure 102, Logging Into OnDemand and SSH.
+- Revised Procedures 201-204 for technical accuracy after cluster details changed.
+- Provided the team with Scribe access, supported team communications and presentations, and proposed the Microsoft Forms feedback workflow.
+
+### Bilal Assaad
+
+- Architected the numbered curriculum and multi-format documentation strategy.
+- Owned Module 100 (Procedures 101-105), including the GlobalProtect Scribe guide and the written ecosystem, access, and orientation guidance.
+- Introduced the team to Scribe and helped establish when to use visual, written, hybrid, or reference-based formats.
+- Coordinated progress, supported team communications and presentations, and co-developed the proposed Microsoft Forms feedback workflow.
+
+### Ahsan Subzwari
+
+- Introduced the group to the HPC Training Initiative and shared prior HAAG compute-sizing resources that informed Procedures 201-204.
+- Led the Module 300 content covering storage, troubleshooting, validation, status, and support (Procedures 301-305).
+- Proposed the Research Compute Needs Intake form for collecting CPU, GPU/VRAM, RAM, storage, software, usage, and data requirements before access.
+
+### Charlie Clark
+
+- Delivered the team's first PACE/ICE onboarding and usage demonstration.
+- Coordinated with PACE to obtain ICE access and answered PACE/ICE questions in Slack.
+- Supplied operational context for access, storage, and support guidance and is a recommended partner for future distribution and validation.
+
+## Presentation feedback and continuation reflection
+
+The feedback on our overall structure was very positive. Peers especially liked the way we divided the material into the 100, 200, and 300 series. They felt that this made the repository easy to navigate for both a complete beginner following the full path and someone who only needs help with one specific task. Based on that feedback, we plan to keep the numbered structure and the separate module indexes.
+
+The discussion also gave us a few important things to work on next semester:
+
+1. **Test the guides with people outside the project.** One question was whether we had enough experience to teach these topics and whether the repository would actually help the next group learn faster than we did. We are still learning ourselves, so the next step should be to test the guides with new researchers and have PACE staff or other subject-matter experts review the more technical material. This will be especially important before publishing Module 400.
+2. **Measure how long the training takes.** One reviewer suggested using completion time as a KPI. For example, can a researcher who already has credentials finish the access material in less than 45 minutes, and can they go from access to a successful first job in about an hour? These are goals we discussed during the presentation, but we have not tested them yet.
+3. **Make sure people know the repository exists.** Reviewers pointed out that even strong documentation will not help if new researchers never hear about it. Once the guides have been tested and improved, they should be shared with HAAG project leads and included in the onboarding information given to new researchers. Charlie can also help distribute the training across different project teams.
+
+Overall, we would keep the current organization but collect more evidence about how well it works. During the pilot, future students should record how long each section takes, where learners become confused, what questions or errors come up, and whether they successfully complete their first job. The guides should also be checked regularly against official PACE documentation, with major updates dated in the repository. A centralized feedback form would make it easier to track corrections instead of letting them get lost in separate Slack conversations.
+
+## Recommended next steps
+
+1. Finish and technically review the remaining 100-series drafts.
+2. Pilot the 100-300 path with 2-3 new HAAG researchers who have not used ICE; observe without coaching unless safety requires intervention.
+3. Record completion time, questions, errors, documentation corrections, and whether each learner reaches a verified first-job output.
+4. Create an **HPC Help & Guide Feedback** Microsoft Form with routes for onboarding questions and broken, unclear, outdated, or incorrect content; capture module/page, issue, screenshot, urgency, contact, owner, response status, and repository fix.
+5. Create a **Research Compute Needs Intake** form covering team, project, users, workload, software, CPU, GPU/VRAM, RAM, storage, duration, frequency, data sensitivity, transfer, and retention.
+6. Revise from pilot evidence, then distribute the curriculum across HAAG and measure repeated support requests.
+7. Build Module 400 only after each topic has a content owner, a subject-matter reviewer, current official sources, and a validation procedure.
+
+## Maintenance note
+
+PACE hardware, quotas, partitions, Slurm options, URLs, and policies change. Maintainers should verify technical claims against dated official Georgia Tech sources before each cohort, record substantial review dates in the affected procedure, and use learner feedback to identify unclear or stale instructions.
