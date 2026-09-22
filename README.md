@@ -2,6 +2,10 @@
 
 The HPC Training Initiative is a structured, beginner-friendly onboarding path for Human Augment Analytics Group (HAAG) researchers using Georgia Tech's PACE Instructional Cluster Environment (ICE).
 
+## Training website
+
+We're putting these guides on a [GitHub Pages site](https://human-augment-analytics.github.io/HPC-Training/) so new researchers can follow them more easily. The site uses the same Markdown files as this repository, so we can update a guide in one place.
+
 ## Group information
 
 **Working group:** HPC Training Initiative<br>
