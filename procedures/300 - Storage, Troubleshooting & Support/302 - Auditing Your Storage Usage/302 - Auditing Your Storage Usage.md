@@ -1,3 +1,7 @@
+---
+title: "302 - Auditing Your Storage Usage"
+---
+
 # 302 — Auditing Your Storage Usage
 
 **Type:** Markdown Reference
@@ -40,6 +44,6 @@ The report is written to the target directory as `storage_audit_report_<date>.tx
 
 ## Related
 
-- [301 — Storage on ICE](301%20-%20Storage%20on%20ICE.md)
+- [301 — Storage on ICE](../301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md)
 - [Storage Audit source (GitHub)](https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Storage_Audit)
 - Storage sanitation initiative (Charlie) — proposal in progress, tracked separately

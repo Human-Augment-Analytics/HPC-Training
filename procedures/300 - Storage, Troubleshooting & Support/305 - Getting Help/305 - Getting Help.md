@@ -1,3 +1,7 @@
+---
+title: "305 - Getting Help"
+---
+
 # 305 — Getting Additional Help
 
 **Type:** Markdown Explainer
@@ -37,6 +41,6 @@ PACE's own current support page lists **pace-support@oit.gatech.edu** as the pri
 
 ## Related
 
-- [302 — Auditing Your Storage Usage](302%20-%20Auditing%20Your%20Storage%20Usage.md)
-- [303 — Validating Your Job Before Submission](303%20-%20Validating%20Your%20Job%20Before%20Submission.md)
-- [304 — Checking System Status](304%20-%20Checking%20System%20Status.md)
+- [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md)
+- [303 — Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md)
+- [304 — Checking System Status](../304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md)

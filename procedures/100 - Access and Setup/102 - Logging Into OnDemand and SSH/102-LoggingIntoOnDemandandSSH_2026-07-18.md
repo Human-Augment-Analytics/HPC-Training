@@ -1,3 +1,7 @@
+---
+title: "102-LoggingIntoOnDemandandSSH_2026-07-18"
+---
+
 # 102 - Logging Into OnDemand and SSH
 #### [Made by CS 8803 MGT & Leadership GT with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/102_-_Logging_Into_OnDemand_and_SSH__K99yzAkMQlG3ONpwbcedXw)
 Learn how to connect to the PACE ICE high-performance computing environment through GlobalProtect and Open OnDemand. This guide walks you through authenticating your connection and accessing the web-based portal to manage your computational jobs.

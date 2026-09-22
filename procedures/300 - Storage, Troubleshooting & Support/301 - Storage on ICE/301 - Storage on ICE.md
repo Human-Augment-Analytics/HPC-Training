@@ -1,3 +1,7 @@
+---
+title: "301 - Storage on ICE"
+---
+
 # 301 — Storage on ICE
 
 **Type:** Markdown Explainer
@@ -20,10 +24,10 @@ This is exactly why storage isn't a "set it and forget it" concern. A project th
 ## What to do about it
 
 - Know roughly how much space your project's data and checkpoints actually need before you start generating large amounts of output — treat storage like compute, something to size, not something to assume is unlimited.
-- Periodically check actual usage rather than assuming — see [302 — Auditing Your Storage Usage](302%20-%20Auditing%20Your%20Storage%20Usage.md) for the tool that does this for you.
+- Periodically check actual usage rather than assuming — see [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) for the tool that does this for you.
 - If your project is inactive or has stale checkpoints/data that no longer needs to live on shared storage, clean it up rather than letting it sit — see the ongoing storage sanitation effort referenced in 302.
 
 ## Related
 
 - [PACE Storage Guide (ICE) — KB0042094](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) — authoritative tiers/quota reference
-- [302 — Auditing Your Storage Usage](302%20-%20Auditing%20Your%20Storage%20Usage.md)
+- [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md)

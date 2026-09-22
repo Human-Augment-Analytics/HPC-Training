@@ -1,3 +1,7 @@
+---
+title: "202 - Finding Your Sizing Recipe"
+---
+
 # Finding Your Sizing Recipe
 
 You know the four numbers your job needs: CPU cores, GPU VRAM, system RAM, and storage. The next step is to find a workload recipe that gives you a defensible first estimate.

@@ -1,3 +1,7 @@
+---
+title: "200 - Running Your First Job"
+---
+
 # 200 - Running Your First Job
 
 This module walks through the full first-job process, from deciding what resources to request to checking that the job finished correctly. It is meant for researchers who can already log into ICE but are not yet comfortable writing and submitting a Slurm job.

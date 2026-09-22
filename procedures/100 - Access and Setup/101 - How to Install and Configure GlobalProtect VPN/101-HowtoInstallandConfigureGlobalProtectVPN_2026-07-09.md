@@ -1,3 +1,7 @@
+---
+title: "101-HowtoInstallandConfigureGlobalProtectVPN_2026-07-09"
+---
+
 # 101-How to Install and Configure GlobalProtect VPN
 #### [Made by Bilal Assaad with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/101-How_to_Install_and_Configure_GlobalProtect_VPN__eb_p94lRTzeLuHtmrvnpqg)
 This guide provides a comprehensive walkthrough for downloading, installing, and setting up the GlobalProtect VPN client on your Mac. Follow these steps to ensure a successful connection to the Georgia Tech network for secure remote access.

@@ -1,3 +1,7 @@
+---
+title: "203 - Choosing Your GPU"
+---
+
 # Choosing Your GPU
 
 The fastest GPU is not automatically the best GPU for your job. On a shared cluster, the best first choice is usually the smallest compatible GPU configuration that fits your measured VRAM requirement with safe headroom.

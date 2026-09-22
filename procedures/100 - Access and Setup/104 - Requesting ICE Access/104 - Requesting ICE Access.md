@@ -1,3 +1,7 @@
+---
+title: "104 - Requesting ICE Access"
+---
+
 # Requesting ICE Access
 
 ICE access is requested once per course or workshop, and it is the instructor or organizer who requests it, not individual students. If you are a student, you do not need this page: your instructor already requested the allocation your class uses, and you were added to it. This page is for the instructor, TA, or workshop organizer who needs to set that access up in the first place.
@@ -47,4 +51,4 @@ PACE follows up to go over your software and resource needs, including any limit
 - Want more background before you request access? See **103, Understanding the PACE Ecosystem**.
 - Looking for other orientation material? See **105, Orientation Resources**.
 
-> **PACE note:** This page is based on the ICE Request form in the IT Service Catalog (captured as a PDF in [references/](../references/PACE%20ICE%20Request%20Access%20-%20IT%20Service%20Catalog.pdf)) and the [ICE cluster page](https://pace.gatech.edu/ice-cluster/) on the PACE website, both current as of August 2026. Form fields, contacts, and policies can change, so confirm against the live form before submitting.
+> **PACE note:** This page is based on the ICE Request form in the IT Service Catalog and the [ICE cluster page](https://pace.gatech.edu/ice-cluster/) on the PACE website, both current as of August 2026. Form fields, contacts, and policies can change, so confirm against the live form before submitting.

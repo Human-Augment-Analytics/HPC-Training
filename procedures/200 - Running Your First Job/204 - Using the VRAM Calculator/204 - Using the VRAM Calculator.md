@@ -1,3 +1,7 @@
+---
+title: "204 - Using the VRAM Calculator"
+---
+
 # Using the VRAM Calculator
 
 The LLM-GPU Sizing Calculator estimates how much GPU VRAM is needed to **serve a large language model for inference** and compares that estimate with its built-in ICE GPU library.

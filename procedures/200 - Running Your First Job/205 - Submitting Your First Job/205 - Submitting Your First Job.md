@@ -1,3 +1,7 @@
+---
+title: "205 - Submitting Your First Job"
+---
+
 # 205 - Submitting Your First Job
 #### [Made by CS 8803 MGT & Leadership GT with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/205_-_Submitting_Your_First_Job__EHS06sTiSamsB_0Gmc9FWw)
 Create a simple Slurm script, submit it with sbatch, monitor it with squeue, and read the resulting output file.

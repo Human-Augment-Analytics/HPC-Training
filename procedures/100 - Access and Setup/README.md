@@ -1,3 +1,7 @@
+---
+title: "100 - Access and Setup"
+---
+
 # 100 - Access and Setup
 
 Start here if you are new to PACE ICE. This module covers the setup work that needs to happen before you can run a job: connecting to the Georgia Tech VPN, logging in, understanding the PACE environment, and finding the right access and orientation resources.

@@ -1,3 +1,7 @@
+---
+title: "103 - Understanding the PACE Ecosystem"
+---
+
 # Understanding the PACE Ecosystem
 
 You already connected over VPN and logged into OnDemand and SSH. Before you request access or submit a job, it helps to know what you actually logged into. PACE is not one machine. It is an umbrella covering several clusters, a support team, and a software stack, and understanding how the pieces fit together will save you a support ticket later.
@@ -70,4 +74,4 @@ That is the whole idea in one sentence, and it is why submitting a job feels dif
 - Ready to size and submit your first job? Continue to [200, Running Your First Job](https://github.com/Human-Augment-Analytics/HPC-Training/tree/main/procedures/200%20-%20Running%20Your%20First%20Job).
 - Stuck on something this page did not cover? See [305, Getting Help](https://github.com/Human-Augment-Analytics/HPC-Training/tree/main/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/305%20-%20Getting%20Help).
 
-> **PACE note:** This page is based on the PACE Orientation deck dated Spring 2026 (March 2026 update), kept in [references/](../references/PACE_Orientation_March_2026_updated.pdf). Cluster availability, hardware, and access processes change over time, so confirm anything access- or hardware-specific against the [PACE website](https://pace.gatech.edu) or current KB documentation before relying on it for something time-sensitive.
+> **PACE note:** This page is based on the PACE Orientation deck dated Spring 2026 (March 2026 update). Cluster availability, hardware, and access processes change over time, so confirm anything access- or hardware-specific against the [PACE website](https://pace.gatech.edu) or current KB documentation before relying on it for something time-sensitive.

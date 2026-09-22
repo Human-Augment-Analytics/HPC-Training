@@ -1,3 +1,7 @@
+---
+title: "304 - Checking System Status"
+---
+
 # 304 — Checking System Status
 
 **Type:** Markdown Explainer
@@ -26,5 +30,5 @@ Debugging a script that isn't actually broken wastes real time. If jobs across t
 
 ## Related
 
-- [303 — Validating Your Job Before Submission](303%20-%20Validating%20Your%20Job%20Before%20Submission.md) — rule out your own script first
-- [305 — Getting Help](305%20-%20Getting%20Help.md) — what to do if status is fine but you're still stuck
+- [303 — Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md) — rule out your own script first
+- [305 — Getting Help](../305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — what to do if status is fine but you're still stuck

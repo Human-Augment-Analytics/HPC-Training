@@ -1,3 +1,7 @@
+---
+title: "205 - Submitting Your First Job - Command Reference"
+---
+
 # Submitting Your First Job
 
 This guide shows how to submit a small CPU job on PACE ICE, check its status, and read its output.

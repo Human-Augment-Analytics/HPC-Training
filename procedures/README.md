@@ -1,3 +1,7 @@
+---
+title: "All procedures"
+---
+
 # Procedures
 
 This folder contains the HPC Training Initiative's learner-facing procedures and clearly labeled future-work plans. The curriculum is organized as a progressive journey: get access, run safely, recover and maintain, then go deeper.
