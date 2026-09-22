@@ -35,13 +35,12 @@
       <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
     </aside>
     <main id="main" class="content">
-      {{ content }}
+      {% include rendered-content.html html=content %}
     </main>
   </div>
   <footer class="site-footer">
     <span>HAAG HPC Training · Georgia Tech research community</span>
     <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
   </footer>
-  <script src="{{ '/assets/js/site.js' | relative_url }}" defer></script>
 </body>
 </html>

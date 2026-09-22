@@ -1,0 +1,15 @@
+{%- comment -%}
+  GitHub renders links to the Markdown files in this repository. GitHub Pages
+  publishes those files as HTML. Rewrite local links in the rendered page so
+  both views work without changing the source guides.
+{%- endcomment -%}
+{%- assign sections = include.html | split: 'href="' -%}
+{%- for section in sections -%}
+  {%- if forloop.first -%}
+    {{- section -}}
+  {%- else -%}
+    {%- assign target = section | split: '"' | first -%}
+    {%- assign remainder = section | remove_first: target -%}
+    href="{%- if target contains '://' -%}{{- target -}}{%- else -%}{{- target | replace: '.md', '.html' -}}{%- endif -%}{{- remainder -}}
+  {%- endif -%}
+{%- endfor -%}
