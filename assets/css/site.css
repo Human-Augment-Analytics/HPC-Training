@@ -63,21 +63,22 @@ a:hover {
 .brand {
   display: flex;
   align-items: center;
-  gap: .7rem;
+  gap: 1.25rem;
   color: #fff;
   text-decoration: none;
   font-size: 1.1rem;
 }
 
-.brand-mark {
-  display: inline-grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  background: var(--gold);
-  border-radius: 7px;
-  color: var(--navy);
-  font-weight: 800;
+.gt-logo {
+  display: block;
+  width: auto;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.brand-title {
+  border-left: 1px solid #8291a8;
+  padding-left: 1.25rem;
 }
 
 .top-nav {
@@ -324,4 +325,22 @@ a:hover {
     flex-direction: column;
   }
 
+}
+
+@media(max-width:560px) {
+  .brand {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: .55rem;
+  }
+
+  .gt-logo {
+    height: 32px;
+  }
+
+  .brand-title {
+    border-left: 0;
+    border-top: 1px solid #8291a8;
+    padding: .55rem 0 0;
+  }
 }
