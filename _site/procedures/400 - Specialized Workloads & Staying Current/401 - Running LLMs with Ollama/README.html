@@ -38,7 +38,7 @@
       <h1 id="what-is-ollama">What is Ollama?</h1>
 <p>Ollama is a tool that simplifies running and managing pretrained large language models. Rather than manually configuring complex model dependencies, Ollama provides a command-line interface for downloading, launching, and interacting with compatible models.</p>
 
-<h3 id="why-use-ollama">Why Use Ollama?</h3>
+<h2 id="why-use-ollama">Why Use Ollama?</h2>
 <ul>
   <li><strong>Simplifies model execution:</strong> Run compatible LLMs using straightforward terminal commands.</li>
   <li><strong>Supports multiple models:</strong> Download and switch between different pretrained language models.</li>
@@ -46,6 +46,156 @@
   <li><strong>Provides a local API:</strong> Integrate LLM inference into Python scripts and research applications.</li>
   <li><strong>Supports experimentation:</strong> Compare model outputs without repeatedly configuring model-loading code.</li>
 </ul>
+
+<h2 id="ollama-vs-cloud-based-llm-apis">Ollama vs. Cloud-Based LLM APIs</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Ollama</th>
+      <th>Cloud-Based LLM APIs</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Runs models on allocated computing resources</td>
+      <td>Runs models on a provider’s infrastructure</td>
+    </tr>
+    <tr>
+      <td>Requires local CPU or GPU resources</td>
+      <td>Computing resources are managed by the provider</td>
+    </tr>
+    <tr>
+      <td>Models must be downloaded or stored locally</td>
+      <td>Models are hosted by the provider</td>
+    </tr>
+    <tr>
+      <td>Can run without an external inference API</td>
+      <td>Typically requires an internet connection and API key</td>
+    </tr>
+    <tr>
+      <td>Allows direct control over supported models</td>
+      <td>Model configuration depends on the provider</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Important:</strong> Ollama does not train an LLM from scratch. Its primary purpose is running inference with existing models. If your research involves training or fine-tuning models across multiple GPUs, see <strong>Module 403 - Distributed Training</strong>.</p>
+</blockquote>
+
+<h1 id="understanding-llm-resource-requirements">Understanding LLM Resource Requirements</h1>
+<p>Before running a language model, it is important to understand the computing resources it requires.</p>
+
+<h2 id="cpu-vs-gpus">CPU vs. GPUs</h2>
+<p>A CPU (Central Processing Unit) handles general-purpose computing tasks, while a GPU (Graphics Processing Unit) is designed for highly parallel computations.
+LLMs perform large numbers of matrix operations, making GPUs particularly useful for accelerating inference. 
+Although some models can run on GPUs, GPU acceleration can significantly improve response speed.</p>
+
+<h2 id="what-is-vram">What is VRAM?</h2>
+<p>VRAM (Video Random Access Memory) is the memory available on a GPU. When running an LLM, memory is needed to store model weights, intermediate computations, and the context being processed. Models with more parameters generally require more memory.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Parameters</td>
+      <td>learned values that determine a model’s behavior</td>
+    </tr>
+    <tr>
+      <td>Model size</td>
+      <td>Amount of storage required for model files</td>
+    </tr>
+    <tr>
+      <td>VRAM</td>
+      <td>Memory available on the GPU</td>
+    </tr>
+    <tr>
+      <td>Quantization</td>
+      <td>Technique that reduces the numerical precision of model weights to lower memory requirements</td>
+    </tr>
+    <tr>
+      <td>Context window</td>
+      <td>Amount of input and generated text the model can process within a given context</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="why-model-selection-matters">Why Model Selection Matters</h2>
+<p>A model that is too large for the available GPU memory may:</p>
+<ul>
+  <li>Fail to load.</li>
+  <li>Run partially or entirely on the CPU.</li>
+  <li>Produce responses more slowly than expected.</li>
+  <li>Encounter out-of-memory errors.</li>
+</ul>
+
+<p>For your first experiments, choose a small, quantized model and check its published memory requirements.</p>
+
+<h1 id="requsting-gpu-resources-on-ice">Requsting GPU Resources on ICE</h1>
+<p><strong>Step 1: Connect to ICE</strong></p>
+
+<p>Log in to ICE using SSH or Open OnDemand by using your GTID and password.</p>
+
+<p><strong>Step 2: Check Available GPU Resources</strong></p>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sinfo
+</code></pre></div></div>
+
+<p>This command displays information about the cluster’s Slurm partitions and node states. Available GPU types, partitions, accounts, and limits may vary. Refer to your course or research group’s approved ICE configuration before requesting resources.</p>
+
+<p><strong>Step 3: Request an Interactive GPU Session</strong>
+Run this command to display a basic interactive allocation:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>salloc <span class="nt">--nodes</span><span class="o">=</span>1 <span class="nt">--ntasks</span><span class="o">=</span>1 <span class="nt">--gpus</span><span class="o">=</span>1 <span class="nt">--time</span><span class="o">=</span>01:00:00
+</code></pre></div></div>
+
+<p>This requests:</p>
+<ul>
+  <li>1 compute node</li>
+  <li>1 task</li>
+  <li>1 GPU</li>
+  <li>1 hour of computing time</li>
+</ul>
+
+<blockquote>
+  <p>Your environment may require additional options such as an account, partition or GPU type. Depending on Slurm’s configuration, <code class="language-plaintext highlighter-rouge">salloc</code> may also require launching a separate step with <code class="language-plaintext highlighter-rouge">srun</code> before commands execute on the allocated compute node.</p>
+</blockquote>
+
+<p><strong>Step 4: Verify GPU Access</strong>
+Once you are executing commands on an allocated NVIDIA GPU compute node, run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">hostname
+</span>nvidia-smi
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">hostname</code> identifies your current machine</li>
+  <li><code class="language-plaintext highlighter-rouge">nvidia-smi</code> displays about compatible NVIDIA GPUs, including memory usage and GPU processes</li>
+</ul>
+
+<h1 id="setting-up-ollama">Setting Up Ollama</h1>
+<p><strong>Step 1: Check for Ollama</strong></p>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">command</span> <span class="nt">-v</span> ollama
+</code></pre></div></div>
+
+<p>If Ollama is available, check its version:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama <span class="nt">--version</span>
+</code></pre></div></div>
+
+<p>You can also inspect the environment’s available software modules:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module avail
+</code></pre></div></div>
 
     </main>
   </div>
