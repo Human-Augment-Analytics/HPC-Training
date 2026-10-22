@@ -197,6 +197,206 @@ Once you are executing commands on an allocated NVIDIA GPU compute node, run:</p
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module avail
 </code></pre></div></div>
 
+<p>If Ollama is unavailable, check the official Ollama Linux documentation and PACE software guidance.</p>
+
+<blockquote>
+  <p><strong>Important</strong> Do not use <code class="language-plaintext highlighter-rouge">sudo</code> or install system-wide services on ICE. If Ollama is not installed, follow an approved user-space installation procedure or contact your research supervisor or PACE support. Confirm GPU compatibility before installation.</p>
+</blockquote>
+
+<p><strong>Step 2: Configure Model Storage</strong></p>
+
+<p>Ollama stores downloaded model files, which can consume significant disk space. The <code class="language-plaintext highlighter-rouge">OLLAMA_MODELS</code> environment variable can be used to specify a custom storage location.</p>
+
+<p>For example, after identifying an approved directory:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OLLAMA_MODELS</span><span class="o">=</span><span class="s2">"/path/to/approved/model/storage"</span>
+</code></pre></div></div>
+
+<p>Replace the example path with a real directory you have permission to use.</p>
+
+<p><strong>Step 3: Start the Ollama Server</strong></p>
+
+<p>When Ollama is installed and you are working within an allocated compute session, you can start its inference service.</p>
+
+<p>For a manually launched Ollama process:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">OLLAMA_HOST</span><span class="o">=</span>127.0.0.1:11434
+ollama serve
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">OLLAMA_HOST</code> setting binds the server to the compute node’s loopback interface rather than exposing it on the network.</p>
+
+<p>Keep this terminal running while you use Ollama. In another termianl or shell on the same allocated compute node, you can execute model commands.</p>
+
+<blockquote>
+  <p><strong>Note:</strong> Accessing the same compute node from multiple terminals may require an additional Slurm job step. Follow the access method supported by your ICE environment.</p>
+</blockquote>
+
+<h2 id="running-your-first-llm">Running Your First LLM</h2>
+
+<p>After starting Ollama, you can download and interact with a compatible language model.</p>
+
+<p><strong>Step 1: Choose a Model</strong></p>
+
+<p>When selecting a model, consider:</p>
+<ul>
+  <li>Number of parameters</li>
+  <li>Download size</li>
+  <li>Estimated GPU memory requirements</li>
+  <li>Model license and permitted use</li>
+  <li>Whether the model is suitable for your research task</li>
+</ul>
+
+<p><strong>Step 2: Run a Model</strong></p>
+
+<p>For example, a small model available through Ollama is:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama run llama3.2:1b
+</code></pre></div></div>
+
+<p>If the model is not already installed, Ollama will attempt to download it. This requires network access to the model registry, which may be restricted on compute node. If downloads are blocked, use a PACE-approved model transfer or caching workflow.</p>
+
+<p><strong>Step 3: Submit a Prompt</strong></p>
+
+<p>Once the model loads, try entering:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Explain high-performance computing to a beginner <span class="k">in </span>three sentences.
+</code></pre></div></div>
+
+<p>The model should generate a response based on your prompt. You have now performed a basic LLM inference task.</p>
+
+<p><strong>Step 4: Exit the Interactive Model</strong></p>
+
+<p>Enter:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/bye
+</code></pre></div></div>
+
+<p>This exits the interactive model conversation without stopping the Ollama server.</p>
+
+<h1 id="managing-models">Managing Models</h1>
+
+<p>Ollama provides commands for inspecting downloaded models and managing local storage.</p>
+
+<p><strong>List Downloaded Models</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama list
+</code></pre></div></div>
+
+<p><strong>View Running Models</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama ps
+</code></pre></div></div>
+
+<p>Displays models currently loaded by Ollama, including information about whether they are using CPU or GPU resources.</p>
+
+<p><strong>Inspect Model Information</strong></p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama show llama3.2:1b
+</code></pre></div></div>
+
+<p>Displays information about the selected model.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ollama <span class="nb">rm </span>llama3.2:1b
+</code></pre></div></div>
+
+<p>Removes the downloaded model from Ollama’s managed storage.</p>
+
+<p>Only remove models you own or have permission to manage.</p>
+
+<h1 id="using-ollama-with-python">Using Ollama with Python</h1>
+
+<p>Researchers may want to interact with language models programmatically rather than through the terminal. Ollama provides a local HTTP API that can be called from Python.</p>
+
+<p>For example, while the Ollama server is running on the same compute node, you can use:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">urllib.request</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">"http://127.0.0.1:11434/api/generate"</span>
+
+<span class="n">payload</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">"model"</span><span class="p">:</span> <span class="s">"llama3.2:1b"</span><span class="p">,</span>
+    <span class="s">"prompt"</span><span class="p">:</span> <span class="s">"What is high-performance computing?"</span><span class="p">,</span>
+    <span class="s">"stream"</span><span class="p">:</span> <span class="bp">False</span>
+<span class="p">}</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">Request</span><span class="p">(</span>
+    <span class="n">url</span><span class="p">,</span>
+    <span class="n">data</span><span class="o">=</span><span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">payload</span><span class="p">).</span><span class="n">encode</span><span class="p">(</span><span class="s">"utf-8"</span><span class="p">),</span>
+    <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">"Content-Type"</span><span class="p">:</span> <span class="s">"application/json"</span><span class="p">}</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">urllib</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s">"response"</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>This example sends a prompt to Ollama and prints the model’s generated response.</p>
+
+<p>The script assumes that the model has already been downloaded and the Ollama server is accessible at the specified local address.</p>
+
+<p>Programmatic access is particularly useful for:</p>
+<ul>
+  <li>Processing multiple text inputs</li>
+  <li>Comparing model responses</li>
+  <li>Building experimental pipelines</li>
+  <li>Automating research tasks</li>
+  <li>Recording outputs for later analysis</li>
+</ul>
+
+<p>For reproducible experiments, record the exact model version, prompt, generationg settings, and relevant software versions.</p>
+
+<h1 id="troubleshooting-common-issues">Troubleshooting Common Issues</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Concept</th>
+      <th>Description</th>
+      <th>Recommended Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">ollama: command not found</code></td>
+      <td>Ollama is not installed or not in your PATH</td>
+      <td>Check available modules and approved installation instructions</td>
+    </tr>
+    <tr>
+      <td>GPU not detected</td>
+      <td>The process is not running on a GPU node, or the GPU/software combination is incompatible</td>
+      <td>Verify the allocation and GPU visibility</td>
+    </tr>
+    <tr>
+      <td>Out-of-memory error</td>
+      <td>Model memory requirements exceed available resources</td>
+      <td>Try a smaller or more heavily quantized model</td>
+    </tr>
+    <tr>
+      <td>Model download fails</td>
+      <td>Network access is restricted or storage is insufficient</td>
+      <td>Check network policy, quotas, and approved download methods</td>
+    </tr>
+    <tr>
+      <td>Connection refused</td>
+      <td>Ollama server is not running or the address is incorrect</td>
+      <td>Confirm the server is running and both processes use the same endpoint</td>
+    </tr>
+    <tr>
+      <td>Model runs slowly</td>
+      <td>Inference is running on the CPU or resources are insufficient</td>
+      <td>Check ollama ps and GPU utilization</td>
+    </tr>
+    <tr>
+      <td>Slurm job remains pending</td>
+      <td>Requested resources are unavailable or scheduling limits apply</td>
+      <td>Inspect the pending reason and consider a smaller allocation</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If a problem persists, consult PACE documentation or contact the appropriate support team.</p>
+
     </main>
   </div>
   <footer class="site-footer">
