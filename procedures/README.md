@@ -43,3 +43,4 @@ A procedure is ready for broad HAAG use only when its links and commands are cur
 - Pranav Angadi - repository structure, Module 200 owner, Procedures 102 and 205 Scribe production, and technical revisions.
 - Ahsan Subzwari - Module 300 owner and compute-sizing source material.
 - Charlie Chark - PACE/ICE onboarding, access coordination, and operational support context.
+- Lydia Yang - Module 400 owner
