@@ -397,6 +397,26 @@ ollama serve
 
 <p>If a problem persists, consult PACE documentation or contact the appropriate support team.</p>
 
+<h1 id="best-practices-for-running-llms-on-ice">Best Practices for Running LLMs on ICE</h1>
+
+<p>When running Ollama or other LLM inference tools on a shared HPC cluster, follow these practices:</p>
+
+<p><strong>1. Run inference on allocated compute nodes.</strong> Avoid computationally intensive workloads on login nodes.</p>
+
+<p><strong>2. Select appropriate model sizes.</strong> Begin with smaller models before attempting larger workloads.</p>
+
+<p><strong>3. Monitor resources usage.</strong> Check GPU memory utilization and identify unnecessary processes.</p>
+
+<p><strong>4. Manage model storage.</strong> Avoid retaining multiple large models that are no longer needed.</p>
+
+<p><strong>5. Keep services private.</strong> Do not expose an Ollama endpoint publicly without authorization.</p>
+
+<p><strong>6. Protect research data.</strong> Do not submit restricted or sensitive datasets unless the environment and workflow have been approved for that information.</p>
+
+<p><strong>7. Document your experiments.</strong> Record model versions, configurations, and results.</p>
+
+<p><strong>8. Release resources when finished.</strong> Stop Ollama and end your Slurm allocation when it is no longer needed.</p>
+
     </main>
   </div>
   <footer class="site-footer">

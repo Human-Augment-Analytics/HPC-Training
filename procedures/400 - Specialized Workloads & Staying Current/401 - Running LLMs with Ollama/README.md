@@ -279,3 +279,23 @@ For reproducible experiments, record the exact model version, prompt, generation
 | Slurm job remains pending | Requested resources are unavailable or scheduling limits apply | Inspect the pending reason and consider a smaller allocation |
 
 If a problem persists, consult PACE documentation or contact the appropriate support team.
+
+# Best Practices for Running LLMs on ICE
+
+When running Ollama or other LLM inference tools on a shared HPC cluster, follow these practices:
+
+**1. Run inference on allocated compute nodes.** Avoid computationally intensive workloads on login nodes.
+
+**2. Select appropriate model sizes.** Begin with smaller models before attempting larger workloads.
+
+**3. Monitor resources usage.** Check GPU memory utilization and identify unnecessary processes.
+
+**4. Manage model storage.** Avoid retaining multiple large models that are no longer needed.
+
+**5. Keep services private.** Do not expose an Ollama endpoint publicly without authorization.
+
+**6. Protect research data.** Do not submit restricted or sensitive datasets unless the environment and workflow have been approved for that information.
+
+**7. Document your experiments.** Record model versions, configurations, and results.
+
+**8. Release resources when finished.** Stop Ollama and end your Slurm allocation when it is no longer needed.
