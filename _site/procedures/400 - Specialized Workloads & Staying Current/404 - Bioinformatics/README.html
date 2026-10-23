@@ -43,6 +43,150 @@
 
 <p>Analyzing this information often requires specialized software and substantial computational resources.</p>
 
+<h2 id="why-use-hpc-for-bioinformatics">Why Use HPC for Bioinformatics?</h2>
+
+<p>Bioinformatics workloads may involve:</p>
+
+<ul>
+  <li>Processing millions of sequencing reads.</li>
+  <li>Comparing large biological sequences.</li>
+  <li>Analyzing thousands of biological samples.</li>
+  <li>Running computationally intensive statistical models.</li>
+  <li>Performing parallel analyses.</li>
+  <li>Storing and transferring large datasets.</li>
+</ul>
+
+<p>HPC clusters provide shared computing resources that can make these analyses more practical.</p>
+
+<blockquote>
+  <p><strong>Important:</strong> Not every bioinformatics task requires an HPC cluster. Small datasets and lightweight analyses may run efficiently on a personal computer. HPC becomes particularly useful when workloads exceed local resource capabilities or benefit from parallel execution.</p>
+</blockquote>
+
+<h1 id="understanding-common-biological-data-formats">Understanding Common Biological Data Formats</h1>
+
+<p>Bioinformatics workflows use specialized file formats to represent biological sequences, sequencing results, and analysis outputs.</p>
+
+<p>Before working with biological datasets, researchers should understand the purpose of common file formats.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Format</th>
+      <th>Description</th>
+      <th>Common Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>FASTA <code class="language-plaintext highlighter-rouge">(.fa, .fasta)</code></td>
+      <td>Stores biological sequences with identifiers</td>
+      <td>Reference genomes and protein sequences</td>
+    </tr>
+    <tr>
+      <td>FASTQ <code class="language-plaintext highlighter-rouge">(.fastq, .fq)</code></td>
+      <td>Stores sequencing reads and associated quality scores</td>
+      <td>Raw sequencing data</td>
+    </tr>
+    <tr>
+      <td>SAM <code class="language-plaintext highlighter-rouge">(.sam)</code></td>
+      <td>Text format containing sequence alignment information</td>
+      <td>Read alignment</td>
+    </tr>
+    <tr>
+      <td>BAM <code class="language-plaintext highlighter-rouge">(.bam)</code></td>
+      <td>Compressed binary representation of alignment data</td>
+      <td>Storage and analysis of aligned reads</td>
+    </tr>
+    <tr>
+      <td>CRAM <code class="language-plaintext highlighter-rouge">(.cram)</code></td>
+      <td>Reference-based compressed alignment format</td>
+      <td>Efficient storage of sequencing alignments</td>
+    </tr>
+    <tr>
+      <td>VCF <code class="language-plaintext highlighter-rouge">(.vcf)</code></td>
+      <td>Stores genetic sequence variations</td>
+      <td>Variant analysis</td>
+    </tr>
+    <tr>
+      <td>GFF/GTF</td>
+      <td>Describes genomic features and annotations</td>
+      <td>Gene and transcript annotation</td>
+    </tr>
+    <tr>
+      <td>CSV/TSV</td>
+      <td>Stores tabular data</td>
+      <td>Gene expression matrices and metadata</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>FASTA Files</strong></p>
+
+<p>FASTA is a text-based format for representing biological sequences.</p>
+
+<p>Example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;</span>sequence_1
+ATGCGTACGTAGCTAG
+<span class="o">&gt;</span>sequence_2
+GCTAGCTAGCATCGTA
+</code></pre></div></div>
+
+<p>Each sequence begins with a header line containing &gt;, followed by one or more lines of sequence data.</p>
+
+<p><strong>FASTQ Files</strong></p>
+
+<p>FASTQ files contain sequencing reads and quality scores.</p>
+
+<p>Example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>@read_1
+ATGCGTAC
++
+IIIIIIII
+</code></pre></div></div>
+
+<p>A FASTQ record contains four lines:</p>
+
+<ol>
+  <li><strong>Sequence identifier</strong>: Identifies the read.</li>
+  <li><strong>Nucleotide sequence</strong>: Contains the biological sequence.</li>
+  <li><strong>Separator</strong>: Begins with +.</li>
+  <li><strong>Quality scores</strong>: Encodes confidence in each base call.</li>
+</ol>
+
+<p>Each quality character corresponds to a nucleotide in the sequence.</p>
+
+<p>For example, an <code class="language-plaintext highlighter-rouge">I</code> generally represents a high-quality base call in the commonly used Phred+33 encoding.</p>
+
+<p><strong>Why File Formats Matter</strong></p>
+
+<p>Different bioinformatics tools expect specific input formats.</p>
+
+<p>For example:</p>
+
+<ul>
+  <li>FastQC commonly analyzes FASTQ sequencing reads.</li>
+  <li>Alignment tools often produce SAM or BAM files.</li>
+  <li>Variant callers may generate VCF files.</li>
+  <li>Gene expression tools may produce CSV or TSV tables.</li>
+</ul>
+
+<p>Using an incorrect file format can cause software errors or unexpected results.</p>
+
+<p><strong>Why Use Slurm?</strong></p>
+
+<p>Bioinformatics tasks may require substantial computing resources and can run for extended periods.</p>
+
+<p>Slurm allows researchers to:</p>
+<ul>
+  <li>Request appropriate CPUs and memory.</li>
+  <li>Submit computational tasks to compute nodes.</li>
+  <li>Monitor job progress.</li>
+  <li>Execute long-running workflows without keeping an interactive terminal open.</li>
+  <li>Capture program output and error messages.</li>
+</ul>
+
     </main>
   </div>
   <footer class="site-footer">
