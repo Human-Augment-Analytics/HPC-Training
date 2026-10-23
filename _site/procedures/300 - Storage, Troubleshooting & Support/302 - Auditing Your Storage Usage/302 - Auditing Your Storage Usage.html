@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>302 - Auditing Your Storage Usage · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="302--auditing-your-storage-usage">302 — Auditing Your Storage Usage</h1>
+
+<p><strong>Type:</strong> Markdown Reference
+<strong>Source:</strong> <a href="https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Storage_Audit">HAAG PACE Storage Audit — Justin Yiu</a></p>
+
+<hr />
+
+<h2 id="what-this-is">What this is</h2>
+
+<p>Justin Yiu built a storage auditing tool for HAAG’s shared PACE storage. It’s a Python script (<code class="language-plaintext highlighter-rouge">storage_audit_script.py</code>) that reports three things for a given storage path:</p>
+
+<ol>
+  <li><strong>Overall summary</strong> — total capacity and current usage</li>
+  <li><strong>Breakdown by project</strong> — size of each top-level project folder</li>
+  <li><strong>Last modified date</strong> — when each project folder was last touched</li>
+</ol>
+
+<p>The script runs as a Slurm job (<code class="language-plaintext highlighter-rouge">run_storage_audit_once.sbatch</code>) on the <code class="language-plaintext highlighter-rouge">ice-cpu</code> partition, writes a dated report (<code class="language-plaintext highlighter-rouge">storage_audit_report_YYYYMMDD.txt</code>), and emails it to a configured recipient list.</p>
+
+<h2 id="who-receives-it-and-how-often">Who receives it, and how often</h2>
+
+<p>The report currently goes out <strong>bi-weekly</strong> to the Director of HAAG (Bree Shi) and the Head TA (Charlie Chark) as a standing check on HPC storage utilization. It is not currently something every researcher runs themselves — but the tool and script are open in the HAAG admin repo, and any researcher who wants a read on their own project’s footprint can run it directly.</p>
+
+<h2 id="why-this-matters-right-now">Why this matters right now</h2>
+
+<p>One recent report showed a shared HAAG storage path at <strong>97% utilized</strong> (3.9 TB of 4.0 TB), with the largest project folder alone accounting for over a terabyte. Justin’s writeup already sketches the beginning of a lifecycle policy to deal with exactly this: if a project folder hasn’t been modified in <strong>18+ months</strong>, the owner gets notified and asked to archive, back up, or remove the data.</p>
+
+<p>This is the direct predecessor to the storage sanitation initiative Charlie asked for — the audit tool is what makes a sanitation policy enforceable in the first place, since you can’t clean up what you haven’t measured.</p>
+
+<h2 id="running-it-yourself">Running it yourself</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># From a PACE ICE login node, inside the cloned repo:</span>
+git clone https://github.com/Human-Augment-Analytics/admin-high-performance-computing.git
+<span class="nb">cd </span>admin-high-performance-computing/HPC_Storage_Audit
+
+<span class="c"># Submit as a one-off Slurm job:</span>
+sbatch run_storage_audit_once.sbatch
+</code></pre></div></div>
+
+<p>The report is written to the target directory as <code class="language-plaintext highlighter-rouge">storage_audit_report_&lt;date&gt;.txt</code>, and emailed automatically once the job completes.</p>
+
+<h2 id="related">Related</h2>
+
+<ul>
+  <li><a href="../301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.html">301 — Storage on ICE</a></li>
+  <li><a href="https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Storage_Audit">Storage Audit source (GitHub)</a></li>
+  <li>Storage sanitation initiative (Charlie) — proposal in progress, tracked separately</li>
+</ul>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>
