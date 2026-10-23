@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>103 - Understanding the PACE Ecosystem · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="understanding-the-pace-ecosystem">Understanding the PACE Ecosystem</h1>
+
+<p>You already connected over VPN and logged into OnDemand and SSH. Before you request access or submit a job, it helps to know what you actually logged into. PACE is not one machine. It is an umbrella covering several clusters, a support team, and a software stack, and understanding how the pieces fit together will save you a support ticket later.</p>
+
+<p>This page covers what PACE is, how its clusters differ, who can request access to each one, and the basic vocabulary (head node, compute node, Slurm) you will need before submitting a job.</p>
+
+<hr />
+
+<h2 id="what-pace-is">What PACE is</h2>
+
+<p>PACE stands for Partnership for an Advanced Computing Environment. It is Georgia Tech’s research computing organization, and it provides three things:</p>
+
+<ul>
+  <li><strong>Compute and storage.</strong> CPU and GPU capacity, plus individual and shared project storage on filesystems built for the kind of I/O research jobs need.</li>
+  <li><strong>A support team.</strong> The Research Computing Facilitation team runs consultations, workshops, and email support.</li>
+  <li><strong>A software stack.</strong> Python, R, Julia, Jupyter, Anaconda, and a long list of licensed and open-source packages, already built so you are not compiling everything from scratch.</li>
+</ul>
+
+<hr />
+
+<h2 id="three-clusters-three-purposes">Three clusters, three purposes</h2>
+
+<p>PACE runs several distinct clusters. They share the same underlying technology (Slurm, CPUs and GPUs, Infiniband, NVMe storage), but each one exists for a different reason and has different rules about who can use it.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cluster</th>
+      <th>Purpose</th>
+      <th>Cost</th>
+      <th>Who can apply</th>
+      <th>Hardware highlights</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Phoenix</strong></td>
+      <td>General-purpose research cluster</td>
+      <td>Credit system with a free tier; no-cost backfill partition</td>
+      <td>GT-affiliated research projects</td>
+      <td>Intel and AMD CPU nodes, NVIDIA H200/H100/A100/V100/L40S GPUs, NVMe/SAS storage</td>
+    </tr>
+    <tr>
+      <td><strong>Firebird</strong></td>
+      <td>Research involving controlled unclassified information (CUI), export-controlled (ITAR) software, or other sensitive data</td>
+      <td>Credit system; no-cost backfill partition for paying users</td>
+      <td>GT-affiliated research projects</td>
+      <td>CPU nodes similar to Phoenix, NVIDIA H200/A100/RTX6000 GPUs, independent per-project storage</td>
+    </tr>
+    <tr>
+      <td><strong>ICE</strong></td>
+      <td>Instructional Cluster Environment, for coursework, workshops, and the AI Makerspace</td>
+      <td>No cost</td>
+      <td>Any GT-affiliated faculty member, or a makerspace project</td>
+      <td>CPUs and GPUs, Infiniband, NVMe</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>A fourth cluster, Hive, was decommissioned in September 2025 and no longer appears in current PACE documentation.</p>
+
+<p>This training track is built around ICE. It is the cluster course instructors request on behalf of their classes, it costs nothing to use, and it is where you will run the exercises in the rest of this guide. What you learn here (Slurm, modules, storage layout) carries over directly to Phoenix or Firebird if you later work with a research group that uses one of those instead, since all three clusters run the same Slurm-based scheduling underneath.</p>
+
+<p>ICE has grown quickly. In Fall 2022 it supported about 991 users across 24 courses. By Fall 2025 that had grown to over 3,100 users across 100 courses. You are joining an environment that gets active, ongoing use, not a system nobody touches.</p>
+
+<hr />
+
+<h2 id="who-requests-access-and-how">Who requests access, and how</h2>
+
+<p>Access requests differ by cluster, and it matters who does the requesting:</p>
+
+<ul>
+  <li><strong>Phoenix.</strong> A PI or faculty sponsor fills out the PACE Account Creation Request Form on behalf of their students, researchers, or staff. Individual students do not self-request.</li>
+  <li><strong>Firebird.</strong> Access is arranged directly with PACE by emailing <code class="language-plaintext highlighter-rouge">pace-support@oit.gatech.edu</code>, since CUI and ITAR projects carry extra requirements.</li>
+  <li><strong>ICE.</strong> The course instructor applies to use ICE for their class. Students should not fill out the ICE application themselves. Instructors outside the College of Computing use the standard ICE application; instructors teaching within the College of Computing go through the TSO’s instructional team instead.</li>
+</ul>
+
+<p>If you are a student reading this, the practical takeaway is simple: your instructor or course staff requested the ICE allocation your class uses, and you were added to it. If you are setting up a new course or workshop on ICE yourself, see <strong>104, Requesting ICE Access</strong> for that process.</p>
+
+<hr />
+
+<h2 id="how-the-cluster-is-organized">How the cluster is organized</h2>
+
+<p>Once you are logged in, you are actually touching two different kinds of machines, and mixing them up is one of the more common early mistakes.</p>
+
+<ul>
+  <li><strong>Head node.</strong> This is the machine you land on when you SSH in or log into OnDemand (for example, <code class="language-plaintext highlighter-rouge">login-phoenix-rh9.pace.gatech.edu</code> on Phoenix; ICE has its own login node). It is a shared resource used by everyone logged in at that moment. Use it for light tasks like editing files, organizing data, or checking on jobs. Do not run computations, installs, compiles, or visualizations here. You would be competing with everyone else on that same shared machine, and that kind of work belongs on a compute node anyway.</li>
+  <li><strong>Compute nodes.</strong> These are the machines that actually run your work. When you submit a job, Slurm allocates you your own CPUs, GPUs, and RAM on a compute node. Your data is visible from both the head node and every compute node, so nothing needs to be copied manually for a job to find its files.</li>
+</ul>
+
+<hr />
+
+<h2 id="slurm-the-reason-there-is-a-queue-at-all">Slurm: the reason there is a queue at all</h2>
+
+<p>Unlike your laptop, a cluster is shared by dozens, sometimes hundreds, of people at once. Slurm is the workload manager that arbitrates that sharing fairly. You tell it what you need (CPUs, memory, wall time, GPUs if any), and it holds your job until that exact set of resources is free, then runs it for exactly as long as you asked.</p>
+
+<p>That is the whole idea in one sentence, and it is why submitting a job feels different from just running a script locally. The mechanics of actually writing and submitting a Slurm job start in <strong>200, Running Your First Job</strong>; this page exists so the vocabulary (head node, compute node, scheduler, queue) is already familiar by the time you get there.</p>
+
+<hr />
+
+<h2 id="next-step">Next step</h2>
+
+<ul>
+  <li>Need to request an ICE seat for a course? See <strong>104, Requesting ICE Access</strong>.</li>
+  <li>Want a broader tour of PACE, including workshops and official docs? See <strong>105, Orientation Resources</strong>.</li>
+  <li>Ready to size and submit your first job? Continue to <a href="https://github.com/Human-Augment-Analytics/HPC-Training/tree/main/procedures/200%20-%20Running%20Your%20First%20Job">200, Running Your First Job</a>.</li>
+  <li>Stuck on something this page did not cover? See <a href="https://github.com/Human-Augment-Analytics/HPC-Training/tree/main/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/305%20-%20Getting%20Help">305, Getting Help</a>.</li>
+</ul>
+
+<blockquote>
+  <p><strong>PACE note:</strong> This page is based on the PACE Orientation deck dated Spring 2026 (March 2026 update). Cluster availability, hardware, and access processes change over time, so confirm anything access- or hardware-specific against the <a href="https://pace.gatech.edu">PACE website</a> or current KB documentation before relying on it for something time-sensitive.</p>
+</blockquote>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

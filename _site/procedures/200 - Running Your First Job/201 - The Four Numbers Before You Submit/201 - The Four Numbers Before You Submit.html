@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>201 - The Four Numbers Before You Submit · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="the-four-numbers-before-you-submit">The Four Numbers Before You Submit</h1>
+
+<p>Before PACE can run your program, Slurm needs to know what resources to reserve for it. For a first estimate, focus on four numbers:</p>
+
+<ol>
+  <li>CPU cores</li>
+  <li>GPU VRAM</li>
+  <li>System RAM</li>
+  <li>Storage</li>
+</ol>
+
+<p>These numbers do not describe how important your job is. They describe what the program can actually use. A request that is much larger than the workload needs can wait unnecessarily in the queue. A request that is too small can run slowly or fail after hours of work.</p>
+
+<p>By the end of this page, you should be able to write down four sensible resource estimates before creating a Slurm job script and explain where each estimate came from.</p>
+
+<hr />
+
+<h2 id="the-four-numbers-at-a-glance">The four numbers at a glance</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th>What uses it</th>
+      <th>What too little looks like</th>
+      <th>Where it appears in a job request</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>CPU cores</strong></td>
+      <td>Data loading, decoding, preprocessing, augmentation, I/O, and CPU-only computation</td>
+      <td>The GPU waits for data, preprocessing is slow, or the job uses only one core</td>
+      <td>Use <code class="language-plaintext highlighter-rouge">--ntasks</code> for independent tasks. For one multithreaded task, combine <code class="language-plaintext highlighter-rouge">--ntasks=1</code> with <code class="language-plaintext highlighter-rouge">--cpus-per-task=&lt;cores&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>GPU VRAM</strong></td>
+      <td>Model weights, activations, gradients, and the inference KV cache</td>
+      <td><code class="language-plaintext highlighter-rouge">CUDA out of memory</code>, a batch will not fit, or the model cannot load</td>
+      <td>Choose a GPU model/count with <code class="language-plaintext highlighter-rouge">#SBATCH --gres=gpu:&lt;type&gt;:&lt;count&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>System RAM</strong></td>
+      <td>Datasets, DataFrames, Python objects, buffers, and worker processes</td>
+      <td>The scheduler kills the job for exceeding memory, often reported as an OOM event</td>
+      <td><code class="language-plaintext highlighter-rouge">#SBATCH --mem=&lt;amount&gt;</code></td>
+    </tr>
+    <tr>
+      <td><strong>Storage</strong></td>
+      <td>Input data, environment and model caches, temporary files, logs, and checkpoints</td>
+      <td>A read, write, or checkpoint save fails; the filesystem or quota fills</td>
+      <td>Plan for home, scratch, a course shared directory, or temporary local storage through <code class="language-plaintext highlighter-rouge">$TMPDIR</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="gpu-vram-and-system-ram-are-different">GPU VRAM and system RAM are different</h3>
+
+<p>This distinction causes many first-job mistakes:</p>
+
+<ul>
+  <li><strong>GPU VRAM</strong> is memory physically attached to the GPU. Requesting more system RAM does not fix a CUDA out-of-memory error.</li>
+  <li><strong>System RAM</strong> belongs to the compute node. Selecting a GPU with more VRAM does not give a pandas DataFrame more system memory.</li>
+</ul>
+
+<p>The two can fail independently, so estimate both.</p>
+
+<hr />
+
+<h2 id="why-guessing-costs-you">Why guessing costs you</h2>
+
+<p>Suppose a researcher submits this request without measuring the workload:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --gres=gpu:H200:8</span>
+<span class="c">#SBATCH --cpus-per-task=4</span>
+<span class="c">#SBATCH --mem=16G</span>
+<span class="c">#SBATCH --time=72:00:00</span>
+</code></pre></div></div>
+
+<p>The request is not automatically safe because it asks for powerful GPUs:</p>
+
+<ul>
+  <li>Eight H200 GPUs are scarce and may make the job harder to schedule.</li>
+  <li>The program may not contain multi-GPU code, so seven GPUs could sit unused.</li>
+  <li>Four CPU cores may be unable to feed an image or audio pipeline fast enough.</li>
+  <li>16 GB of system RAM may still be too small.</li>
+  <li>No storage requirement has been checked.</li>
+  <li>The 72-hour GPU request exceeds ICE’s ordinary 16-hour GPU wall-time limit. Eight GPUs would also exceed the 16 GPU-hour limit unless the wall time were no more than two hours.</li>
+</ul>
+
+<p>Over-requesting one resource does not compensate for under-requesting another.</p>
+
+<h3 id="what-under-requesting-costs">What under-requesting costs</h3>
+
+<ul>
+  <li>Too few CPU cores can leave an expensive GPU idle.</li>
+  <li>Too little GPU VRAM can stop the program before the first batch completes.</li>
+  <li>Too little RAM can terminate a long-running job without a useful application error.</li>
+  <li>Too little storage can make the final checkpoint fail even after training succeeds.</li>
+</ul>
+
+<h3 id="what-over-requesting-costs">What over-requesting costs</h3>
+
+<ul>
+  <li>Slurm has fewer nodes on which it can place the job.</li>
+  <li>Queue time can increase.</li>
+  <li>Reserved resources may sit unused.</li>
+  <li>Other researchers cannot use those resources while your job holds them.</li>
+</ul>
+
+<p>The goal is not the smallest possible request. The goal is a request with enough headroom that does not reserve resources the program cannot use.</p>
+
+<hr />
+
+<h2 id="estimate-measure-then-add-headroom">Estimate, measure, then add headroom</h2>
+
+<p>A good first pass looks like this:</p>
+
+<ol>
+  <li><strong>Start with the matching workload recipe.</strong> It gives you a reasonable first estimate.</li>
+  <li><strong>Profile a small representative run.</strong> Try one batch or about 1,000 samples in an interactive session.</li>
+  <li><strong>Record peak use.</strong> Measure CPU, GPU VRAM, RAM, storage growth, and elapsed time.</li>
+  <li><strong>Add approximately 20% headroom.</strong> Do not copy the largest node configuration.</li>
+  <li><strong>Round to a practical request.</strong> Choose the smallest hardware tier that fits.</li>
+</ol>
+
+<p>Aim to use roughly 70–90% of the resources you reserve. Treat 20% as a starting rule, not a guarantee: workloads with irregular spikes may require more testing.</p>
+
+<h3 id="a-quick-example">A quick example</h3>
+
+<p>A small image-training run produces these peak measurements:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Resource</th>
+      <th style="text-align: right">Measured peak</th>
+      <th style="text-align: right">With about 20% headroom</th>
+      <th style="text-align: right">Initial request or plan</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>CPU</td>
+      <td style="text-align: right">11 cores</td>
+      <td style="text-align: right">13.2 cores</td>
+      <td style="text-align: right">16 cores</td>
+    </tr>
+    <tr>
+      <td>GPU VRAM</td>
+      <td style="text-align: right">12 GB</td>
+      <td style="text-align: right">14.4 GB</td>
+      <td style="text-align: right">One 16 GB GPU</td>
+    </tr>
+    <tr>
+      <td>System RAM</td>
+      <td style="text-align: right">38 GB</td>
+      <td style="text-align: right">45.6 GB</td>
+      <td style="text-align: right">48 GB</td>
+    </tr>
+    <tr>
+      <td>Storage</td>
+      <td style="text-align: right">310 GB</td>
+      <td style="text-align: right">372 GB</td>
+      <td style="text-align: right">At least 400 GB available</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>That estimate becomes:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --gres=gpu:V100:1</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=16</span>
+<span class="c">#SBATCH --mem=48G</span>
+<span class="c">#SBATCH --tmp=400G</span>
+</code></pre></div></div>
+
+<p>ICE currently provides each student with a 30 GB home quota and a 300 GB scratch quota. This 400 GB example will not fit in either default allocation. It would need a course shared directory, an approved scratch-quota increase, or enough temporary local storage on the compute node. The <code class="language-plaintext highlighter-rouge">--tmp=400G</code> line reserves local disk for the job, and the files are accessed through <code class="language-plaintext highlighter-rouge">$TMPDIR</code>. Local files are erased when the job ends, so copy final results back to persistent storage before completion.</p>
+
+<hr />
+
+<h2 id="one-more-number-wall-time">One more number: wall time</h2>
+
+<p>Wall time is not one of the four capacity numbers, but your job request should still include a time limit:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --time=12:00:00</span>
+</code></pre></div></div>
+
+<p>If the time is too short, Slurm stops the job when the limit is reached. A needlessly long limit can make the job harder to schedule. Ordinary ICE jobs are currently limited to 18 hours for CPU jobs and 16 hours for GPU jobs. Each job is also limited to 512 CPU-hours or 16 GPU-hours. For example, a request for four GPUs can run for at most four hours. Estimate wall time from a small run, add reasonable headroom, and save checkpoints so work can resume.</p>
+
+<hr />
+
+<h2 id="your-pre-submission-worksheet">Your pre-submission worksheet</h2>
+
+<p>Complete this before writing the final job script:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Question</th>
+      <th>Your answer</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>How many CPU cores can the program use?</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>How much GPU VRAM does the peak workload need? Use <code class="language-plaintext highlighter-rouge">0 GB</code> for a CPU-only job.</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>How much system RAM does the peak workload need?</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>How much storage is needed for inputs, temporary files, caches, logs, and checkpoints?</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>What wall time did the small run suggest?</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>What evidence supports these estimates: a recipe, a profile, or both?</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Rule to remember:</strong> Profile small → record peak usage → add headroom → request the smallest resource tier that fits.</p>
+</blockquote>
+
+<blockquote>
+  <p><strong>PACE note:</strong> ICE hardware, quotas, limits, and Slurm options can change. This guide was verified against the official PACE documentation on July 31, 2026. Check <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042096">Using Slurm on ICE</a> and <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042094">Storage on ICE</a> before submitting a large job.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="next-step">Next step</h2>
+
+<p>Continue to <strong>Finding Your Sizing Recipe</strong> to turn the four-number framework into a first estimate for your workload.</p>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

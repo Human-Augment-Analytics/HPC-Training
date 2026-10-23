@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>204 - Using the VRAM Calculator · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="using-the-vram-calculator">Using the VRAM Calculator</h1>
+
+<p>The LLM-GPU Sizing Calculator estimates how much GPU VRAM is needed to <strong>serve a large language model for inference</strong> and compares that estimate with its built-in ICE GPU library.</p>
+
+<p><a href="https://ahsansubzwari1.github.io/HAAG-Compute-Sizing-Guidelines/tools/vram-calculator/index.html">Open the live LLM-GPU Sizing Calculator</a></p>
+
+<p>This walkthrough shows how to enter a realistic inference workload, read the average and worst-case estimates, and use the recommendation matrix without mistaking it for a guarantee.</p>
+
+<hr />
+
+<h2 id="when-to-use-this-calculator">When to use this calculator</h2>
+
+<p>Use it when you are planning to serve or deploy an LLM and need to estimate memory for:</p>
+
+<ul>
+  <li>Model weights</li>
+  <li>Concurrent inference sessions</li>
+  <li>Long context windows</li>
+  <li>The KV cache</li>
+  <li>Serving-framework overhead</li>
+</ul>
+
+<p>Do <strong>not</strong> use it to size:</p>
+
+<ul>
+  <li>Full model training</li>
+  <li>Full fine-tuning</li>
+  <li>LoRA or QLoRA fine-tuning</li>
+  <li>Computer-vision, audio, or classical-ML training</li>
+  <li>CPU cores, system RAM, storage, or wall time</li>
+</ul>
+
+<p>For training and fine-tuning, use the <strong>LLM fine-tuning and inference</strong> sizing recipe and profile the actual training stack.</p>
+
+<hr />
+
+<h2 id="what-the-calculator-adds-together">What the calculator adds together</h2>
+
+<p>The average estimate is:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average VRAM = model weights + average KV cache + serving overhead
+</code></pre></div></div>
+
+<p>The worst-case estimate is:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Worst-case VRAM = model weights + full-context KV cache + serving overhead
+</code></pre></div></div>
+
+<h3 id="1-model-weights">1. Model weights</h3>
+
+<p>Weight memory depends on parameter count and storage precision:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Weight memory = parameter count × bytes per parameter
+</code></pre></div></div>
+
+<p>The calculator uses these approximations:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Weight precision</th>
+      <th style="text-align: right">Bytes per parameter</th>
+      <th style="text-align: right">Approximate weight memory for an 8B model</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>BF16 / FP16</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">16 GB</td>
+    </tr>
+    <tr>
+      <td>FP8</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">8 GB</td>
+    </tr>
+    <tr>
+      <td>INT4</td>
+      <td style="text-align: right">0.5</td>
+      <td style="text-align: right">4 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Lower precision reduces memory, but it can require compatible hardware/software and may affect model quality. For Mixture-of-Experts models, enter the total parameter count because all expert weights must reside in memory even though only some are active for a token.</p>
+
+<h3 id="2-kv-cache">2. KV cache</h3>
+
+<p>During autoregressive inference, the model stores Key and Value vectors for the tokens already processed. The calculator uses:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Bytes per token =
+    2 × layers × KV heads × head dimension × KV-cache bytes per element
+</code></pre></div></div>
+
+<p>The leading <code class="language-plaintext highlighter-rouge">2</code> represents one Key vector and one Value vector. Total KV-cache memory then grows with:</p>
+
+<ul>
+  <li>Context length</li>
+  <li>Number of concurrent users</li>
+  <li>Average context utilization</li>
+</ul>
+
+<p>Longer conversations and more simultaneous users can therefore require substantially more VRAM even when the model itself does not change.</p>
+
+<h3 id="3-serving-overhead">3. Serving overhead</h3>
+
+<p>Serving systems such as vLLM or TensorRT-LLM need memory for CUDA kernels, runtime state, activation buffers, and workspaces. The calculator exposes this as a separate input rather than pretending that weight and KV-cache memory are the entire requirement.</p>
+
+<hr />
+
+<h2 id="enter-the-inputs">Enter the inputs</h2>
+
+<h3 id="model-preset">Model preset</h3>
+
+<p>Choose a preset when the model appears in the list. The preset fills in:</p>
+
+<ul>
+  <li>Number of transformer layers</li>
+  <li>Number of KV heads</li>
+  <li>Attention-head dimension</li>
+  <li>Total parameter count</li>
+</ul>
+
+<p>For another model, select <strong>custom / manual entry</strong> and copy the architecture values from the model’s authoritative configuration. Do not substitute the number of query heads for KV heads in a model using Grouped Query Attention.</p>
+
+<h3 id="weight-precision">Weight precision</h3>
+
+<p>Choose the format in which the model weights will actually be loaded. Selecting INT4 in the calculator does not quantize the model or guarantee that the runtime supports that quantization.</p>
+
+<h3 id="kv-cache-precision">KV-cache precision</h3>
+
+<p>The KV cache can sometimes use a different precision from the weights. Confirm that the serving framework and selected GPU support the chosen configuration.</p>
+
+<h3 id="concurrent-users">Concurrent users</h3>
+
+<p>Enter the number of inference sessions expected to be active at the same time, not the total number of registered users.</p>
+
+<h3 id="context-window">Context window</h3>
+
+<p>Enter the maximum tokens allowed for a session. Avoid selecting the model’s advertised maximum unless the application will actually expose and use it.</p>
+
+<h3 id="average-context-utilization">Average context utilization</h3>
+
+<p>Sessions usually do not remain at maximum length. This setting estimates the average fraction of the context window occupied across active sessions. The worst-case output still assumes every concurrent user reaches the maximum.</p>
+
+<h3 id="framework-overhead">Framework overhead</h3>
+
+<p>Use measurements from your serving stack when available. The tool’s default is an engineering starting point, not a universal constant.</p>
+
+<hr />
+
+<h2 id="read-the-results">Read the results</h2>
+
+<h3 id="memory-breakdown">Memory breakdown</h3>
+
+<p>The calculator reports:</p>
+
+<ul>
+  <li><strong>Average VRAM required:</strong> expected use at the selected average context utilization</li>
+  <li><strong>Worst-case VRAM:</strong> all concurrent sessions at the full context length</li>
+  <li>Weight memory</li>
+  <li>Average and worst-case KV-cache memory</li>
+  <li>Framework overhead</li>
+</ul>
+
+<p>Do not ignore the worst-case number. If a deployment must remain available during a synchronized context spike, either size for that case or enforce limits in the serving system.</p>
+
+<h3 id="gpu-recommendation-matrix">GPU recommendation matrix</h3>
+
+<p>Rows represent ICE GPU models, and columns represent GPU counts. The current tool rates fit using the <strong>average</strong> VRAM estimate:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rating</th>
+      <th style="text-align: right">Average VRAM as a percentage of available VRAM</th>
+      <th>Interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Comfortable</strong></td>
+      <td style="text-align: right">Up to 75%</td>
+      <td>At least 25% average headroom</td>
+    </tr>
+    <tr>
+      <td><strong>Tight</strong></td>
+      <td style="text-align: right">More than 75% and up to 92%</td>
+      <td>May fit, but profile carefully and inspect worst-case use</td>
+    </tr>
+    <tr>
+      <td><strong>Insufficient</strong></td>
+      <td style="text-align: right">More than 92%</td>
+      <td>Too little capacity under the calculator’s rule</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Click a GPU row to display the smallest listed GPU count that is not rated insufficient, its average headroom, and the worst-case percentage.</p>
+
+<p>The live calculator’s hardware library may lag behind the current cluster. As of July 31, 2026, the calculator still shows a V100 32 GB row, but current PACE documentation lists only the V100 16 GB tier. Ignore the V100 32 GB row. The matrix also calculates every listed GPU-count column even when that many GPUs are not installed together on one ICE node. Use the per-node limits in <strong>Choosing Your GPU</strong> before treating a result as schedulable.</p>
+
+<blockquote>
+  <p>Multi-GPU columns assume that the serving stack can distribute the model with tensor or pipeline parallelism. VRAM from separate GPUs is not automatically pooled by Slurm, and ordinary data parallelism keeps a copy of the model on every GPU. ICE also limits ordinary jobs to 16 GPU-hours, so additional GPUs reduce the maximum wall time available to that job.</p>
+</blockquote>
+
+<hr />
+
+<h2 id="worked-example-llama-31-8b">Worked example: Llama 3.1 8B</h2>
+
+<p>Enter these values:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Input</th>
+      <th style="text-align: right">Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model preset</td>
+      <td style="text-align: right">Llama 3.1 8B Instruct</td>
+    </tr>
+    <tr>
+      <td>Weight precision</td>
+      <td style="text-align: right">BF16 / FP16</td>
+    </tr>
+    <tr>
+      <td>KV-cache precision</td>
+      <td style="text-align: right">FP16</td>
+    </tr>
+    <tr>
+      <td>Concurrent users</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td>Context window</td>
+      <td style="text-align: right">8,192 tokens</td>
+    </tr>
+    <tr>
+      <td>Average context utilization</td>
+      <td style="text-align: right">50%</td>
+    </tr>
+    <tr>
+      <td>Framework overhead</td>
+      <td style="text-align: right">14 GB</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The preset supplies 32 layers, 8 KV heads, a head dimension of 128, and 8 billion parameters.</p>
+
+<h3 id="step-1-calculate-the-weights">Step 1: Calculate the weights</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>8 billion parameters × 2 bytes = 16 GB
+</code></pre></div></div>
+
+<h3 id="step-2-calculate-kv-cache-bytes-per-token">Step 2: Calculate KV-cache bytes per token</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2 × 32 layers × 8 KV heads × 128 head dimension × 2 bytes
+= 131,072 bytes per token
+</code></pre></div></div>
+
+<h3 id="step-3-calculate-one-full-session">Step 3: Calculate one full session</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>131,072 bytes × 8,192 tokens ≈ 1.07 GB
+</code></pre></div></div>
+
+<p>At 50% average utilization, one session averages about 0.54 GB. Three concurrent sessions therefore average about 1.61 GB of KV cache. At the worst case, they require about 3.22 GB.</p>
+
+<h3 id="step-4-add-the-components">Step 4: Add the components</h3>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Average:    16 GB weights + 1.61 GB KV cache + 14 GB overhead ≈ 31.61 GB
+Worst case: 16 GB weights + 3.22 GB KV cache + 14 GB overhead ≈ 33.22 GB
+</code></pre></div></div>
+
+<p>The display rounds these values to whole gigabytes. In the recommendation matrix:</p>
+
+<ul>
+  <li>Any 32 GB total configuration is rated <strong>Insufficient</strong> because the average estimate is above 92% of that capacity. Current ICE does not list a V100 32 GB GPU, even though that row still appears in the live calculator.</li>
+  <li>A single 40 GB GPU is rated <strong>Tight</strong>.</li>
+  <li>A single 48 GB GPU is rated <strong>Comfortable</strong>.</li>
+</ul>
+
+<p>That does not mean you should immediately reserve the newest 48 GB GPU. First confirm framework compatibility, queue availability, whether the 14 GB overhead matches your stack, and whether the worst case is acceptable. Then profile a short deployment.</p>
+
+<hr />
+
+<h2 id="things-that-commonly-trip-people-up">Things that commonly trip people up</h2>
+
+<ul>
+  <li>Using the calculator for training or fine-tuning</li>
+  <li>Choosing weight precision based on preference rather than the actual loaded checkpoint</li>
+  <li>Entering total users instead of concurrent active sessions</li>
+  <li>Using the maximum advertised context when the application will enforce a smaller limit</li>
+  <li>Confusing query heads with KV heads</li>
+  <li>Reading “Tight” as a guarantee that the server will not run out of memory</li>
+  <li>Ignoring the worst-case estimate</li>
+  <li>Assuming two GPUs automatically behave like one GPU with twice the VRAM</li>
+  <li>Choosing an AMD GPU without confirming ROCm support</li>
+  <li>Treating the result as a substitute for a real profiling run</li>
+</ul>
+
+<hr />
+
+<h2 id="your-calculator-worksheet">Your calculator worksheet</h2>
+
+<p>Record these values before turning the result into a Slurm request:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Your value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Model and architecture source</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Weight precision actually loaded</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>KV-cache precision actually supported</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Expected concurrent sessions</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Enforced context limit</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Average context assumption</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Framework-overhead assumption</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Average VRAM estimate</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Worst-case VRAM estimate</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Smallest comfortable, compatible, and schedulable ICE configuration</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td>Profiling result</td>
+      <td> </td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h2 id="continue">Continue</h2>
+
+<ul>
+  <li><a href="https://ahsansubzwari1.github.io/HAAG-Compute-Sizing-Guidelines/tools/vram-calculator/index.html">Open the live LLM-GPU Sizing Calculator</a>.</li>
+  <li>Review <strong>Choosing Your GPU</strong> before turning the estimate into a request.</li>
+</ul>
+
+<blockquote>
+  <p><strong>PACE note:</strong> The ICE-specific warnings in this guide were verified against <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042095">ICE Cluster Resources</a> and <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042096">Using Slurm on ICE</a> on July 31, 2026. The live calculator is an estimate and its hardware library is not the final authority. Hardware, reservations, drivers, and job limits can change.</p>
+</blockquote>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>
