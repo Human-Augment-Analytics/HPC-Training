@@ -620,6 +620,87 @@ torchrun <span class="se">\</span>
   <p><strong>Important:</strong> The Slurm submission script is a general single-node example, not a verified ICE configuration. You may need to specify an authorized partition or account and adjust the requested resources. GPU requests also depend on Slurm’s configuration. Confirm that the node exposes two GPUs to the launch task before running the experiment.</p>
 </blockquote>
 
+<h1 id="submitting-and-monitoring-a-distributed-job">Submitting and Monitoring a Distributed Job</h1>
+
+<h2 id="step-1-submit-the-job">Step 1: Submit the Job</h2>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch train_ddp.sbatch
+</code></pre></div></div>
+
+<p>Slurm will return a job ID if the submission is accepted.</p>
+
+<p>Example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Submitted batch job 123456
+</code></pre></div></div>
+
+<h2 id="step-2-monitor-job-status">Step 2: Monitor Job Status</h2>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>squeue <span class="nt">--me</span>
+</code></pre></div></div>
+
+<p>Common job states include:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>State</th>
+      <th>Meaning</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>PD</td>
+      <td>Job is pending</td>
+    </tr>
+    <tr>
+      <td>R</td>
+      <td>Job is running</td>
+    </tr>
+    <tr>
+      <td>CG</td>
+      <td>Job is completing</td>
+    </tr>
+    <tr>
+      <td>CD</td>
+      <td>Job completed successfully</td>
+    </tr>
+    <tr>
+      <td>F</td>
+      <td>Job failed</td>
+    </tr>
+    <tr>
+      <td>TO</td>
+      <td>Job reached its time limit</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Completed jobs may no longer appear in <code class="language-plaintext highlighter-rouge">squeue</code>.</p>
+
+<h2 id="step-3-inspect-output-logs">Step 3: Inspect Output Logs</h2>
+
+<p>After the job starts, inspect its output file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>ddp-123456.out
+</code></pre></div></div>
+
+<p>Replace 123456 with your actual job ID.</p>
+
+<p>If the script runs successfully, you should see messages similar to:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Epoch 1: Rank 0 <span class="nb">local </span>loss <span class="nb">sum</span> <span class="o">=</span> ...
+Epoch 2: Rank 0 <span class="nb">local </span>loss <span class="nb">sum</span> <span class="o">=</span> ...
+Epoch 3: Rank 0 <span class="nb">local </span>loss <span class="nb">sum</span> <span class="o">=</span> ...
+</code></pre></div></div>
+
+<p>The exact loss values may vary.</p>
+
+<h2 id="step-4-check-job-history">Step 4: Check Job History</h2>
 
     </main>
   </div>

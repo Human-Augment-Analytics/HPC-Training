@@ -409,3 +409,63 @@ Each training process is assigned a local rank and uses a different GPU.
 > **Important:** The Slurm submission script is a general single-node example, not a verified ICE configuration. You may need to specify an authorized partition or account and adjust the requested resources. GPU requests also depend on Slurm's configuration. Confirm that the node exposes two GPUs to the launch task before running the experiment.
 
 
+# Submitting and Monitoring a Distributed Job
+
+## Step 1: Submit the Job
+
+Run:
+
+```bash
+sbatch train_ddp.sbatch
+```
+
+Slurm will return a job ID if the submission is accepted.
+
+Example:
+
+```bash
+Submitted batch job 123456
+```
+
+## Step 2: Monitor Job Status
+
+Run:
+
+```bash
+squeue --me
+```
+
+Common job states include:
+
+| State | Meaning |
+| ---- | ---- |
+| PD | Job is pending |
+| R | Job is running |
+| CG | Job is completing |
+| CD | Job completed successfully |
+| F | Job failed |
+| TO | Job reached its time limit |
+
+Completed jobs may no longer appear in `squeue`.
+
+## Step 3: Inspect Output Logs
+
+After the job starts, inspect its output file:
+
+```bash
+cat ddp-123456.out
+```
+
+Replace 123456 with your actual job ID.
+
+If the script runs successfully, you should see messages similar to:
+
+```bash
+Epoch 1: Rank 0 local loss sum = ...
+Epoch 2: Rank 0 local loss sum = ...
+Epoch 3: Rank 0 local loss sum = ...
+```
+
+The exact loss values may vary.
+
+## Step 4: Check Job History
