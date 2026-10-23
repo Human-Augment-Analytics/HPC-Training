@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>105 - Orientation Resources · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="orientation-resources">Orientation Resources</h1>
+
+<p>The rest of this 100-series covers what you need to get onto ICE and understand roughly how it works. It does not try to be the full PACE manual. PACE maintains one, and it is worth knowing where it lives and how it is organized, so you can go straight to the right page instead of searching from scratch when something in this guide does not cover your situation.</p>
+
+<hr />
+
+<h2 id="the-documentation-hub-kb0042503">The documentation hub: KB0042503</h2>
+
+<p><a href="https://gatech.service-now.com/technology?id=kb_article_view&amp;sysparm_article=KB0042503">PACE Cluster Documentation (KB0042503)</a> is PACE’s central index for essentially everything. It requires Georgia Tech SSO to view, and it is organized as a tree of links rather than one long article, roughly like this:</p>
+
+<ul>
+  <li><strong>Learn More about PACE.</strong> Participation in PACE, PACE workshops and training, consulting sessions, and orientation material for clusters, Slurm, and the Open Science Grid (OSG).</li>
+  <li><strong>Per-cluster sections</strong>, one each for Phoenix, ICE, and Firebird. Each follows the same pattern: the RHEL9 environment, getting started, logging on, cluster resources, storage, and using Slurm on that specific cluster.</li>
+  <li><strong>Software &amp; Storage/Transfer.</strong> Shared guides that apply across clusters: Apptainer containers, the PACE software stack, SCP/WinSCP/FileZilla/Rclone transfers, local scratch storage, using Git on the cluster, and a few more specialized topics like archive storage and IDEaS storage.</li>
+</ul>
+
+<p>Since this training track is built on ICE, the fastest path through the hub is the <strong>ICE Cluster</strong> section: RHEL9 Environment for ICE, Getting Started with ICE, Log on to ICE, ICE Cluster Resources, Storage on ICE, and Using Slurm on ICE. Some of that ground is already covered by earlier pages in this guide (102 for login, 200-series for Slurm, 301 for storage), but the KB is PACE’s canonical source, so it is the one to check first if something has changed since these pages were written.</p>
+
+<hr />
+
+<h2 id="workshops-and-live-training">Workshops and live training</h2>
+
+<p>PACE runs no-cost, live virtual workshops taught by PACE Research Scientists on a recurring basis, including Linux 101, Linux 102, Python 101 (Intro to Data Analysis with NumPy), Git 101, Optimization 101, Using Containers at PACE, and Applications of Machine Learning. The current schedule and sign-up details are at <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042298">KB0042298</a>. If you want a structured, taught introduction rather than reading through docs on your own, this is the better fit.</p>
+
+<hr />
+
+<h2 id="live-help">Live help</h2>
+
+<p>If you get stuck on something specific rather than looking for a general orientation, <strong><a href="../../300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/305%20-%20Getting%20Help/305%20-%20Getting%20Help.html">305, Getting Help</a></strong> already lays out who to contact and in what order, including PACE’s weekly consulting sessions (<a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042280">KB0042280</a>). That page is not repeated here.</p>
+
+<hr />
+
+<h2 id="video-walkthroughs">Video walkthroughs</h2>
+
+<p>The documentation hub also links out to a handful of recorded orientation sessions, including PACE Clusters Orientation, PACE Slurm Orientation, and PACE OSG Orientation. We have not individually reviewed these yet to confirm which one best matches an ICE-only workflow, so if you would rather watch a walkthrough than read one, open the hub directly and skim the description on each before committing to one.</p>
+
+<hr />
+
+<h2 id="next-step">Next step</h2>
+
+<ul>
+  <li>Setting up access for the first time? Go back to <strong>104, Requesting ICE Access</strong>.</li>
+  <li>Want the conceptual overview first? See <strong>103, Understanding the PACE Ecosystem</strong>.</li>
+  <li>Ready to run something? Continue to <strong><a href="https://github.com/Human-Augment-Analytics/HPC-Training/tree/main/procedures/200%20-%20Running%20Your%20First%20Job">200, Running Your First Job</a></strong>.</li>
+</ul>
+
+<blockquote>
+  <p><strong>PACE note:</strong> KB0042503 sits behind Georgia Tech SSO, so its contents are only viewable while logged in, and its structure can be reorganized by PACE at any time. This page reflects the hub’s layout as of August 2026.</p>
+</blockquote>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

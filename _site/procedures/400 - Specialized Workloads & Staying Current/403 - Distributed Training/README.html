@@ -1,0 +1,631 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>403 - Distributed Training · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="what-is-distributed-training">What Is Distributed Training?</h1>
+
+<p>Distributed training is the process of training a machine learning model using multiple computing devices simultaneously.</p>
+
+<p>In traditional single-GPU training, one GPU performs the computations needed to process training data, calculate model predictions, compute gradients, and update model parameters.</p>
+
+<p>Distributed training allows multiple GPUs to participate in this process.</p>
+
+<h2 id="why-use-distributed-training">Why Use Distributed Training</h2>
+
+<p>Researchers use distributed training to:</p>
+
+<ul>
+  <li><strong>Reduce training time</strong>: Process more training data simultaneously.</li>
+  <li><strong>Scale machine learning workloads</strong>: Train models using more computational resources.</li>
+  <li><strong>Support larger models</strong>: Use advanced parallelism techniques when models cannot fit on a single GPU.</li>
+  <li><strong>Increase throughput</strong>: Process more training samples per second.</li>
+  <li><strong>Improve resource utilization</strong>: Distribute computational work across available GPUs.</li>
+</ul>
+
+<p>However, distributed training introduces additional communication and synchronization overhead.</p>
+
+<blockquote>
+  <p><strong>Important</strong>: Using more GPUs does not automatically result in faster training. Performance depends on model size, batch size, GPU capabilities, communication overhead, and data-loading efficiency.</p>
+</blockquote>
+
+<h2 id="single-gpu-vs-distributed-training">Single-GPU vs. Distributed Training</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Single-GPU Training</th>
+      <th>Distributed Training</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Uses one GPU</td>
+      <td>Uses multiple GPUs</td>
+    </tr>
+    <tr>
+      <td>All computations occur on one device</td>
+      <td>Workloads are distributed across devices</td>
+    </tr>
+    <tr>
+      <td>Easier to configure and debug</td>
+      <td>Requires coordination between processes</td>
+    </tr>
+    <tr>
+      <td>Limited by one GPU’s resources</td>
+      <td>Can provide greater aggregate computational capacity</td>
+    </tr>
+    <tr>
+      <td>No cross-GPU gradient synchronization</td>
+      <td>May require communication and synchronization</td>
+    </tr>
+    <tr>
+      <td>Suitable for smaller experiments</td>
+      <td>Useful for larger computational workloads</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="understanding-data-parallelism-and-model-parallelism">Understanding Data Parallelism and Model Parallelism</h1>
+
+<p>Distributed training generally involves two major approaches: data parallelism and model parallelism.</p>
+
+<h2 id="data-parallelism">Data Parallelism</h2>
+
+<p>Data parallelism distributes training data across multiple GPUs while maintaining a copy of the same model on each GPU.</p>
+
+<p>Each GPU:</p>
+
+<ol>
+  <li>Receives a different subset of training data.</li>
+  <li>Performs a forward pass using its local model.</li>
+  <li>Calculates the loss and gradients.</li>
+  <li>Synchronizes gradients with the other GPUs.</li>
+  <li>Updates its model parameters.</li>
+</ol>
+
+<p>Because gradients are synchronized, model replicas remain consistent after optimizer updates.</p>
+
+<h2 id="model-parallelism">Model Parallelism</h2>
+<p>Model parallelism distributes different parts of a neural network across multiple GPUs. Unlike data parallelism, each GPU stores only part of the model. Model parallelism is useful when a model is too large to fit entirely into the memory of a single GPU.</p>
+
+<p><strong>Comparison</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Data Parallelism</th>
+      <th>Model Parallism</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Splits training data across GPUs</td>
+      <td>Splits model components across GPUs</td>
+    </tr>
+    <tr>
+      <td>Each GPU generally stores a complete model replica</td>
+      <td>Each GPU stores part of the model</td>
+    </tr>
+    <tr>
+      <td>Commonly used to improve training throughput</td>
+      <td>Commonly used for models with large memory requirements</td>
+    </tr>
+    <tr>
+      <td>Requires gradient synchronization</td>
+      <td>Requires communication between model components</td>
+    </tr>
+    <tr>
+      <td>Supported by PyTorch DDP</td>
+      <td>Supported through techniques such as tensor and pipeline parallelism</td>
+    </tr>
+  </tbody>
+</table>
+
+<blockquote>
+  <p><strong>Note:</strong> This module focuses primarily on data parallelism using PyTorch DDP because it provides a practical introduction to distributed training.</p>
+</blockquote>
+
+<h1 id="understanding-pytorch-distributeddataparallel-ddp">Understanding PyTorch DistributedDataParallel (DDP)</h1>
+
+<p>PyTorch is an open-source machine learning framework used to develop and train neural networks.</p>
+
+<p>PyTorch includes DistributedDataParallel (DDP), a tool for training models across multiple GPUs.</p>
+
+<p>DDP creates a model replica for each training process and synchronizes gradients during training.</p>
+
+<h2 id="how-ddp-works">How DDP Works</h2>
+<p>A typical DDP training workflow involves:</p>
+<ul>
+  <li>Initializing a distributed process group.</li>
+  <li>Assigning each process to a GPU.</li>
+  <li>Creating and wrapping the model with DDP.</li>
+  <li>Distributing training data across processes.</li>
+  <li>Performing forward and backward passes.</li>
+  <li>Synchronizing gradients.</li>
+  <li>Updating model parameters.</li>
+  <li>Shutting down the process group.</li>
+</ul>
+
+<p><strong>Important Terminology</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Term</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Process</td>
+      <td>An independent program instance participating in training</td>
+    </tr>
+    <tr>
+      <td>Rank</td>
+      <td>Unique identifier assigned to each process</td>
+    </tr>
+    <tr>
+      <td>Local rank</td>
+      <td>Process identifier within a specific compute node</td>
+    </tr>
+    <tr>
+      <td>World size</td>
+      <td>Total number of participating processes</td>
+    </tr>
+    <tr>
+      <td>Process group</td>
+      <td>Collection of processes that communicate during training</td>
+    </tr>
+    <tr>
+      <td>NCCL</td>
+      <td>NVIDIA communication library commonly used for GPU-based distributed training</td>
+    </tr>
+    <tr>
+      <td>Backend</td>
+      <td>Communication implementation used by distributed processes</td>
+    </tr>
+    <tr>
+      <td>Gradient Synchronization</td>
+      <td>Process of combining gradients across model replicas</td>
+    </tr>
+    <tr>
+      <td>Epoch</td>
+      <td>One complete pass through the training dataset</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Example: Two-GPU Training</strong></p>
+
+<p>Suppose you launch a training job using two GPUs on one compute node.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Process</th>
+      <th>Rank</th>
+      <th>Local Rank</th>
+      <th>GPU</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Process 1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>GPU 0</td>
+    </tr>
+    <tr>
+      <td>Process 2</td>
+      <td>1</td>
+      <td>1</td>
+      <td>GPU 1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The world size is 2 because two processes participate in training.</p>
+
+<p>Each process works with its assigned GPU and coordinates gradient updates with the other process.</p>
+
+<h1 id="preparing-a-pytorch-environment-on-ice">Preparing a PyTorch Environment on ICE</h1>
+
+<p>Before running distributed training, you must verify that your computing environment supports PyTorch and the allocated GPUs.</p>
+
+<h2 id="step-1-connect-to-ice">Step 1: Connect to ICE</h2>
+
+<p>Log in using SSH or Open OnDemand. Refer to Module 100 for instructions on accessing ICE.</p>
+
+<h2 id="step-2-check-available-gpu-resources">Step 2: Check Available GPU Resources</h2>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sinfo
+</code></pre></div></div>
+
+<p>You can also inspect Slurm’s reported GPU resources with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sinfo <span class="nt">-o</span> <span class="s2">"%P %D %G %T"</span>
+</code></pre></div></div>
+
+<h2 id="step-3-set-up-your-python-environment">Step 3: Set Up Your Python Environment</h2>
+
+<p>If you have an approved Python environment, activate it.</p>
+
+<p>For example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">source</span> .venv/bin/activate
+</code></pre></div></div>
+
+<p>Otherwise, after selecting a compatible Python installation, you can create an environment:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-m</span> venv .venv
+<span class="nb">source</span> .venv/bin/activate
+</code></pre></div></div>
+
+<h2 id="step-4-verify-pytorch">Step 4: Verify PyTorch</h2>
+
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import torch; print(torch.__version__)"</span>
+</code></pre></div></div>
+
+<p>To check whether your PyTorch installation was built with CUDA support:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import torch; print(torch.version.cuda)"</span>
+</code></pre></div></div>
+
+<p>The reported CUDA version refers to the CUDA version used to build PyTorch, not necessarily the version of the system’s installed CUDA toolkit.</p>
+
+<p>If PyTorch is unavailable, consult PyTorch’s official installation instructions and PACE software guidance.</p>
+
+<p>Install a build compatible with your Python version, allocated GPU hardware, and NVIDIA driver.</p>
+
+<h2 id="step-5-verify-gpu-access">Step 5: Verify GPU Access</h2>
+
+<p>After obtaining a GPU allocation and launching a compute-node shell, run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nvidia-smi
+</code></pre></div></div>
+
+<p>Then verify GPU access from Python:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import torch; print(torch.cuda.is_available())"</span>
+</code></pre></div></div>
+
+<p>Expected output on a compatible GPU compute node:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>True
+</code></pre></div></div>
+
+<p>You can also check how many GPUs PyTorch can see:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python <span class="nt">-c</span> <span class="s2">"import torch; print(torch.cuda.device_count())"</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><strong>Important:</strong> These checks must be performed on a GPU compute node. Running them directly on a login node may produce different results.</p>
+</blockquote>
+
+<h1 id="creating-a-simple-distributed-training-script">Creating a Simple Distributed Training Script</h1>
+
+<p>In this section, we will create a small PyTorch script that demonstrates distributed training with DDP. The example trains a simple neural network using randomly generated data. It does not require downloading a dataset.</p>
+
+<h2 id="step-1-create-a-python-file">Step 1: Create a Python File</h2>
+
+<p>Create a file named:</p>
+
+<p><code class="language-plaintext highlighter-rouge">train_ddp.py</code></p>
+
+<h2 id="step-2-add-the-training-code">Step 2: Add the Training Code</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torch.distributed</span> <span class="k">as</span> <span class="n">dist</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch.nn.parallel</span> <span class="kn">import</span> <span class="n">DistributedDataParallel</span> <span class="k">as</span> <span class="n">DDP</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">TensorDataset</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data.distributed</span> <span class="kn">import</span> <span class="n">DistributedSampler</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Initialize distributed communication.
+</span>    <span class="n">dist</span><span class="p">.</span><span class="n">init_process_group</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s">"nccl"</span><span class="p">)</span>
+
+    <span class="n">local_rank</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"LOCAL_RANK"</span><span class="p">])</span>
+    <span class="n">rank</span> <span class="o">=</span> <span class="n">dist</span><span class="p">.</span><span class="n">get_rank</span><span class="p">()</span>
+    <span class="n">world_size</span> <span class="o">=</span> <span class="n">dist</span><span class="p">.</span><span class="n">get_world_size</span><span class="p">()</span>
+
+    <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">set_device</span><span class="p">(</span><span class="n">local_rank</span><span class="p">)</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">device</span><span class="p">(</span><span class="s">"cuda"</span><span class="p">,</span> <span class="n">local_rank</span><span class="p">)</span>
+
+    <span class="c1"># Build a small neural network.
+</span>    <span class="n">model</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+        <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+        <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+        <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">DDP</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device_ids</span><span class="o">=</span><span class="p">[</span><span class="n">local_rank</span><span class="p">])</span>
+
+    <span class="c1"># Generate an example dataset.
+</span>    <span class="c1"># A fixed seed makes the dataset identical across ranks.
+</span>    <span class="n">generator</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">Generator</span><span class="p">().</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+    <span class="n">features</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span>
+        <span class="mi">1024</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="n">generator</span>
+    <span class="p">)</span>
+
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span>
+        <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="mi">1024</span><span class="p">,),</span> <span class="n">generator</span><span class="o">=</span><span class="n">generator</span>
+    <span class="p">)</span>
+
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">features</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+
+    <span class="c1"># Give each process a different data subset.
+</span>    <span class="n">sampler</span> <span class="o">=</span> <span class="n">DistributedSampler</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">num_replicas</span><span class="o">=</span><span class="n">world_size</span><span class="p">,</span>
+        <span class="n">rank</span><span class="o">=</span><span class="n">rank</span><span class="p">,</span>
+        <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span>
+    <span class="p">)</span>
+
+    <span class="n">loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span>
+        <span class="n">dataset</span><span class="p">,</span>
+        <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+        <span class="n">sampler</span><span class="o">=</span><span class="n">sampler</span>
+    <span class="p">)</span>
+
+    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span>
+        <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span>
+    <span class="p">)</span>
+
+    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+
+    <span class="c1"># Train for three epochs.
+</span>    <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">sampler</span><span class="p">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
+
+        <span class="n">total_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+        <span class="k">for</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="ow">in</span> <span class="n">loader</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">targets</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+            <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+            <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+            <span class="n">total_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">rank</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s">: "</span>
+                <span class="sa">f</span><span class="s">"Rank 0 local loss sum = </span><span class="si">{</span><span class="n">total_loss</span><span class="si">:</span><span class="p">.</span><span class="mi">4</span><span class="n">f</span><span class="si">}</span><span class="s">"</span><span class="p">,</span>
+                <span class="n">flush</span><span class="o">=</span><span class="bp">True</span>
+            <span class="p">)</span>
+
+    <span class="n">dist</span><span class="p">.</span><span class="n">destroy_process_group</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><strong>Understand the Code</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dist.init_process_group()</code></td>
+      <td>Establishes communication between training processes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">LOCAL_RANK</code></td>
+      <td>Identifies the GPU assigned to each local process</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">torch.cuda.set_device()</code></td>
+      <td>Selects the GPU used by the current process</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">DDP()</code></td>
+      <td>Wraps the model for distributed gradient synchronization</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">DistributedSampler()</code></td>
+      <td>Assigns different portions of the dataset to different processes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">sampler.set_epoch()</code></td>
+      <td>Updates shuffling consistently between epochs</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">loss.backward()</code></td>
+      <td>Computes gradients and triggers DDP synchronization</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">optimizer.step()</code></td>
+      <td>Updates model parameters</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">dist.destroy_process_group()</code></td>
+      <td>Cleans up distributed communication</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The example prints the sum of rank 0’s local batch losses, not a globally averaged loss across all GPUs.</p>
+
+<blockquote>
+  <p><strong>Important:</strong> This example demonstrates how DDP operates. Because the network is small, training with two GPUs may be slower than training with one GPU due to communication overhead.</p>
+</blockquote>
+
+<h1 id="requesting-multiple-gpus-using-slurm">Requesting Multiple GPUs Using Slurm</h1>
+
+<p>ICE uses Slurm to schedule computing jobs and allocate resources.</p>
+
+<p>To train a model across multiple GPUs, you must request the required resources before launching the training processes.</p>
+
+<h2 id="step-1-create-a-slurm-submission-script">Step 1: Create a Slurm Submission Script</h2>
+
+<p>Create a file named:</p>
+
+<p><code class="language-plaintext highlighter-rouge">train_ddp.sbatch</code></p>
+
+<p>Add the following:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c">#SBATCH --job-name=ddp-training</span>
+<span class="c">#SBATCH --nodes=1</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=4</span>
+<span class="c">#SBATCH --gres=gpu:2</span>
+<span class="c">#SBATCH --time=00:30:00</span>
+<span class="c">#SBATCH --output=ddp-%j.out</span>
+<span class="c">#SBATCH --error=ddp-%j.err</span>
+
+<span class="nb">set</span> <span class="nt">-euo</span> pipefail
+
+<span class="c"># Activate the prepared Python environment.</span>
+<span class="nb">source</span> .venv/bin/activate
+
+<span class="c"># Display GPU information.</span>
+nvidia-smi
+
+<span class="c"># Launch one training process per GPU.</span>
+torchrun <span class="se">\</span>
+    <span class="nt">--standalone</span> <span class="se">\</span>
+    <span class="nt">--nnodes</span><span class="o">=</span>1 <span class="se">\</span>
+    <span class="nt">--nproc-per-node</span><span class="o">=</span>2 <span class="se">\</span>
+    train_ddp.py
+</code></pre></div></div>
+
+<p><strong>Understanding the Slurm Script</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Directive</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--job-name</code></td>
+      <td>Name assigned to the submitted job</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--nodes=1</code></td>
+      <td>Requests one compute node</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--ntasks=1</code></td>
+      <td>Starts one Slurm task, which launches the PyTorch worker processes</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--cpus-per-task=4</code></td>
+      <td>Requests four CPU cores for the launching task</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--gres=gpu:2</code></td>
+      <td>Requests two GPUs on the compute node</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--time=00:30:00</code></td>
+      <td>Sets a 30-minute time limit</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--output</code></td>
+      <td>Specifies the standard output log</td>
+    </tr>
+    <tr>
+      <td><code class="language-plaintext highlighter-rouge">--error</code></td>
+      <td>Specifies the error log</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Why Use torchrun?</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">torchrun</code> is a PyTorch utility that launches distributed training processes.</p>
+
+<p>In this example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>torchrun <span class="nt">--standalone</span> <span class="nt">--nnodes</span><span class="o">=</span>1 <span class="nt">--nproc-per-node</span><span class="o">=</span>2 train_ddp.py
+</code></pre></div></div>
+
+<ul>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">--standalone</code> configures a single-node distributed launch.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">--nnodes=1</code> specifies one compute node.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">--nproc-per-node=2</code> launches two training processes.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">train_ddp.py</code> is the Python training script.</p>
+  </li>
+</ul>
+
+<p>Each training process is assigned a local rank and uses a different GPU.</p>
+
+<blockquote>
+  <p><strong>Important:</strong> The Slurm submission script is a general single-node example, not a verified ICE configuration. You may need to specify an authorized partition or account and adjust the requested resources. GPU requests also depend on Slurm’s configuration. Confirm that the node exposes two GPUs to the launch task before running the experiment.</p>
+</blockquote>
+
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

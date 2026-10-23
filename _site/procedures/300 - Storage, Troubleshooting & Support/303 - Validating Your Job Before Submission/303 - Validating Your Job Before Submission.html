@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>303 - Validating Your Job Before Submission · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="303--validating-your-job-before-submission">303 — Validating Your Job Before Submission</h1>
+
+<p><strong>Type:</strong> Markdown Reference
+<strong>Source:</strong> <a href="https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Job_Submission">PACE Job Submission Validator — Zach Wallace</a></p>
+
+<hr />
+
+<h2 id="what-this-is">What this is</h2>
+
+<p>Zach Wallace built a command-line tool that checks a Slurm job script for common mistakes <strong>before</strong> you submit it — catching problems that would otherwise only show up after the job fails and you’re digging through logs to figure out why. It checks five things:</p>
+
+<ul>
+  <li><strong>Resource requests</strong> — memory, CPUs, GPUs, and wall time are defined and reasonable for the job</li>
+  <li><strong>Parameter configuration</strong> — partition names, QoS settings, account, and job naming are valid</li>
+  <li><strong>Output/error file setup</strong> — log files are configured so debugging is actually possible</li>
+  <li><strong>Environment setup</strong> — module loads and required environment variables are present</li>
+  <li><strong>Script structure</strong> — shebang line, no duplicate directives, an actual executable command exists</li>
+</ul>
+
+<p>Every issue it flags comes with a plain-language explanation and a concrete fix — not just “this is wrong.”</p>
+
+<h2 id="who-this-is-for">Who this is for</h2>
+
+<ul>
+  <li>You just wrote your first Slurm script and want to sanity-check it before submitting for the first time.</li>
+  <li>Your jobs keep failing and you want a fast way to find out why, without digging through documentation line by line.</li>
+  <li>You’re picking a project back up after time away and want a quick check before diving back in.</li>
+  <li>You’re a project lead reviewing a teammate’s script before approving it.</li>
+</ul>
+
+<h2 id="how-to-run-it">How to run it</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Human-Augment-Analytics/admin-high-performance-computing.git
+<span class="nb">cd </span>admin-high-performance-computing/HPC_Job_Submission
+
+<span class="c"># Validate a single script</span>
+python3 pace_validator.py your_job.sh
+
+<span class="c"># Validate multiple scripts at once</span>
+python3 pace_validator.py <span class="k">*</span>.sh
+
+<span class="c"># Treat warnings as errors</span>
+python3 pace_validator.py your_job.sh <span class="nt">--strict</span>
+</code></pre></div></div>
+
+<p>Requires Python 3.10+. Check your version with <code class="language-plaintext highlighter-rouge">python3 --version</code>, or load it on ICE with <code class="language-plaintext highlighter-rouge">module load python/3.10</code> if needed.</p>
+
+<h2 id="reading-the-output">Reading the output</h2>
+
+<p>Issues come back labeled by severity:</p>
+
+<ul>
+  <li><strong>ERROR</strong> — will cause the job to fail. Must be fixed before submitting.</li>
+  <li><strong>WARNING</strong> — should be reviewed and resolved unless you have a specific reason to proceed anyway.</li>
+  <li><strong>INFO</strong> — best-practice suggestions that won’t block submission.</li>
+</ul>
+
+<p>Fix what’s flagged, rerun the validator, and submit once it reports clean.</p>
+
+<h2 id="integration--enforcement">Integration &amp; enforcement</h2>
+
+<p>Two ways this is meant to get used beyond a one-off check:</p>
+
+<ul>
+  <li><strong>New-member onboarding</strong> — run alongside initial PACE account setup, so validating a script becomes a standard step from day one rather than something people discover after their first failure.</li>
+  <li><strong>Project lead review</strong> — leads reviewing teammates’ scripts run the validator as part of approving a submission, not just the author.</li>
+</ul>
+
+<p>The tool also supports <code class="language-plaintext highlighter-rouge">--exit-code</code> (non-zero exit on failure), which means it can be wired into a CI/CD or pre-commit hook for teams that want this enforced automatically rather than manually.</p>
+
+<h2 id="related">Related</h2>
+
+<ul>
+  <li><a href="https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Job_Submission">Validator source, examples, and full docs (GitHub)</a></li>
+  <li><a href="../../200%20-%20Running%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job.html">201 — Submitting Your First Job</a> <em>(run the validator before this step)</em></li>
+</ul>
+
+<hr />
+
+<p><em>Note: the source doc’s own clone instructions point at a subdirectory tree URL, which git can’t clone directly. The command above clones the full repo and <code class="language-plaintext highlighter-rouge">cd</code>s into the right folder — the corrected version to use.</em></p>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

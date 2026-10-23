@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>200 - Running Your First Job · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="200---running-your-first-job">200 - Running Your First Job</h1>
+
+<p>This module walks through the full first-job process, from deciding what resources to request to checking that the job finished correctly. It is meant for researchers who can already log into ICE but are not yet comfortable writing and submitting a Slurm job.</p>
+
+<p><strong>Status at the end of the semester:</strong> Complete as a written module and tested by the authors. It has not yet been tested with a new HAAG researcher working independently.</p>
+
+<h2 id="in-this-module">In this module</h2>
+
+<ol>
+  <li><a href="201%20-%20The%20Four%20Numbers%20Before%20You%20Submit/201%20-%20The%20Four%20Numbers%20Before%20You%20Submit.html">201 - The Four Numbers Before You Submit</a> - estimate CPU cores, GPU VRAM, system RAM, storage, and wall time.</li>
+  <li><a href="202%20-%20Finding%20Your%20Sizing%20Recipe/202%20-%20Finding%20Your%20Sizing%20Recipe.html">202 - Finding Your Sizing Recipe</a> - choose a starting point based on the type of workload you plan to run.</li>
+  <li><a href="203%20-%20Choosing%20Your%20GPU/203%20-%20Choosing%20Your%20GPU.html">203 - Choosing Your GPU</a> - select the smallest compatible GPU that fits the job.</li>
+  <li><a href="204%20-%20Using%20the%20VRAM%20Calculator/204%20-%20Using%20the%20VRAM%20Calculator.html">204 - Using the VRAM Calculator</a> - estimate GPU memory for LLM inference and understand the calculator’s limits.</li>
+  <li><a href="205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job.html">205 - Submitting Your First Job</a> - create a Slurm script, submit it, monitor it, and check the output. A shorter <a href="205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job%20-%20Command%20Reference.html">command reference</a> is also available.</li>
+  <li><a href="206%20-%20Further%20Reading/206%20-%20Further%20Reading.html">206 - Further Reading</a> - continue into environments, file transfers, interactive jobs, job arrays, and troubleshooting.</li>
+</ol>
+
+<h2 id="by-the-end-of-this-module">By the end of this module</h2>
+
+<p>A researcher should be able to explain the resources their job needs, choose an appropriate CPU or GPU setup, submit the job with <code class="language-plaintext highlighter-rouge">sbatch</code>, monitor it with <code class="language-plaintext highlighter-rouge">squeue</code>, and confirm that the expected output file was created. The next step is to test whether a first-time learner can complete all of this without help.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<ul>
+  <li>Pranav Angadi - led and wrote Module 200, reviewed the technical details, and created and tested the Procedure 205 walkthrough.</li>
+  <li>Ahsan Subzwari - shared the earlier HAAG compute-sizing work and VRAM calculator used as references in Procedures 201-204.</li>
+  <li>Charlie Chark - gave the team its first PACE/ICE job-submission demonstration.</li>
+</ul>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

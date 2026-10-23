@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>All procedures · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="procedures">Procedures</h1>
+
+<p>This folder contains the HPC Training Initiative’s learner-facing procedures and clearly labeled future-work plans. The curriculum is organized as a progressive journey: get access, run safely, recover and maintain, then go deeper.</p>
+
+<h2 id="modules">Modules</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Module</th>
+      <th>Purpose</th>
+      <th>Semester-end status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="100%20-%20Access%20and%20Setup/README.html">100 - Access and Setup</a></td>
+      <td>Connect through VPN, log into ICE, understand the ecosystem, request access, and locate orientation resources.</td>
+      <td>Approximately 70% at presentation time; 101-102 complete, 103-105 require final review and learner validation.</td>
+    </tr>
+    <tr>
+      <td><a href="200%20-%20Running%20Your%20First%20Job/README.html">200 - Running Your First Job</a></td>
+      <td>Estimate resources, choose a GPU, submit a Slurm job, and verify its output.</td>
+      <td>Authored and internally self-tested; not independently piloted.</td>
+    </tr>
+    <tr>
+      <td><a href="300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/README.html">300 - Storage, Troubleshooting &amp; Support</a></td>
+      <td>Manage storage, validate scripts, check service status, and escalate effectively.</td>
+      <td>Authored; not independently piloted.</td>
+    </tr>
+    <tr>
+      <td><a href="400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html">400 - Specialized Workloads &amp; Staying Current</a></td>
+      <td>Extend the core path into validated domain-specific workloads.</td>
+      <td>Deferred; planning placeholders only.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="documentation-approach">Documentation approach</h2>
+
+<ul>
+  <li><strong>Scribe:</strong> visual, screen-by-screen guidance where navigation is ambiguous.</li>
+  <li><strong>Markdown/PDF:</strong> concepts, decision guidance, and copyable commands.</li>
+  <li><strong>Hybrid:</strong> visual navigation plus a reusable written command reference.</li>
+  <li><strong>External references:</strong> concise context and links to authoritative sources instead of copying material that will become stale.</li>
+</ul>
+
+<p>Each procedure states its purpose and scope, roles, prerequisites, workflow, success criteria, limitations/future improvements, and contributors. Supporting PDFs are retained only when they provide a learner-facing static export of a Scribe walkthrough; Markdown remains the maintainable source.</p>
+
+<h2 id="maintenance-procedure">Maintenance procedure</h2>
+
+<ol>
+  <li>Confirm the procedure still addresses a real learner task and fits the module sequence.</li>
+  <li>Check PACE/ICE hardware, quotas, partitions, Slurm syntax, access rules, support contacts, and links against current official sources.</li>
+  <li>Run every command or navigation path in a safe test context.</li>
+  <li>Have a new learner follow the procedure without coaching and record time, questions, errors, and completion.</li>
+  <li>Revise the Markdown source, update any related Scribe/PDF asset, and record the review date.</li>
+  <li>Link related procedures and the <a href="/HPC-Training/implementation/README.html">implementation record</a> when evidence or handoff context changes.</li>
+</ol>
+
+<h2 id="completion-standard">Completion standard</h2>
+
+<p>A procedure is ready for broad HAAG use only when its links and commands are current, a subject-matter reviewer has checked technical claims where needed, an independent learner can reach the stated success criteria, and contributors and review dates are recorded. Authored material that has not passed learner validation must remain labeled accordingly.</p>
+
+<h2 id="contributors">Contributors</h2>
+
+<ul>
+  <li>Bilal Assaad - Module 100 owner and curriculum/documentation strategy.</li>
+  <li>Pranav Angadi - repository structure, Module 200 owner, Procedures 102 and 205 Scribe production, and technical revisions.</li>
+  <li>Ahsan Subzwari - Module 300 owner and compute-sizing source material.</li>
+  <li>Charlie Chark - PACE/ICE onboarding, access coordination, and operational support context.</li>
+</ul>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

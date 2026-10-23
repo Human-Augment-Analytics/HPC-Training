@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>203 - Choosing Your GPU · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="choosing-your-gpu">Choosing Your GPU</h1>
+
+<p>The fastest GPU is not automatically the best GPU for your job. On a shared cluster, the best first choice is usually the smallest compatible GPU configuration that fits your measured VRAM requirement with safe headroom.</p>
+
+<p>This page uses three questions to turn a VRAM estimate into a practical ICE GPU request.</p>
+
+<hr />
+
+<h2 id="before-choosing-a-gpu">Before choosing a GPU</h2>
+
+<p>You should already know:</p>
+
+<ul>
+  <li>Whether your code actually uses a GPU</li>
+  <li>Peak GPU VRAM from a small representative run or a recipe estimate</li>
+  <li>Whether the program supports more than one GPU</li>
+  <li>Whether your framework requires NVIDIA CUDA or supports AMD ROCm</li>
+</ul>
+
+<p>If your program is CPU-only, stop here and omit the <code class="language-plaintext highlighter-rouge">--gres=gpu...</code> line. A GPU reservation does not automatically convert CPU code into GPU code.</p>
+
+<hr />
+
+<h2 id="the-three-question-funnel">The three-question funnel</h2>
+
+<h3 id="question-1-does-the-job-fit-on-one-16-gb-v100">Question 1: Does the job fit on one 16 GB V100?</h3>
+
+<p>If the peak requirement plus headroom is at or below 16 GB and the software supports the V100, request one V100. This is a common, relatively plentiful tier on ICE.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --gres=gpu:V100:1</span>
+</code></pre></div></div>
+
+<h3 id="question-2-if-not-what-is-the-smallest-tier-that-fits">Question 2: If not, what is the smallest tier that fits?</h3>
+
+<p>Work upward from the smallest tier. Current ICE hardware is grouped approximately like this:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Required VRAM</th>
+      <th>Candidate tier</th>
+      <th style="text-align: right">Maximum GPUs per node</th>
+      <th>Check before choosing</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">Up to 16 GB</td>
+      <td>V100 16 GB</td>
+      <td style="text-align: right">2</td>
+      <td>CUDA 12 drivers; check framework compatibility</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 24 GB</td>
+      <td>Quadro Pro RTX6000</td>
+      <td style="text-align: right">4</td>
+      <td>CUDA 12 drivers; older hardware may run more slowly</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 40 GB</td>
+      <td>A100 40 GB</td>
+      <td style="text-align: right">2</td>
+      <td>Use the <code class="language-plaintext highlighter-rouge">A100-40GB</code> constraint when memory size matters</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 48 GB</td>
+      <td>A40, L40S, or RTX6000 Pro Blackwell</td>
+      <td style="text-align: right">2, 8, or 16</td>
+      <td>Compare availability, CPU architecture, and multi-GPU layout</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 64 GB</td>
+      <td>MI210</td>
+      <td style="text-align: right">2</td>
+      <td>AMD ROCm compatibility is required</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 80 GB</td>
+      <td>A100 80 GB or H100 80 GB</td>
+      <td style="text-align: right">2 or 8</td>
+      <td>Use a memory constraint for the A100 80 GB tier</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Up to 142 GB</td>
+      <td>H200 142 GB</td>
+      <td style="text-align: right">8</td>
+      <td>Scarce capacity; use when the memory is genuinely required</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Hardware inventory and accepted names can change. Check the current ICE resources before finalizing a long-running job.</p>
+
+<h3 id="question-3-do-you-truly-need-multiple-gpus">Question 3: Do you truly need multiple GPUs?</h3>
+
+<p>Request multiple GPUs only when at least one of these is true:</p>
+
+<ul>
+  <li>A single GPU cannot hold the model or workload.</li>
+  <li>The application is configured for tensor, pipeline, or data parallelism.</li>
+  <li>A measured scaling test shows that additional GPUs reduce elapsed time enough to justify them.</li>
+</ul>
+
+<p>Multiple GPUs do not behave like one automatically pooled memory device. Your framework and code must distribute the work. A script that only selects <code class="language-plaintext highlighter-rouge">cuda:0</code> will not use the other GPUs.</p>
+
+<p>Ordinary ICE jobs are limited to 16 GPU-hours. GPU-hours equal the number of GPUs multiplied by wall time, so two GPUs can run for at most eight hours and eight GPUs can run for at most two hours in one job.</p>
+
+<hr />
+
+<h2 id="decision-tree">Decision tree</h2>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Does the program use GPU-enabled code?
+├── No → Submit a CPU-only job; do not request --gres=gpu.
+└── Yes
+    ├── Does peak VRAM + headroom fit on one 16 GB V100?
+    │   └── Yes → Request one V100 and profile the real run.
+    └── No
+        ├── Does the workload fit on one larger ICE GPU?
+        │   └── Yes → Choose the smallest compatible tier that fits.
+        └── No
+            ├── Can the application distribute work across multiple GPUs?
+            │   └── Yes → Test 2 GPUs first; scale only with evidence.
+            └── No → Reduce memory use, change the method, or escalate.
+</code></pre></div></div>
+
+<hr />
+
+<h2 id="why-not-request-an-h100-or-h200-every-time">Why not request an H100 or H200 every time?</h2>
+
+<p>H100 and H200 capacity available to general ICE users is more limited than the total inventory suggests. As of July 31, 2026, 13 of 19 H100 nodes and 12 of 18 H200 nodes are reserved for CoE and AI Makerspace users. A job that also fits on an A100 may start sooner there.</p>
+
+<p>Use an H-class GPU when you need its memory capacity, bandwidth, supported numeric formats, or demonstrated performance. Do not choose one simply because it is newer.</p>
+
+<hr />
+
+<h2 id="turning-the-decision-into-slurm">Turning the decision into Slurm</h2>
+
+<p>The GPU request has this general form:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --gres=gpu:&lt;GPU-TYPE&gt;:&lt;COUNT&gt;</span>
+</code></pre></div></div>
+
+<p>Each block below is a separate example request:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># One V100 16 GB</span>
+<span class="c">#SBATCH --gres=gpu:V100:1</span>
+
+<span class="c"># One Quadro Pro RTX6000 24 GB</span>
+<span class="c">#SBATCH --gres=gpu:RTX_6000:1</span>
+
+<span class="c"># One A100 40 GB</span>
+<span class="c">#SBATCH --gres=gpu:1</span>
+<span class="c">#SBATCH -C A100-40GB</span>
+
+<span class="c"># Four H200 GPUs</span>
+<span class="c">#SBATCH --gres=gpu:H200:4</span>
+
+<span class="c"># One RTX6000 Pro Blackwell</span>
+<span class="c">#SBATCH --gres=gpu:rtx_pro_6000_blackwell:1</span>
+</code></pre></div></div>
+
+<p>The A100 example uses a Slurm constraint to distinguish the 40 GB model. Use <code class="language-plaintext highlighter-rouge">A100-80GB</code> instead when the 80 GB model is required. The RTX6000 Pro Blackwell resource name is lowercase and includes underscores exactly as shown.</p>
+
+<p>Do not copy an example until you confirm the name and count appropriate for your job. On ICE, you can inspect the GPU resources advertised to Slurm with:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sinfo <span class="nt">-o</span> <span class="s2">"%P %G"</span>
+</code></pre></div></div>
+
+<p>ICE partitions are routed according to access, so do not hard-code a partition merely to reach a particular GPU. Request the GPU type with <code class="language-plaintext highlighter-rouge">--gres</code> and follow current PACE documentation for account-specific requirements.</p>
+
+<hr />
+
+<h2 id="worked-example">Worked example</h2>
+
+<p>A small profiling run peaks at 18 GB of GPU VRAM.</p>
+
+<ol>
+  <li>Add about 20% headroom: <code class="language-plaintext highlighter-rouge">18 GB × 1.2 = 21.6 GB</code>.</li>
+  <li>It does not fit safely on a 16 GB V100.</li>
+  <li>A 24 GB Quadro Pro RTX6000 is the smallest current ICE tier that fits the 21.6 GB plan.</li>
+  <li>Confirm that the software can use the CUDA 12 drivers on these nodes.</li>
+  <li>Request one GPU because the application has not demonstrated multi-GPU support.</li>
+</ol>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#SBATCH --gres=gpu:RTX_6000:1</span>
+</code></pre></div></div>
+
+<p>After the real run, compare measured peak VRAM and utilization with the reservation. Revise the next request rather than keeping the first estimate forever.</p>
+
+<hr />
+
+<h2 id="compatibility-checks">Compatibility checks</h2>
+
+<p>VRAM capacity is necessary, but it is not the only requirement.</p>
+
+<ul>
+  <li><strong>CUDA versus ROCm:</strong> NVIDIA-oriented code may not run unchanged on the AMD MI210.</li>
+  <li><strong>Numeric formats:</strong> Some models depend on hardware support for BF16, FP8, or particular kernels.</li>
+  <li><strong>Multi-GPU transport:</strong> NVLink and PCIe configurations have different communication performance.</li>
+  <li><strong>Software environment:</strong> Confirm that the PyTorch, TensorFlow, CUDA, ROCm, or serving-framework version supports the selected hardware.</li>
+  <li><strong>GPU count per node:</strong> Do not request more GPUs than a suitable node can provide.</li>
+</ul>
+
+<hr />
+
+<h2 id="next-step">Next step</h2>
+
+<p>For LLM <strong>inference serving</strong>, continue to <strong>Using the VRAM Calculator</strong>. For training or fine-tuning, use the relevant sizing recipe instead.</p>
+
+<p>For current hardware names and availability, consult <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042095">PACE ICE Resources</a>.</p>
+
+<blockquote>
+  <p><strong>PACE note:</strong> This guide was verified against <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042095">ICE Cluster Resources</a> and <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042096">Using Slurm on ICE</a> on July 31, 2026. Hardware, drivers, limits, and accepted Slurm options can change.</p>
+</blockquote>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

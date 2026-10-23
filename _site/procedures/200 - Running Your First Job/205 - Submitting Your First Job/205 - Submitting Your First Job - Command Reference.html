@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>205 - Submitting Your First Job - Command Reference · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="submitting-your-first-job">Submitting Your First Job</h1>
+
+<p>This guide shows how to submit a small CPU job on PACE ICE, check its status, and read its output.</p>
+
+<!-- Add the published Scribe link or embed here. -->
+
+<h2 id="1-create-a-working-folder">1. Create a working folder</h2>
+
+<p>In your ICE terminal, run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/first-job-demo
+<span class="nb">cd</span> ~/first-job-demo
+</code></pre></div></div>
+
+<h2 id="2-create-the-job-script">2. Create the job script</h2>
+
+<p>Open a new file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nano first-job.slurm
+</code></pre></div></div>
+
+<p>Paste this script into Nano:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+
+<span class="c">#SBATCH --job-name=first-job</span>
+<span class="c">#SBATCH --output=first-job-%j.out</span>
+<span class="c">#SBATCH --time=00:05:00</span>
+<span class="c">#SBATCH --ntasks=1</span>
+<span class="c">#SBATCH --cpus-per-task=1</span>
+<span class="c">#SBATCH --mem=1G</span>
+
+<span class="nb">echo</span> <span class="s2">"Hello from PACE ICE!"</span>
+<span class="nb">echo</span> <span class="s2">"Job ID: </span><span class="nv">$SLURM_JOB_ID</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Running on: </span><span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Started at: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+
+<span class="nb">sleep </span>60
+
+<span class="nb">echo</span> <span class="s2">"Finished at: </span><span class="si">$(</span><span class="nb">date</span><span class="si">)</span><span class="s2">"</span>
+<span class="nb">echo</span> <span class="s2">"Your first Slurm job completed successfully."</span>
+</code></pre></div></div>
+
+<p>Save the file:</p>
+
+<ol>
+  <li>Press <code class="language-plaintext highlighter-rouge">Control+O</code>.</li>
+  <li>Press <code class="language-plaintext highlighter-rouge">Enter</code>.</li>
+  <li>Press <code class="language-plaintext highlighter-rouge">Control+X</code>.</li>
+</ol>
+
+<p>On a Mac, use the Control key, not the Command key.</p>
+
+<h2 id="3-check-the-script">3. Check the script</h2>
+
+<p>Display the file to make sure it was saved correctly:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>first-job.slurm
+</code></pre></div></div>
+
+<h2 id="4-submit-the-job">4. Submit the job</h2>
+
+<p>Submit the script to Slurm:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sbatch first-job.slurm
+</code></pre></div></div>
+
+<p>You should see a message similar to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Submitted batch job 12345678
+</code></pre></div></div>
+
+<p>Your number will be different. This number is your job ID.</p>
+
+<h2 id="5-check-the-job">5. Check the job</h2>
+
+<p>Show your pending and running jobs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>squeue <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span>
+</code></pre></div></div>
+
+<p>In the <code class="language-plaintext highlighter-rouge">ST</code> column:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">PD</code> means the job is waiting to run.</li>
+  <li><code class="language-plaintext highlighter-rouge">R</code> means the job is running.</li>
+</ul>
+
+<p>You can also check one job by replacing <code class="language-plaintext highlighter-rouge">YOUR_JOB_ID</code> with your job ID:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>squeue <span class="nt">-j</span> YOUR_JOB_ID
+</code></pre></div></div>
+
+<p>Wait about one minute and check again. If the job no longer appears, it has left the queue.</p>
+
+<h2 id="6-find-the-output-file">6. Find the output file</h2>
+
+<p>List the files in the folder:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">ls</span> <span class="nt">-lh</span>
+</code></pre></div></div>
+
+<p>You should see a file similar to:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>first-job-12345678.out
+</code></pre></div></div>
+
+<p>The number in the filename is the job ID.</p>
+
+<h2 id="7-read-the-output">7. Read the output</h2>
+
+<p>Replace <code class="language-plaintext highlighter-rouge">YOUR_JOB_ID</code> with your job ID:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cat </span>first-job-YOUR_JOB_ID.out
+</code></pre></div></div>
+
+<p>A successful job should end with:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Your first Slurm job completed successfully.
+</code></pre></div></div>
+
+<p>The output also shows the job ID, compute-node name, and start and finish times.</p>
+
+<h2 id="commands-used-in-this-guide">Commands used in this guide</h2>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir</span> <span class="nt">-p</span> ~/first-job-demo
+<span class="nb">cd</span> ~/first-job-demo
+nano first-job.slurm
+<span class="nb">cat </span>first-job.slurm
+sbatch first-job.slurm
+squeue <span class="nt">-u</span> <span class="s2">"</span><span class="nv">$USER</span><span class="s2">"</span>
+squeue <span class="nt">-j</span> YOUR_JOB_ID
+<span class="nb">ls</span> <span class="nt">-lh</span>
+<span class="nb">cat </span>first-job-YOUR_JOB_ID.out
+</code></pre></div></div>
+
+<blockquote>
+  <p>Run compute jobs through Slurm. Do not run them directly on an ICE login node. PACE instructions can change, so check <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042096">Using Slurm on ICE</a> when needed.</p>
+</blockquote>
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A guided path from PACE ICE access to a verified first Slurm job.">
+  <title>102-LoggingIntoOnDemandandSSH_2026-07-18 · HAAG HPC Training</title>
+  <link rel="stylesheet" href="/HPC-Training/assets/css/site.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="/HPC-Training/">
+        <img class="gt-logo" src="/HPC-Training/assets/img/georgia-tech-logo.svg" alt="Georgia Tech">
+        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+      </a>
+      <nav class="top-nav" aria-label="Main navigation">
+        <a href="/HPC-Training/">Home</a>
+        <a href="/HPC-Training/procedures/README.html">Curriculum</a>
+        <a href="/HPC-Training/implementation/README.html">About this project</a>
+      </nav>
+    </div>
+  </header>
+  <div class="page-shell">
+    <aside class="sidebar" aria-label="Curriculum navigation">
+      <p class="sidebar-label">LEARNING PATH</p>
+      <a href="/HPC-Training/procedures/100%20-%20Access%20and%20Setup/README.html">100 <span>Access and Setup</span></a>
+      <a href="/HPC-Training/procedures/200%20-%20Running%20Your%20First%20Job/README.html">200 <span>Running Your First Job</span></a>
+      <a href="/HPC-Training/procedures/300%20-%20Storage,%20Troubleshooting%20&%20Support/README.html">300 <span>Storage &amp; Support</span></a>
+      <a href="/HPC-Training/procedures/400%20-%20Specialized%20Workloads%20&%20Staying%20Current/README.html">400 <span>Future Topics</span></a>
+      <p class="sidebar-label sidebar-secondary">RESOURCES</p>
+      <a href="/HPC-Training/procedures/README.html">All procedures</a>
+      <a href="/HPC-Training/implementation/README.html">Implementation record</a>
+      <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
+    </aside>
+    <main id="main" class="content">
+      <h1 id="102---logging-into-ondemand-and-ssh">102 - Logging Into OnDemand and SSH</h1>
+<h4 id="made-by-cs-8803-mgt--leadership-gt-with-scribe"><a href="https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/102_-_Logging_Into_OnDemand_and_SSH__K99yzAkMQlG3ONpwbcedXw">Made by CS 8803 MGT &amp; Leadership GT with Scribe</a></h4>
+<p>Learn how to connect to the PACE ICE high-performance computing environment through GlobalProtect and Open OnDemand. This guide walks you through authenticating your connection and accessing the web-based portal to manage your computational jobs.</p>
+
+<h4 id="vpn-connection">VPN Connection</h4>
+
+<p>1. Open GlobalProtect from the menu bar.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/d5a95b79-74d6-487d-953a-7ea14c13cc05/sps-redacted-ed20a4ecb8544a06b15c78e0327bc875_12699268d0354391b11ef171554579ba_text_export.jpeg" alt="" /></p>
+
+<p>2. Click “Connect”.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/89188a50-2dd0-4d66-abd1-9c15387d1ed9/sps-redacted-72d2ced5684444b39c320b7636f90783_71b10a3e965745baa37bdfe1b0f67fdd_text_export.jpeg" alt="" /></p>
+
+<p>3. Enter your password in GlobalProtect.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/80fe1071-64ab-44ac-81c4-f2d8a388220c/sps-redacted-ee4729cb4f9e492fb21bdb2acc53fe03_630b05072ea44cafa81ad8df6c466f0b_text_export.jpeg" alt="" /></p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/7762dfa7-16af-4da4-b4ab-32beafa4d489/sps-redacted-e351f2f1efb44686b1cd33e667957d49_71489f37137e4ddf9f80665ea153956b_text_export.jpeg" alt="" /></p>
+
+<p>4. Click “Connect” again to establish the VPN connection.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/3a512870-3ae2-4e7d-96c1-dd88ca8935a5/sps-redacted-31ef7133ffcd4475893c975c95abe7f3_44785e26b5144057a48338b910100071_text_export.jpeg" alt="" /></p>
+
+<h4 id="server-access-via-terminal">Server Access via Terminal</h4>
+
+<p>5. Search for “Terminal” and open the application.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/a28894de-585a-4c5a-946d-107643499537/sps-redacted-26a2e0c449364b53b585b3361850a955_112933e25a6c45f6a51f64af62d052b4_text_export.jpeg" alt="" /></p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/e80358e7-7415-4118-a5a5-37e2cea5a93b/sps-redacted-421d865018024017afdf0e1053828740_f35ffc812eae472ba5b07f4d0b2f7f53_text_export.jpeg" alt="" /></p>
+
+<p>6. Type the SSH command: <code class="language-plaintext highlighter-rouge">ssh username@login-ice.pace.gatech.edu</code> and press Enter.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/2eedc4d2-32a5-4783-9da3-8a91d2c1bf64/sps-redacted-39f16bc59756486e873afbf440bc5f40_85fff87f417645a3ab403b2556fcb4c6_text_export.jpeg" alt="" /></p>
+
+<p>7. Type your password in the terminal window when prompted. Note: The password should be identical to your Buzzport password.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/aa6511ee-51b8-4179-95c4-0ff20ecc4917/sps-redacted-097e5e5311ce42589f770b8ef4986994_9bd3dff86c9842848af3b9d39e3ea4e9_text_export.jpeg" alt="" /></p>
+
+<p>8. If you are successful, it should populate like so!</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/4e0b505f-4573-429a-9523-d5342bc5e49c/sps-redacted-310820f576934394bbd1d744db1d9b00_8071d626fda54290b6fd420ecb242882_text_export.jpeg" alt="" /></p>
+
+<h4 id="ondemand-portal-navigation">OnDemand Portal Navigation</h4>
+
+<p>9. To create Jobs and use GUI services, connect via <a href="https://ondemand-ice.pace.gatech.edu/">https://ondemand-<br />
+ice.pace.gatech.edu/</a> in your browser.</p>
+
+<p><img src="https://colony-recorder.s3.amazonaws.com/files/2026-07-18/bc87ab2d-4b52-40c3-a375-43f1f9e84a71/sps-redacted-d3751b90b43d40dc9b00696e751ecdab_3568760da5064d068ede06553629f792_text_export.jpeg" alt="" /></p>
+
+<p>Tip: See the following link for more details on OnDemand and links to other compute<br />
+clusters: <a href="https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042133">https://gatech.service-now.com/home?id=kb_article_view&amp;sysparm_article=KB0042133</a></p>
+<h4 id="made-with-scribe"><a href="https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/102_-_Logging_Into_OnDemand_and_SSH__K99yzAkMQlG3ONpwbcedXw">Made with Scribe</a></h4>
+
+
+    </main>
+  </div>
+  <footer class="site-footer">
+    <span>HAAG HPC Training · Georgia Tech</span>
+    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+  </footer>
+</body>
+</html>
