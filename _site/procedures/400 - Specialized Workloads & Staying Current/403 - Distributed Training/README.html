@@ -702,6 +702,103 @@ Epoch 3: Rank 0 <span class="nb">local </span>loss <span class="nb">sum</span> <
 
 <h2 id="step-4-check-job-history">Step 4: Check Job History</h2>
 
+<p>Run:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sacct <span class="nt">-j</span> 123456
+</code></pre></div></div>
+
+<p>This displays accounting information for the job, if available.</p>
+
+<p>For more details:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sacct <span class="nt">-j</span> 123456 <span class="se">\</span>
+    <span class="nt">--format</span><span class="o">=</span>JobID,JobName,State,Elapsed,ExitCode
+</code></pre></div></div>
+
+<h2 id="step-5-cancel-a-job">Step 5: Cancel a Job</h2>
+
+<p>If necessary, cancel a job using:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scancel 123456
+</code></pre></div></div>
+
+<p>Only cancel jobs you are authorized to manage.</p>
+
+<h1 id="understanding-distributed-training-performance">Understanding Distributed Training Performance</h1>
+<p>Using multiple GPUs can improve training performance, but scaling efficiency depends on several factors.</p>
+
+<h2 id="what-affects-performance">What Affects Performance?</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Factor</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>GPU count</td>
+      <td>More GPUs increase available computing resources but also introduce coordination overhead</td>
+    </tr>
+    <tr>
+      <td>Batch size</td>
+      <td>Determines how many training samples each process handles per iteration</td>
+    </tr>
+    <tr>
+      <td>Model complexity</td>
+      <td>Larger models may benefit more from parallel training</td>
+    </tr>
+    <tr>
+      <td>Communication speed</td>
+      <td>Affects the time required to synchronize gradients</td>
+    </tr>
+    <tr>
+      <td>Data loading</td>
+      <td>Slow storage or preprocessing can limit GPU utilization</td>
+    </tr>
+    <tr>
+      <td>GPU utilization</td>
+      <td>Measures how actively the GPUs are performing computations</td>
+    </tr>
+    <tr>
+      <td>Network bandwidth</td>
+      <td>Becomes particularly important for multi-node training</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="training-throughput">Training Throughput</h2>
+
+<p>Training throughput measures how much data is processed within a given amount of time.</p>
+
+<p>For example:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Throughput <span class="o">=</span> Number of Samples Processed / Training Time
+</code></pre></div></div>
+
+<p>A higher throughput generally means the model processes more training samples per second.</p>
+
+<h2 id="scaling-efficiency">Scaling Efficiency</h2>
+
+<p>Scaling efficiency measures how well training performance improves when additional GPUs are used.</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Speedup <span class="o">=</span> Single-GPU Time / Multi-GPU Time
+</code></pre></div></div>
+
+<p>For example, if an experiment takes 100 seconds on one GPU and 60 seconds on two GPUs:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Speedup <span class="o">=</span> 100 / 60 <span class="o">=</span> 1.67
+</code></pre></div></div>
+
+<p>The experiment achieved approximately a 1.67× speedup.</p>
+
+<p>When comparing configurations, keep the model, dataset, global batch size, and experimental settings consistent unless the purpose is to study how those settings affect scaling.</p>
+
+<blockquote>
+  <p><strong>Important:</strong> GPU utilization alone does not determine whether distributed training is efficient. Researchers should also measure throughput, training time, memory usage, and model quality.</p>
+</blockquote>
+
     </main>
   </div>
   <footer class="site-footer">

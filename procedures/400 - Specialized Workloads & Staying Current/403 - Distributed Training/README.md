@@ -469,3 +469,75 @@ Epoch 3: Rank 0 local loss sum = ...
 The exact loss values may vary.
 
 ## Step 4: Check Job History
+
+Run:
+
+```bash
+sacct -j 123456
+```
+
+This displays accounting information for the job, if available.
+
+For more details:
+
+```bash
+sacct -j 123456 \
+    --format=JobID,JobName,State,Elapsed,ExitCode
+```
+
+## Step 5: Cancel a Job
+
+If necessary, cancel a job using:
+
+```bash
+scancel 123456
+```
+
+Only cancel jobs you are authorized to manage.
+
+# Understanding Distributed Training Performance
+Using multiple GPUs can improve training performance, but scaling efficiency depends on several factors.
+
+## What Affects Performance?
+
+| Factor | Description |
+| ---- | ---- |
+| GPU count | More GPUs increase available computing resources but also introduce coordination overhead |
+| Batch size | Determines how many training samples each process handles per iteration |
+| Model complexity | Larger models may benefit more from parallel training |
+| Communication speed | Affects the time required to synchronize gradients |
+| Data loading | Slow storage or preprocessing can limit GPU utilization |
+| GPU utilization | Measures how actively the GPUs are performing computations |
+| Network bandwidth | Becomes particularly important for multi-node training |
+
+## Training Throughput
+
+Training throughput measures how much data is processed within a given amount of time.
+
+For example:
+
+```bash
+Throughput = Number of Samples Processed / Training Time
+```
+
+A higher throughput generally means the model processes more training samples per second.
+
+## Scaling Efficiency
+
+Scaling efficiency measures how well training performance improves when additional GPUs are used.
+
+```bash
+Speedup = Single-GPU Time / Multi-GPU Time
+```
+
+For example, if an experiment takes 100 seconds on one GPU and 60 seconds on two GPUs:
+
+```bash
+Speedup = 100 / 60 = 1.67
+```
+
+The experiment achieved approximately a 1.67× speedup.
+
+When comparing configurations, keep the model, dataset, global batch size, and experimental settings consistent unless the purpose is to study how those settings affect scaling.
+
+> **Important:** GPU utilization alone does not determine whether distributed training is efficient. Researchers should also measure throughput, training time, memory usage, and model quality.
