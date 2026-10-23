@@ -432,6 +432,78 @@ module list <span class="o">&gt;</span> loaded-modules.txt 2&gt;&amp;1
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git rev-parse HEAD
 </code></pre></div></div>
 
+<p>This helps identify exactly which version of the code was used for an experiment.</p>
+
+<p>Do not commit credentials, restricted research datasets, or large temporary output files to a repository.</p>
+
+<h2 id="troubleshooting-changes-in-your-environment">Troubleshooting Changes in Your Environment</h2>
+
+<p>If code that previously worked suddenly stops running, the cause may be related to changes in the cluster, software environment, or dependencies.</p>
+
+<p>Before rewriting your code, investigate what changed.</p>
+
+<p><strong>Common Problems</strong></p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Information</th>
+      <th>Why It Matters</th>
+      <th>Recommended Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Command no longer works</td>
+      <td>Software module changed or is no longer loaded</td>
+      <td>Check module <code class="language-plaintext highlighter-rouge">list</code> and <code class="language-plaintext highlighter-rouge">module avail</code></td>
+    </tr>
+    <tr>
+      <td>Python import error</td>
+      <td>Missing dependency or wrong environment</td>
+      <td>Verify the active environment and installed packages</td>
+    </tr>
+    <tr>
+      <td>GPU not detected</td>
+      <td>Incorrect allocation, driver issue, or incompatible software</td>
+      <td>Verify the compute node, GPU allocation, and CUDA compatibility</td>
+    </tr>
+    <tr>
+      <td>Job remains pending</td>
+      <td>Resource availability or scheduling limits</td>
+      <td>Check <code class="language-plaintext highlighter-rouge">squeue</code> and the pending reason</td>
+    </tr>
+    <tr>
+      <td>Previously working code fails</td>
+      <td>Dependency or system update</td>
+      <td>Compare software versions and recent changes</td>
+    </tr>
+    <tr>
+      <td>Files cannot be written</td>
+      <td>Storage quota, permissions, or unavailable filesystem</td>
+      <td>Check the destination and relevant storage policies</td>
+    </tr>
+    <tr>
+      <td>Unexpected experimental results</td>
+      <td>Changes in code, data, dependencies, or hardware behavior</td>
+      <td>Compare recorded configurations and saved outputs</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><strong>Recommended Troubleshooting Workflow</strong></p>
+
+<ol>
+  <li>Read the complete error message.</li>
+  <li>Check PACE announcements for recent maintenance or changes.</li>
+  <li>Confirm that you are using the correct Python environment.</li>
+  <li>Inspect loaded software modules.</li>
+  <li>Compare dependency versions against a working configuration.</li>
+  <li>Run a smaller test to isolate the problem.</li>
+  <li>Review Slurm output and error logs.</li>
+  <li>Contact PACE support if the issue appears system-related.</li>
+</ol>
+
     </main>
   </div>
   <footer class="site-footer">

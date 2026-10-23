@@ -330,3 +330,36 @@ You can record the current commit identifier with:
 ```bash
 git rev-parse HEAD
 ```
+
+This helps identify exactly which version of the code was used for an experiment.
+
+Do not commit credentials, restricted research datasets, or large temporary output files to a repository.
+
+## Troubleshooting Changes in Your Environment
+
+If code that previously worked suddenly stops running, the cause may be related to changes in the cluster, software environment, or dependencies.
+
+Before rewriting your code, investigate what changed.
+
+**Common Problems**
+
+| Information | Why It Matters | Recommended Action |
+| ------ | -------------------- | -------------------- |
+| Command no longer works | Software module changed or is no longer loaded | Check module `list` and `module avail` |
+| Python import error | Missing dependency or wrong environment | Verify the active environment and installed packages |
+| GPU not detected | Incorrect allocation, driver issue, or incompatible software | Verify the compute node, GPU allocation, and CUDA compatibility |
+| Job remains pending | Resource availability or scheduling limits | Check `squeue` and the pending reason |
+| Previously working code fails | Dependency or system update | Compare software versions and recent changes |
+| Files cannot be written| Storage quota, permissions, or unavailable filesystem | Check the destination and relevant storage policies |
+| Unexpected experimental results | Changes in code, data, dependencies, or hardware behavior | Compare recorded configurations and saved outputs |
+
+**Recommended Troubleshooting Workflow**
+
+1. Read the complete error message.
+2. Check PACE announcements for recent maintenance or changes.
+3. Confirm that you are using the correct Python environment.
+4. Inspect loaded software modules.
+5. Compare dependency versions against a working configuration.
+6. Run a smaller test to isolate the problem.
+7. Review Slurm output and error logs.
+8. Contact PACE support if the issue appears system-related.
