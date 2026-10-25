@@ -35,8 +35,8 @@ Learn to access Georgia Tech's PACE Instructional Cluster Environment (ICE), pla
   <a class="module-card" href="{{ '/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html' | relative_url }}">
     <span class="module-number">400</span>
     <strong>Specialized Workloads &amp; Staying Current</strong>
-    <span>Stay up to date with PACE and manage your software environment.</span>
-    <small>Start with the available lesson.</small>
+    <span>Run LLMs with Ollama and keep your software environment current.</span>
+    <small>Choose a topic after the core modules.</small>
   </a>
 </div>
 
