@@ -1,5 +1,4 @@
 ---
-title: Start here
 ---
 
 # HPC training for HAAG researchers
