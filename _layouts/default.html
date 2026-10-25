@@ -11,41 +11,45 @@
   <link rel="icon" type="image/x-icon" href="{{ '/assets/img/gt-favicon.ico' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
 </head>
-<body>
+<body{% if page.home %} class="home-page"{% endif %}>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="header-inner">
       <a class="brand" href="{{ '/' | relative_url }}">
         <img class="gt-logo" src="{{ '/assets/img/georgia-tech-logo.svg' | relative_url }}" alt="Georgia Tech">
-        <span class="brand-title">HAAG <strong>HPC Training</strong></span>
+        <span class="brand-title"><span class="brand-kicker">HAAG</span><strong>HPC Training</strong></span>
       </a>
       <nav class="top-nav" aria-label="Main navigation">
         <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/procedures/README.html' | relative_url }}">Curriculum</a>
         <a href="{{ '/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/305%20-%20Getting%20Help/305%20-%20Getting%20Help.html' | relative_url }}">Get help</a>
+        <a class="nav-primary" href="{{ '/procedures/README.html' | relative_url }}">Curriculum <span aria-hidden="true">→</span></a>
       </nav>
     </div>
   </header>
-  <div class="page-shell">
+  <div class="page-shell{% if page.home %} page-shell-home{% endif %}">
+    {% unless page.home %}
     <aside class="sidebar" aria-label="Curriculum navigation">
       <p class="sidebar-label">LEARNING PATH</p>
-      <a href="{{ '/procedures/100%20-%20Access%20and%20Setup/README.html' | relative_url }}">100 <span>Access and Setup</span></a>
-      <a href="{{ '/procedures/200%20-%20Running%20Your%20First%20Job/README.html' | relative_url }}">200 <span>Running Your First Job</span></a>
-      <a href="{{ '/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/README.html' | relative_url }}">300 <span>Storage &amp; Support</span></a>
-      <a href="{{ '/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html' | relative_url }}">400 <span>Specialized Workloads</span></a>
+      <a href="{{ '/procedures/100%20-%20Access%20and%20Setup/README.html' | relative_url }}"><span class="sidebar-number">100</span><span>Access and Setup</span></a>
+      <a href="{{ '/procedures/200%20-%20Running%20Your%20First%20Job/README.html' | relative_url }}"><span class="sidebar-number">200</span><span>Running Your First Job</span></a>
+      <a href="{{ '/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/README.html' | relative_url }}"><span class="sidebar-number">300</span><span>Storage &amp; Support</span></a>
+      <a href="{{ '/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html' | relative_url }}"><span class="sidebar-number">400</span><span>Specialized Workloads</span></a>
       <p class="sidebar-label sidebar-secondary">RESOURCES</p>
       <a href="{{ '/procedures/README.html' | relative_url }}">All procedures</a>
       <a href="{{ '/procedures/300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/305%20-%20Getting%20Help/305%20-%20Getting%20Help.html' | relative_url }}">Getting help</a>
       <a href="https://pace.gatech.edu/" rel="noopener">Official PACE site ↗</a>
     </aside>
+    {% endunless %}
     <main id="main" class="content">
       {% include rendered-content.html html=content %}
       {% include lesson-navigation.html %}
     </main>
   </div>
   <footer class="site-footer">
-    <span>HAAG HPC Training · Georgia Tech</span>
-    <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+    <div class="footer-inner">
+      <span>HAAG HPC Training · Georgia Tech</span>
+      <a href="https://github.com/Human-Augment-Analytics/HPC-Training">View source on GitHub ↗</a>
+    </div>
   </footer>
 </body>
 </html>
