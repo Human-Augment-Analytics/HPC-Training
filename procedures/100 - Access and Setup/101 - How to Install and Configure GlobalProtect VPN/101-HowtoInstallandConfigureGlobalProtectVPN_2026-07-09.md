@@ -6,17 +6,17 @@ title: "101-HowtoInstallandConfigureGlobalProtectVPN_2026-07-09"
 #### [Made by Bilal Assaad with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/101-How_to_Install_and_Configure_GlobalProtect_VPN__eb_p94lRTzeLuHtmrvnpqg)
 This guide provides a comprehensive walkthrough for downloading, installing, and setting up the GlobalProtect VPN client on your Mac. Follow these steps to ensure a successful connection to the Georgia Tech network for secure remote access.
 
-## Portal Access
+#### Portal Access
 
 
-1\. Navigate to the Georgia Tech VPN portal by going to [this link](https://vpn.gatech.edu/global-protect/login.esp){:target="_blank"}.
+1\. Navigate to the Georgia Tech VPN portal.
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/63423936-2540-41ce-98fc-e853149fd7c0/user_cropped_screenshot_48de273d6440438b8033d0cf626e8fc0_text_export.jpeg)
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-09/ebf2ef22-4a58-4094-abe5-473631effaee/sps-redacted-03be1dd6d95648ffa557d36cbbc13f27_d3bd5750af964425bafb7b82aca8d21b_text_export.jpeg)
 
 
-2\. Sign in with your account credentials by entering your GT username and password.
+2\. Sign in with your account credentials.
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-09/f3d96c7b-2f69-478c-a00a-43b76406e99e/sps-redacted-80287040eb624ae4ae4294fd1bc81ea8_bd44d1df786349cbaacb761a837162ed_text_export.jpeg)
 
@@ -28,10 +28,10 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/6847e27d-5bb5-4cb2-82dd-39c69a6985f7/user_cropped_screenshot_ac55574b8bf84dbbbe42c9057e3b582f_text_export.jpeg)
 
 
-## Software Download
+#### Software Download
 
 
-> **Tip** - Here is an article where it talks more about GT VPN: [KB0042139 Configure the GT VPN](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042139)
+Tip: [KB0042139 Configure the GT VPN](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042139)
 
 
 4\. Click the download link to
@@ -39,10 +39,10 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/c8348c62-86bd-4d06-9404-9d608c2319be/screenshot_2f0e1ca0c8034073bd4bd975b8c18481_text_export.jpeg)
 
 
-> **Tip** - To install GlobalProtect VPN Client for macOS, [click here](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0026743)
+Tip: [KB0026743 How to install GlobalProtect VPN Client for macOS](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0026743)
 
 
-> **Tip** - To install GlobalProtect VPN Client for Windows, [click here](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0026742)
+Tip: [KB0026742 How to install GlobalProtect VPN Client for Windows](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0026742)
 
 
 5\. Click the download link for the Mac GlobalProtect agent.
@@ -65,7 +65,7 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/6b6dc8e8-274f-4d7b-b273-9723197f4a2d/user_cropped_screenshot_b1fde70c0f554107863cd21c0b95a139_text_export.jpeg)
 
 
-## Installation
+#### Installation
 
 
 9\. Proceed through the GlobalProtect installation wizard prompts.
@@ -84,10 +84,10 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-09/98fa32a9-8db9-4ebb-b169-f6d5367f94b1/sps-redacted-4203a08e802b4f1a8152594f0f08d18e_8137c9d9f235413780a785a69465de24_text_export.jpeg)
 
 
-## VPN Configuration
+#### VPN Configuration
 
 
-11\. Open the GlobalProtect application and enter `vpn.gatech.edu` as the portal address.
+11\. Open the GlobalProtect application and enter [vpn.gatech.edu](http://vpn.gatech.edu) as the portal address.
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/0719f08b-d851-4c33-bb92-13ffdda2301c/sps-redacted-484371f24ebf47298f6bd4361e85a74c_9e984d8999d44cbabb44ba6c49b89d30_text_export.jpeg)
 
@@ -96,7 +96,7 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/06fa81e7-f98d-4273-8679-b4e9a1986279/sps-redacted-e8b739bf4f6b4472850d48badc0da9f6_64e06a16a59346b9972b3254b5900d2b_text_export.jpeg)
 
 
-12\. Log in to the GlobalProtect client with your GT username and password.
+12\. Log in to the GlobalProtect client with your username and password.
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/a8bf15e7-15f2-496f-a6a1-dff4afd846f6/sps-redacted-64078b03fb2e40048e8525a47bdc33aa_adc9b89a6b3c47928ebb28270669831a_text_export.jpeg)
 
@@ -110,8 +110,13 @@ This guide provides a comprehensive walkthrough for downloading, installing, and
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-10/a97ce37d-02f8-4ec1-9b93-89d8e8c10c92/sps-redacted-c7da9b7d3bdd491ebe61e4638d765898_37136360068c478fa4c5c84de6ebb5ef_text_export.jpeg)
 
 
-> **Alert**: The Mac client remains persistent in the menu bar even if you are not connected to the VPN.
-> - If you wish to quit the client entirely, from a command line type:​
+Alert: The mac client remains persistent in the menu bar even if you are not connected to the VPN.\
+\
+If you wish to quit the client entirely, from a command line type:​\
 `launchctl unload /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*​`
-> - To launch the client again: 
+
+To launch the client again: \
 `launchctl load /Library/LaunchAgents/com.paloaltonetworks.gp.pangp*`
+#### [Made with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/101-How_to_Install_and_Configure_GlobalProtect_VPN__eb_p94lRTzeLuHtmrvnpqg)
+
+

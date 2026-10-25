@@ -3,12 +3,12 @@ title: "401 - Running LLMs with Ollama"
 ---
 
 
-# What is Ollama?
-Ollama is a tool that simplifies running and managing pretrained large language models. Rather than manually configuring complex model dependencies, Ollama provides a command-line interface for downloading, launching, and interacting with compatible models. 
+# 401 - Running LLMs with Ollama
+Ollama is a tool that simplifies running and managing pretrained large language models. Rather than manually configuring complex model dependencies, Ollama provides a command-line interface for downloading, launching, and interacting with compatible models.
 
 ## Why Use Ollama?
 - **Simplifies model execution:** Run compatible LLMs using straightforward terminal commands.
-- **Supports multiple models:** Download and switch between different pretrained language models. 
+- **Supports multiple models:** Download and switch between different pretrained language models.
 - **Supports GPU acceleration:** Use compatible GPUs to improve inference performance.
 - **Provides a local API:** Integrate LLM inference into Python scripts and research applications.
 - **Supports experimentation:** Compare model outputs without repeatedly configuring model-loading code.
@@ -23,7 +23,7 @@ Ollama is a tool that simplifies running and managing pretrained large language 
 | Models must be downloaded or stored locally | Models are hosted by the provider |
 | Can run without an external inference API | Typically requires an internet connection and API key |
 | Allows direct control over supported models | Model configuration depends on the provider |
- 
+
 > **Important:** Ollama does not train an LLM from scratch. Its primary purpose is running inference with existing models. If your research involves training or fine-tuning models across multiple GPUs, see **Module 403 - Distributed Training**.
 
 # Understanding LLM Resource Requirements
@@ -31,8 +31,8 @@ Before running a language model, it is important to understand the computing res
 
 ## CPU vs. GPUs
 A CPU (Central Processing Unit) handles general-purpose computing tasks, while a GPU (Graphics Processing Unit) is designed for highly parallel computations.
-LLMs perform large numbers of matrix operations, making GPUs particularly useful for accelerating inference. 
-Although some models can run on GPUs, GPU acceleration can significantly improve response speed.
+LLMs perform large numbers of matrix operations, making GPUs particularly useful for accelerating inference.
+Models can run on CPUs, but a compatible GPU can improve response speed.
 
 ## What is VRAM?
 VRAM (Video Random Access Memory) is the memory available on a GPU. When running an LLM, memory is needed to store model weights, intermediate computations, and the context being processed. Models with more parameters generally require more memory.
@@ -54,10 +54,10 @@ A model that is too large for the available GPU memory may:
 
 For your first experiments, choose a small, quantized model and check its published memory requirements.
 
-# Requsting GPU Resources on ICE
+# Requesting GPU Resources on ICE
 **Step 1: Connect to ICE**
 
-Log in to ICE using SSH or Open OnDemand by using your GTID and password.
+Log in to ICE using SSH or Open OnDemand using the steps in Module 100.
 
 **Step 2: Check Available GPU Resources**
 
@@ -93,7 +93,7 @@ nvidia-smi
 ```
 
 - `hostname` identifies your current machine
-- `nvidia-smi` displays about compatible NVIDIA GPUs, including memory usage and GPU processes
+- `nvidia-smi` displays information about compatible NVIDIA GPUs, including memory usage and GPU processes
 
 # Setting Up Ollama
 **Step 1: Check for Ollama**
@@ -142,13 +142,13 @@ ollama serve
 
 The `OLLAMA_HOST` setting binds the server to the compute node's loopback interface rather than exposing it on the network.
 
-Keep this terminal running while you use Ollama. In another termianl or shell on the same allocated compute node, you can execute model commands. 
+Keep this terminal running while you use Ollama. In another terminal or shell on the same allocated compute node, you can execute model commands.
 
 > **Note:** Accessing the same compute node from multiple terminals may require an additional Slurm job step. Follow the access method supported by your ICE environment.
 
 ## Running Your First LLM
 
-After starting Ollama, you can download and interact with a compatible language model. 
+After starting Ollama, you can download and interact with a compatible language model.
 
 **Step 1: Choose a Model**
 
@@ -166,7 +166,7 @@ For example, a small model available through Ollama is:
 ollama run llama3.2:1b
 ```
 
-If the model is not already installed, Ollama will attempt to download it. This requires network access to the model registry, which may be restricted on compute node. If downloads are blocked, use a PACE-approved model transfer or caching workflow.
+If the model is not already installed, Ollama will attempt to download it. This requires network access to the model registry, which may be restricted on a compute node. If downloads are blocked, use a PACE-approved model transfer or caching workflow.
 
 **Step 3: Submit a Prompt**
 
@@ -218,13 +218,13 @@ Displays information about the selected model.
 ollama rm llama3.2:1b
 ```
 
-Removes the downloaded model from Ollama's managed storage. 
+Removes the downloaded model from Ollama's managed storage.
 
 Only remove models you own or have permission to manage.
 
 # Using Ollama with Python
 
-Researchers may want to interact with language models programmatically rather than through the terminal. Ollama provides a local HTTP API that can be called from Python. 
+Researchers may want to interact with language models programmatically rather than through the terminal. Ollama provides a local HTTP API that can be called from Python.
 
 For example, while the Ollama server is running on the same compute node, you can use:
 
@@ -252,9 +252,9 @@ with urllib.request.urlopen(request) as response:
 print(result["response"])
 ```
 
-This example sends a prompt to Ollama and prints the model's generated response. 
+This example sends a prompt to Ollama and prints the model's generated response.
 
-The script assumes that the model has already been downloaded and the Ollama server is accessible at the specified local address. 
+The script assumes that the model has already been downloaded and the Ollama server is accessible at the specified local address.
 
 Programmatic access is particularly useful for:
 - Processing multiple text inputs
@@ -263,7 +263,7 @@ Programmatic access is particularly useful for:
 - Automating research tasks
 - Recording outputs for later analysis
 
-For reproducible experiments, record the exact model version, prompt, generationg settings, and relevant software versions.
+For reproducible experiments, record the exact model version, prompt, generation settings, and relevant software versions.
 
 
 # Troubleshooting Common Issues
@@ -288,7 +288,7 @@ When running Ollama or other LLM inference tools on a shared HPC cluster, follow
 
 **2. Select appropriate model sizes.** Begin with smaller models before attempting larger workloads.
 
-**3. Monitor resources usage.** Check GPU memory utilization and identify unnecessary processes.
+**3. Monitor resource usage.** Check GPU memory utilization and identify unnecessary processes.
 
 **4. Manage model storage.** Avoid retaining multiple large models that are no longer needed.
 
@@ -299,3 +299,8 @@ When running Ollama or other LLM inference tools on a shared HPC cluster, follow
 **7. Document your experiments.** Record model versions, configurations, and results.
 
 **8. Release resources when finished.** Stop Ollama and end your Slurm allocation when it is no longer needed.
+
+## Further reading
+
+- [Ollama documentation](https://docs.ollama.com/)
+- [PACE documentation](https://pace.gatech.edu/)
