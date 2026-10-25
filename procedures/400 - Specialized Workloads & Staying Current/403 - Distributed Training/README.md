@@ -2,7 +2,7 @@
 title: "403 - Distributed Training"
 ---
 
-# What Is Distributed Training? 
+# 403 - Distributed Training
 
 Distributed training is the process of training a machine learning model using multiple computing devices simultaneously.
 
@@ -10,7 +10,7 @@ In traditional single-GPU training, one GPU performs the computations needed to 
 
 Distributed training allows multiple GPUs to participate in this process.
 
-## Why Use Distributed Training
+### Why Use Distributed Training
 
 Researchers use distributed training to:
 
@@ -24,7 +24,7 @@ However, distributed training introduces additional communication and synchroniz
 
 > **Important**: Using more GPUs does not automatically result in faster training. Performance depends on model size, batch size, GPU capabilities, communication overhead, and data-loading efficiency.
 
-## Single-GPU vs. Distributed Training
+### Single-GPU vs. Distributed Training
 
 | Single-GPU Training | Distributed Training |
 | --------- | -------- |
@@ -36,11 +36,11 @@ However, distributed training introduces additional communication and synchroniz
 | Suitable for smaller experiments | Useful for larger computational workloads |
 
 
-# Understanding Data Parallelism and Model Parallelism
+## Understanding Data Parallelism and Model Parallelism
 
 Distributed training generally involves two major approaches: data parallelism and model parallelism.
 
-## Data Parallelism
+### Data Parallelism
 
 Data parallelism distributes training data across multiple GPUs while maintaining a copy of the same model on each GPU.
 
@@ -54,12 +54,12 @@ Each GPU:
 
 Because gradients are synchronized, model replicas remain consistent after optimizer updates.
 
-## Model Parallelism
+### Model Parallelism
 Model parallelism distributes different parts of a neural network across multiple GPUs. Unlike data parallelism, each GPU stores only part of the model. Model parallelism is useful when a model is too large to fit entirely into the memory of a single GPU.
 
 **Comparison**
 
-| Data Parallelism | Model Parallism|
+| Data Parallelism | Model Parallelism|
 | --------- | ---------- |
 | Splits training data across GPUs | Splits model components across GPUs |
 | Each GPU generally stores a complete model replica | Each GPU stores part of the model |
@@ -69,7 +69,7 @@ Model parallelism distributes different parts of a neural network across multipl
 
 > **Note:** This module focuses primarily on data parallelism using PyTorch DDP because it provides a practical introduction to distributed training.
 
-# Understanding PyTorch DistributedDataParallel (DDP)
+## Understanding PyTorch DistributedDataParallel (DDP)
 
 PyTorch is an open-source machine learning framework used to develop and train neural networks.
 
@@ -77,7 +77,7 @@ PyTorch includes DistributedDataParallel (DDP), a tool for training models acros
 
 DDP creates a model replica for each training process and synchronizes gradients during training.
 
-## How DDP Works
+### How DDP Works
 A typical DDP training workflow involves:
 - Initializing a distributed process group.
 - Assigning each process to a GPU.
@@ -115,15 +115,15 @@ The world size is 2 because two processes participate in training.
 
 Each process works with its assigned GPU and coordinates gradient updates with the other process.
 
-# Preparing a PyTorch Environment on ICE
+## Preparing a PyTorch Environment on ICE
 
 Before running distributed training, you must verify that your computing environment supports PyTorch and the allocated GPUs.
 
-## Step 1: Connect to ICE
+### Step 1: Connect to ICE
 
 Log in using SSH or Open OnDemand. Refer to Module 100 for instructions on accessing ICE.
 
-## Step 2: Check Available GPU Resources
+### Step 2: Check Available GPU Resources
 
 Run:
 
@@ -137,7 +137,7 @@ You can also inspect Slurm's reported GPU resources with:
 sinfo -o "%P %D %G %T"
 ```
 
-## Step 3: Set Up Your Python Environment
+### Step 3: Set Up Your Python Environment
 
 If you have an approved Python environment, activate it.
 
@@ -154,7 +154,7 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-## Step 4: Verify PyTorch
+### Step 4: Verify PyTorch
 
 Run:
 
@@ -174,7 +174,7 @@ If PyTorch is unavailable, consult PyTorch's official installation instructions 
 
 Install a build compatible with your Python version, allocated GPU hardware, and NVIDIA driver.
 
-## Step 5: Verify GPU Access
+### Step 5: Verify GPU Access
 
 After obtaining a GPU allocation and launching a compute-node shell, run:
 
@@ -202,17 +202,17 @@ python -c "import torch; print(torch.cuda.device_count())"
 
 > **Important:** These checks must be performed on a GPU compute node. Running them directly on a login node may produce different results.
 
-# Creating a Simple Distributed Training Script
+## Creating a Simple Distributed Training Script
 
 In this section, we will create a small PyTorch script that demonstrates distributed training with DDP. The example trains a simple neural network using randomly generated data. It does not require downloading a dataset.
 
-## Step 1: Create a Python File
+### Step 1: Create a Python File
 
 Create a file named:
 
 `train_ddp.py`
 
-## Step 2: Add the Training Code
+### Step 2: Add the Training Code
 
 ```python
 import os
@@ -317,8 +317,8 @@ if __name__ == "__main__":
 **Understand the Code**
 
 | Component | Purpose |
-| ----- | --- | 
-| `dist.init_process_group()` | Establishes communication between training processes | 
+| ----- | --- |
+| `dist.init_process_group()` | Establishes communication between training processes |
 | `LOCAL_RANK` | Identifies the GPU assigned to each local process |
 | `torch.cuda.set_device()` | Selects the GPU used by the current process |
 | `DDP()` | Wraps the model for distributed gradient synchronization |
@@ -332,13 +332,13 @@ The example prints the sum of rank 0's local batch losses, not a globally averag
 
 > **Important:** This example demonstrates how DDP operates. Because the network is small, training with two GPUs may be slower than training with one GPU due to communication overhead.
 
-# Requesting Multiple GPUs Using Slurm
+## Requesting Multiple GPUs Using Slurm
 
 ICE uses Slurm to schedule computing jobs and allocate resources.
 
 To train a model across multiple GPUs, you must request the required resources before launching the training processes.
 
-## Step 1: Create a Slurm Submission Script
+### Step 1: Create a Slurm Submission Script
 
 Create a file named:
 
@@ -358,13 +358,13 @@ Add the following:
 
 set -euo pipefail
 
-# Activate the prepared Python environment.
+## Activate the prepared Python environment.
 source .venv/bin/activate
 
-# Display GPU information.
+## Display GPU information.
 nvidia-smi
 
-# Launch one training process per GPU.
+## Launch one training process per GPU.
 torchrun \
     --standalone \
     --nnodes=1 \
@@ -409,9 +409,9 @@ Each training process is assigned a local rank and uses a different GPU.
 > **Important:** The Slurm submission script is a general single-node example, not a verified ICE configuration. You may need to specify an authorized partition or account and adjust the requested resources. GPU requests also depend on Slurm's configuration. Confirm that the node exposes two GPUs to the launch task before running the experiment.
 
 
-# Submitting and Monitoring a Distributed Job
+## Submitting and Monitoring a Distributed Job
 
-## Step 1: Submit the Job
+### Step 1: Submit the Job
 
 Run:
 
@@ -427,7 +427,7 @@ Example:
 Submitted batch job 123456
 ```
 
-## Step 2: Monitor Job Status
+### Step 2: Monitor Job Status
 
 Run:
 
@@ -448,7 +448,7 @@ Common job states include:
 
 Completed jobs may no longer appear in `squeue`.
 
-## Step 3: Inspect Output Logs
+### Step 3: Inspect Output Logs
 
 After the job starts, inspect its output file:
 
@@ -468,7 +468,7 @@ Epoch 3: Rank 0 local loss sum = ...
 
 The exact loss values may vary.
 
-## Step 4: Check Job History
+### Step 4: Check Job History
 
 Run:
 
@@ -485,7 +485,7 @@ sacct -j 123456 \
     --format=JobID,JobName,State,Elapsed,ExitCode
 ```
 
-## Step 5: Cancel a Job
+### Step 5: Cancel a Job
 
 If necessary, cancel a job using:
 
@@ -495,10 +495,10 @@ scancel 123456
 
 Only cancel jobs you are authorized to manage.
 
-# Understanding Distributed Training Performance
+## Understanding Distributed Training Performance
 Using multiple GPUs can improve training performance, but scaling efficiency depends on several factors.
 
-## What Affects Performance?
+### What Affects Performance?
 
 | Factor | Description |
 | ---- | ---- |
@@ -510,7 +510,7 @@ Using multiple GPUs can improve training performance, but scaling efficiency dep
 | GPU utilization | Measures how actively the GPUs are performing computations |
 | Network bandwidth | Becomes particularly important for multi-node training |
 
-## Training Throughput
+### Training Throughput
 
 Training throughput measures how much data is processed within a given amount of time.
 
@@ -522,7 +522,7 @@ Throughput = Number of Samples Processed / Training Time
 
 A higher throughput generally means the model processes more training samples per second.
 
-## Scaling Efficiency
+### Scaling Efficiency
 
 Scaling efficiency measures how well training performance improves when additional GPUs are used.
 
@@ -541,3 +541,9 @@ The experiment achieved approximately a 1.67× speedup.
 When comparing configurations, keep the model, dataset, global batch size, and experimental settings consistent unless the purpose is to study how those settings affect scaling.
 
 > **Important:** GPU utilization alone does not determine whether distributed training is efficient. Researchers should also measure throughput, training time, memory usage, and model quality.
+
+## Further reading
+
+- [PyTorch torchrun documentation](https://docs.pytorch.org/docs/stable/elastic/run.html)
+- [PyTorch DistributedDataParallel documentation](https://docs.pytorch.org/docs/stable/generated/torch.nn.parallel.DistributedDataParallel.html)
+- [PACE documentation](https://pace.gatech.edu/)
