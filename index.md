@@ -1,4 +1,5 @@
 ---
+title: HAAG HPC Training
 ---
 
 # HPC training for HAAG researchers

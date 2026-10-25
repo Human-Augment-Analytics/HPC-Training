@@ -4,7 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="{{ site.description | escape }}">
-  <title>{% if page.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}</title>
+  <title>{% if page.title and page.title != site.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}</title>
+  <meta property="og:title" content="{% if page.title and page.title != site.title %}{{ page.title | escape }} · {% endif %}{{ site.title | escape }}">
+  <meta property="og:description" content="{{ site.description | escape }}">
+  <meta property="og:type" content="website">
   <link rel="icon" type="image/x-icon" href="{{ '/assets/img/gt-favicon.ico' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
 </head>
