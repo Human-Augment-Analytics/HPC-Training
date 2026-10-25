@@ -2,8 +2,8 @@
 title: "402 - Staying Current"
 ---
 
-# Staying Informed About PACE Updates
-PACE periodically performs maintenance and upgrades to improve system performance, security , and reliability. 
+# 402 - Staying Current
+PACE periodically performs maintenance and upgrades to improve system performance, security, and reliability.
 
 These updates may affect:
 - Availability of computing nodes and GPUs
@@ -37,7 +37,7 @@ To minimize potential disruptions:
 Checkpointing is the process of periodically saving the progress of a computation so it can be resumed after an interruption rather than restarting from the beginning.
 
 # Checking ICE Resource Availability
-ICE is a shared computing environment, meaning multiple uers may request resources simultaneously. Before submitting computationally intensive jobs, you should understand which resources are available and whether your requested resources are appropriate.
+ICE is a shared computing environment, meaning multiple users may request resources simultaneously. Before submitting computationally intensive jobs, you should understand which resources are available and whether your requested resources are appropriate.
 
 **Step 1: Check Cluster Status**
 
@@ -47,9 +47,9 @@ Run:
 sinfo
 ```
 
-The `sinfo` command displays information about Slrum partitions and compute node availability.
+The `sinfo` command displays information about Slurm partitions and compute node availability.
 
-Common node status include:
+Common node statuses include:
 
 | State | Description |
 | ------ | -------------------- |
@@ -70,7 +70,7 @@ Run:
 squeue --me
 ```
 
-This displays job belonging to your user account. You can use this command to check whether your jobs are:
+This displays jobs belonging to your user account. You can use this command to check whether your jobs are:
 - Pending (PD)
 - Running (R)
 - Completing (CG)
@@ -103,7 +103,7 @@ Run:
 module avail
 ```
 
-The `module avail` command lists software environment modules available through the current moduel search path. Depending on your environment, this may include compilers, programming languages, numerical libraries, and scientific computing tools.
+The `module avail` command lists software environment modules available through the current module search path. Depending on your environment, this may include compilers, programming languages, numerical libraries, and scientific computing tools.
 
 **Step 2: Search for Software**
 
@@ -112,10 +112,10 @@ If you are looking for a specific package, you can search the module system.
 For example,
 
 ```bash
-module spider pyhon
+module spider python
 ```
 
-This searches for for Python-related modules, including those that may not appear in the current `module avail` output.
+This searches for Python-related modules, including those that may not appear in the current `module avail` output.
 
 Availability depends on the cluster's software configuration.
 
@@ -147,33 +147,34 @@ You can also check the location of the executable:
 which python
 ```
 
-This is useful when troubleshotting unexpected behavior caused by different Python installations.
+This is useful when troubleshooting unexpected behavior caused by different Python installations.
 
 ## Managing Python Environments
 
-Python environments allow researchers to isolate dependencies for different projects. For example, one project might require an older version of PyTorch, while another might depend on a newer release. 
+Python environments allow researchers to isolate dependencies for different projects. For example, one project might require an older version of PyTorch, while another might depend on a newer release.
 
 Installing every package into a single environment can lead to version conflicts.
 
 **What is a Virtual Environment?**
 
-A virtual environment is an isolated Python envirionments helps researchers:
+A virtual environment isolates Python packages for one project. It helps you:
 - Prevent conflicts between projects
 - Control dependency versions
-- Reproduce experiements
+- Reproduce experiments
 - Test software updates without modifying a working environment
 
-**Step 2: Activate the Environment**
+**Step 1: Create and activate an environment**
 
 Run:
 
 ```bash
+python -m venv .venv
 source .venv/bin/activate
 ```
 
 Your terminal may now display (`.venv`) before the prompt.
 
-**Step 3: Install Dependencies**
+**Step 2: Install Dependencies**
 
 For example,
 
@@ -183,7 +184,7 @@ python -m pip install numpy pandas
 
 Install packages only in an approved location and follow ICE network access and software installation policies.
 
-**Step 4: View Installed Packages**
+**Step 3: View Installed Packages**
 
 Run:
 
@@ -193,7 +194,7 @@ python -m pip list
 
 This displays packages installed in the current Python environment.
 
-**Step 5: Save Dependencies**
+**Step 4: Save Dependencies**
 
 Run:
 
@@ -212,9 +213,9 @@ pandas==2.2.3
 
 These are illustrative versions, not required ICE versions.
 
-**Step 6: Recreate an Environment**
+**Step 5: Recreate an Environment**
 
-To recreate a compatible environment using the saved dependency file:
+After creating and activating a new environment with a compatible Python version, install the saved dependencies:
 
 ```bash
 python -m pip install -r requirements.txt
@@ -223,7 +224,7 @@ python -m pip install -r requirements.txt
 > **Important** A `requirements.txt` file alone may not reproduce anything. Also, record the Python version, system modules, CUDA libraries when relevant, and other non-Python dependencies.
 
 ## Updating Software Safely
-Updating software can provide performance improvements, security fixes, and new functionality. However, changes in software versions may also break existing considering compatibility and reproducibility.
+Updating software can provide performance improvements, security fixes, and new functionality. However, changes in software versions may also break existing workflows. Check compatibility and reproducibility before updating.
 
 **Recommended Update Process**
 
@@ -231,7 +232,7 @@ Updating software can provide performance improvements, security fixes, and new 
 2. Review the package's release notes and compatibility requirements.
 3. Save your current dependency versions.
 4. Create a separate testing environment
-5. Install updated packages in the test enviornment.
+5. Install updated packages in the test environment.
 6. Run a small test using existing research code.
 7. Compare the results against the previous environment.
 8. Adopt the update only after confirming it works correctly.
@@ -259,13 +260,13 @@ python -m pip install --upgrade numpy
 
 Run your project's tests or a representative computation to determine whether the new package version behaves as expected.
 
-> **Important:** Avoid running these updates in an enviornment used by active experiments. Depending on package requirements, additional build or compatibility checks may be necessary.
+> **Important:** Avoid running these updates in an environment used by active experiments. Depending on package requirements, additional build or compatibility checks may be necessary.
 
 ## Maintaining Reproducible Research
 
 Reproducibility means that another researcher can repeat an experiment using the same code, data, software environment, and configuration.
 
-Maintaining repreoducible workflows is particularly important when working on shared computing clusters because hardware and software environments may change.
+Maintaining reproducible workflows is particularly important when working on shared computing clusters because hardware and software environments may change.
 
 **What Should You Record?**
 
