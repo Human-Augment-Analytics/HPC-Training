@@ -1,0 +1,40 @@
+{% assign previous_lesson = nil %}
+{% assign current_lesson = nil %}
+{% assign next_lesson = nil %}
+{% for lesson in site.data.learning_path %}
+  {% if current_lesson %}
+    {% assign next_lesson = lesson %}
+    {% break %}
+  {% endif %}
+  {% if lesson.path == page.path %}
+    {% assign current_lesson = lesson %}
+  {% else %}
+    {% assign previous_lesson = lesson %}
+  {% endif %}
+{% endfor %}
+{% if current_lesson %}
+<nav class="lesson-navigation" aria-label="Lesson navigation">
+  {% if previous_lesson %}
+    <a class="lesson-navigation-link" href="{{ previous_lesson.url | relative_url }}">
+      <span class="lesson-navigation-direction">← Previous</span>
+      <span>{{ previous_lesson.title | escape }}</span>
+    </a>
+  {% else %}
+    <a class="lesson-navigation-link" href="{{ '/procedures/README.html' | relative_url }}">
+      <span class="lesson-navigation-direction">← Curriculum</span>
+      <span>All modules</span>
+    </a>
+  {% endif %}
+  {% if next_lesson %}
+    <a class="lesson-navigation-link lesson-navigation-next" href="{{ next_lesson.url | relative_url }}">
+      <span class="lesson-navigation-direction">Next →</span>
+      <span>{{ next_lesson.title | escape }}</span>
+    </a>
+  {% else %}
+    <a class="lesson-navigation-link lesson-navigation-next" href="{{ '/procedures/README.html' | relative_url }}">
+      <span class="lesson-navigation-direction">Curriculum →</span>
+      <span>All modules</span>
+    </a>
+  {% endif %}
+</nav>
+{% endif %}
