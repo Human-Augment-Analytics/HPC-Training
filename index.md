@@ -32,6 +32,12 @@ Learn to access Georgia Tech's PACE Instructional Cluster Environment (ICE), pla
     <span>Manage files, validate jobs, check status, and get help.</span>
     <small>Find practical checks and support routes.</small>
   </a>
+  <a class="module-card" href="{{ '/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html' | relative_url }}">
+    <span class="module-number">400</span>
+    <strong>Specialized Workloads &amp; Staying Current</strong>
+    <span>Stay up to date with PACE and manage your software environment.</span>
+    <small>Start with the available lesson.</small>
+  </a>
 </div>
 
 ## Your first milestone
