@@ -2,15 +2,15 @@
 title: "404 - Bioinformatics"
 ---
 
-# What is Bioinformatics?
+# 404 - Bioinformatics
 
-Bioinformatics is the application of computational methods to biological data.
+Bioinformatics is the application of computational methods to biological data. This page introduces common file formats and explains when a workload may benefit from HPC.
 
 Modern biological experiments can produce enormous amounts of information. For example, DNA sequencing technologies can generate millions of short DNA sequences, while gene expression experiments can measure the activity of thousands of genes.
 
 Analyzing this information often requires specialized software and substantial computational resources.
 
-## Why Use HPC for Bioinformatics?
+### Why Use HPC for Bioinformatics?
 
 Bioinformatics workloads may involve:
 
@@ -25,7 +25,7 @@ HPC clusters provide shared computing resources that can make these analyses mor
 
 > **Important:** Not every bioinformatics task requires an HPC cluster. Small datasets and lightweight analyses may run efficiently on a personal computer. HPC becomes particularly useful when workloads exceed local resource capabilities or benefit from parallel execution.
 
-# Understanding Common Biological Data Formats
+## Understanding Common Biological Data Formats
 
 Bioinformatics workflows use specialized file formats to represent biological sequences, sequencing results, and analysis outputs.
 
@@ -34,7 +34,7 @@ Before working with biological datasets, researchers should understand the purpo
 | Format | Description | Common Use |
 | ---- | ---- | ---- |
 | FASTA `(.fa, .fasta)` | Stores biological sequences with identifiers | Reference genomes and protein sequences |
-| FASTQ `(.fastq, .fq)` | Stores sequencing reads and associated quality scores | Raw sequencing data | 
+| FASTQ `(.fastq, .fq)` | Stores sequencing reads and associated quality scores | Raw sequencing data |
 | SAM `(.sam)` | Text format containing sequence alignment information | Read alignment |
 | BAM `(.bam)` | Compressed binary representation of alignment data | Storage and analysis of aligned reads |
 | CRAM `(.cram)` | Reference-based compressed alignment format | Efficient storage of sequencing alignments |
@@ -48,14 +48,14 @@ FASTA is a text-based format for representing biological sequences.
 
 Example:
 
-```bash
+```text
 >sequence_1
 ATGCGTACGTAGCTAG
 >sequence_2
 GCTAGCTAGCATCGTA
 ```
 
-Each sequence begins with a header line containing >, followed by one or more lines of sequence data.
+Each sequence begins with a header line beginning with `>`, followed by one or more lines of sequence data.
 
 **FASTQ Files**
 
@@ -63,7 +63,7 @@ FASTQ files contain sequencing reads and quality scores.
 
 Example:
 
-```bash
+```text
 @read_1
 ATGCGTAC
 +
@@ -74,7 +74,7 @@ A FASTQ record contains four lines:
 
 1. **Sequence identifier**: Identifies the read.
 2. **Nucleotide sequence**: Contains the biological sequence.
-3. **Separator**: Begins with +.
+3. **Separator**: Begins with `+`.
 4. **Quality scores**: Encodes confidence in each base call.
 
 Each quality character corresponds to a nucleotide in the sequence.
