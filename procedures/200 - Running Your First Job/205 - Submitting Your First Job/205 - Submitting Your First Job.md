@@ -3,8 +3,8 @@ title: "205 - Submitting Your First Job"
 ---
 
 # 205 - Submitting Your First Job
-#### [Made by CS 8803 MGT & Leadership GT with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/205_-_Submitting_Your_First_Job__EHS06sTiSamsB_0Gmc9FWw)
-Create a simple Slurm script, submit it with sbatch, monitor it with squeue, and read the resulting output file.
+
+Create a simple Slurm script, submit it with `sbatch`, monitor it with `squeue`, and read the resulting output file.
 
 #### Directory Setup
 
@@ -112,6 +112,5 @@ Type "[[cat first-job-5554670.out]] [[Return]]"
 A successful job should end with "Your first Slurm job completed successfully"
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-08-01/936dff17-e6a9-47fd-8723-223d07297c23/user_cropped_screenshot_993f2c9a81724d38b4404de80d780195_text_export.jpeg)
-#### [Made with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/205_-_Submitting_Your_First_Job__EHS06sTiSamsB_0Gmc9FWw)
 
 

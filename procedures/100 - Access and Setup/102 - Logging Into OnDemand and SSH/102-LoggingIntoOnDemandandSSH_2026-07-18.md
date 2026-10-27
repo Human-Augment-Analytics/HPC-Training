@@ -1,10 +1,10 @@
 ---
-title: "102-LoggingIntoOnDemandandSSH_2026-07-18"
+title: "102 - Logging Into OnDemand and SSH"
 ---
 
 # 102 - Logging Into OnDemand and SSH
-#### [Made by CS 8803 MGT & Leadership GT with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/102_-_Logging_Into_OnDemand_and_SSH__K99yzAkMQlG3ONpwbcedXw)
-Learn how to connect to the PACE ICE high-performance computing environment through GlobalProtect and Open OnDemand. This guide walks you through authenticating your connection and accessing the web-based portal to manage your computational jobs.
+
+Use GlobalProtect to connect to Georgia Tech's network, then log into ICE through Open OnDemand or SSH.
 
 #### VPN Connection
 
@@ -67,6 +67,5 @@ ice.pace.gatech.edu/](https://ondemand-ice.pace.gatech.edu/) in your browser.
 
 Tip: See the following link for more details on OnDemand and links to other compute\
 clusters: <https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042133>
-#### [Made with Scribe](https://scribehow.com/o/RwVvEgxYTayBbEjBpzDTfg/viewer/102_-_Logging_Into_OnDemand_and_SSH__K99yzAkMQlG3ONpwbcedXw)
 
 
