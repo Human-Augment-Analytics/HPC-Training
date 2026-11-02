@@ -1,5 +1,6 @@
-
-
+---
+title: "302 - Validating Your Job Before Submission"
+---
 # 302 — Auditing Your Storage Usage
 
 Monitoring storage usage is an important part of managing research workloads on PACE ICE. Because storage allocations may be shared across multiple projects, researchers need to understand how much space their files consume and identify potential storage issues before they affect running jobs.
