@@ -70,7 +70,7 @@ Refer to the repository instructions:
 
 Once you have completed the required preparation and received access, you can use the channel to ask questions and participate in troubleshooting discussions.
 
-**Important:** Avoid posting passwords, access tokens, private credentials, or sensitive research data in Slack.
+>**Important:** Avoid posting passwords, access tokens, private credentials, or sensitive research data in Slack.
 
 # Step 2: Troubleshoot Before Escalating
 
@@ -82,7 +82,7 @@ These steps can help determine whether the issue originates from your script, re
 
 Refer to:
 
-[303 — Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md)
+[303 - Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md)
 
 Check for:
 
@@ -153,7 +153,7 @@ Determine whether ICE is experiencing a known outage or scheduled maintenance.
 
 For additional guidance, see:
 
-[304 — Checking System Status](../304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md)
+[304 - Checking System Status](../304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md)
 
 If your issue matches an active incident, follow PACE's official guidance before retrying your workload.
 
@@ -307,7 +307,7 @@ Researchers should review the official policies when beginning to use PACE resou
 
 For additional information, see:
 
-[PACE Policies — KB0042198](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042198)
+[PACE Policies - KB0042198](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042198)
 
 # Troubleshooting Common Support Scenarios
 
@@ -346,9 +346,9 @@ When troubleshooting issues on PACE ICE, follow these practices:
 # Further Reading
 
 - [PACE User Support](https://pace.gatech.edu/user-support/) — official contact information and support resources.
-- [PACE Consultation Sessions — KB0042280](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042280) — virtual consultation information.
-- [PACE Policies — KB0042198](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042198) — official computing and account policies.
+- [PACE Consultation Sessions - KB0042280](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042280) — virtual consultation information.
+- [PACE Policies - KB0042198](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042198) — official computing and account policies.
 - [HAAG Validated PACE Users Instructions](https://github.com/Human-Augment-Analytics/admin-high-performance-computing/blob/main/validated-pace-users-instruction.md) — instructions for accessing the internal peer-support channel.
-- [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) — investigate storage usage issues.
-- [303 — Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md) — identify common Slurm script errors.
-- [304 — Checking System Status](../304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md) — determine whether problems are related to PACE infrastructure.
+- [302 - Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) — investigate storage usage issues.
+- [303 - Validating Your Job Before Submission](../303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md) — identify common Slurm script errors.
+- [304 - Checking System Status](../304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md) — determine whether problems are related to PACE infrastructure.

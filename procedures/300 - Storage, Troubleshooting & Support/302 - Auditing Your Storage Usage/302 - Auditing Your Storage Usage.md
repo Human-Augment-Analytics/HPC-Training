@@ -1,7 +1,7 @@
 ---
 title: "302 - Auditing Your Storage Usage"
 ---
-# 302 — Auditing Your Storage Usage
+# 302 - Auditing Your Storage Usage
 
 Monitoring storage usage is an important part of managing research workloads on PACE ICE. Because storage allocations may be shared across multiple projects, researchers need to understand how much space their files consume and identify potential storage issues before they affect running jobs.
 
@@ -327,7 +327,7 @@ Under this proposal, project owners would be notified and asked to determine whe
 
 This is a proposed policy, not an automatic deletion rule.
 
-**Important:** Storage audits identify potential cleanup candidates. They should not automatically delete files based only on directory size or modification date.
+>**Important:** Storage audits identify potential cleanup candidates. They should not automatically delete files based only on directory size or modification date.
 
 Project ownership, research requirements, and data retention policies must be considered before any files are removed.
 
@@ -367,7 +367,7 @@ When auditing storage on a shared HPC cluster, follow these practices:
 
 # Further Reading
 
-- [301 — Storage on ICE](../301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md) — understand how shared storage works and why storage management matters.
+- [301 - Storage on ICE](../301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md) — understand how shared storage works and why storage management matters.
 - [HAAG Storage Audit Source (GitHub)](https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Storage_Audit) — access the auditing scripts and repository.
-- [PACE Storage Guide (ICE) — KB0042094](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) — review official storage information and policies.
-- [305 — Getting Help](../305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — learn how to report unresolved storage or system issues.
+- [PACE Storage Guide (ICE) - KB0042094](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) — review official storage information and policies.
+- [305 - Getting Help](../305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — learn how to report unresolved storage or system issues.

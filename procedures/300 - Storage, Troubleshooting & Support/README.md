@@ -8,11 +8,11 @@ This module walks through how to manage storage, troubleshoot common job issues,
 
 ## In this module
 
-1. **[301 — Storage on ICE](301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md)** — how shared storage works and what to check before it fills up
-2. **[302 — Auditing Your Storage Usage](302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md)** — what the storage audit reports and how to run it
-3. **[303 — Validating Your Job Before Submission](303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md)** — catch script mistakes before they cause a failed job
-4. **[304 — Checking System Status](304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md)** — rule out PACE-side issues before debugging your own script
-5. **[305 — Getting Help](305%20-%20Getting%20Help/305%20-%20Getting%20Help.md)** — who to contact, in order, and what to include so you get a fast answer
+1. [301 - Storage on ICE](301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md) — how shared storage works and what to check before it fills up
+2. [302 - Auditing Your Storage Usage](302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) — what the storage audit reports and how to run it
+3. [303 - Validating Your Job Before Submission](303%20-%20Validating%20Your%20Job%20Before%20Submission/303%20-%20Validating%20Your%20Job%20Before%20Submission.md) — catch script mistakes before they cause a failed job
+4. [304 - Checking System Status](304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md) — rule out PACE-side issues before debugging your own script
+5. [305 - Getting Help](305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — who to contact, in order, and what to include so you get a fast answer
 
 ## By the end of this module
 You should be able to explain how shared storage works on ICE, audit your storage usage, validate Slurm scripts before submission, check system status to identify potential cluster issues, and seek support with the information needed to resolve problems efficiently.
