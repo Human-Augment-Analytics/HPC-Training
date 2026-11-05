@@ -2,7 +2,7 @@
 title: "301 - Storage on ICE"
 ---
 
-# 301 — Storage on ICE
+# 301 - Storage on ICE
 
 Storage is an essential part of running research workloads on PACE ICE. Researchers use storage to save datasets, scripts, model checkpoints, software environments, and job outputs. When storage is shared across a research group, one researcher's files can affect the amount of space available to others.
 
@@ -150,7 +150,7 @@ If this utility is available in your ICE environment, it can report quota inform
 
 The exact output and supported storage locations may depend on the current PACE configuration.
 
-For detailed storage auditing and identifying large project directories, continue to [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md).
+For detailed storage auditing and identifying large project directories, continue to [302 - Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md).
 
 # Managing Storage Efficiently
 
@@ -214,7 +214,7 @@ Projects that initially require little storage may grow significantly as more ex
 
 Regular monitoring helps identify storage problems before they affect running jobs.
 
-See [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) for the storage auditing workflow.
+See [302 - Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) for the storage auditing workflow.
 
 # Troubleshooting Common Storage Issues
 
@@ -251,6 +251,6 @@ When using shared storage on an HPC cluster, follow these practices:
 
 # Further Reading
 
-- [PACE Storage Guide (ICE) — KB0042094](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) — official reference for storage allocations, quotas, and policies.
-- [302 — Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) — learn how to inspect storage usage and interpret audit results.
-- [305 — Getting Help](../305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — find the appropriate support resources for unresolved issues.
+- [PACE Storage Guide (ICE) - KB0042094](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) — official reference for storage allocations, quotas, and policies.
+- [302 - Auditing Your Storage Usage](../302%20-%20Auditing%20Your%20Storage%20Usage/302%20-%20Auditing%20Your%20Storage%20Usage.md) — learn how to inspect storage usage and interpret audit results.
+- [305 - Getting Help](../305%20-%20Getting%20Help/305%20-%20Getting%20Help.md) — find the appropriate support resources for unresolved issues.

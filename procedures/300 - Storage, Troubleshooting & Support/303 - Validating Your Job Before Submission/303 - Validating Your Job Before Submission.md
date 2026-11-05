@@ -63,7 +63,7 @@ The tool also supports `--exit-code` (non-zero exit on failure), which means it 
 ## Related
 
 - [Validator source, examples, and full docs (GitHub)](https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Job_Submission)
-- [201 — Submitting Your First Job](../../200%20-%20Running%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job.md) *(run the validator before this step)*
+- [201 - Submitting Your First Job](../../200%20-%20Running%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job.md) *(run the validator before this step)*
 
 ---
 
