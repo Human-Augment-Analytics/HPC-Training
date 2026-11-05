@@ -74,3 +74,6 @@
 - path: "procedures/400 - Specialized Workloads & Staying Current/404 - Bioinformatics/README.md"
   title: "404 - Bioinformatics"
   url: "/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/404%20-%20Bioinformatics/README.html"
+- path: "procedures/400 - Specialized Workloads & Staying Current/405 - Run an ML Notebook on CPU and GPU/README.md"
+  title: "405 - Run an ML Notebook on CPU and GPU"
+  url: "/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/405%20-%20Run%20an%20ML%20Notebook%20on%20CPU%20and%20GPU/README.html"
