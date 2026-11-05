@@ -4,12 +4,7 @@ title: "303 - Validating Your Job Before Submission"
 
 # 303 — Validating Your Job Before Submission
 
-**Type:** Markdown Reference
-**Source:** [PACE Job Submission Validator — Zach Wallace](https://github.com/Human-Augment-Analytics/admin-high-performance-computing/tree/main/HPC_Job_Submission)
 
----
-
-## What this is
 
 Zach Wallace built a command-line tool that checks a Slurm job script for common mistakes **before** you submit it — catching problems that would otherwise only show up after the job fails and you're digging through logs to figure out why. It checks five things:
 

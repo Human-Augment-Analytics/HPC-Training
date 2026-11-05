@@ -4,7 +4,7 @@ title: "300 - Storage, Troubleshooting & Support"
 
 # 300 — Storage, Troubleshooting & Support
 
-Something's not working, or you want to make sure it doesn't break in the first place. This module covers the toolkit for both.
+This module walks through how to manage storage, troubleshoot common job issues, and find support when problems occur on ICE. It is meant for researchers who can already submit Slurm jobs but are not yet comfortable monitoring storage usage, identifying errors, or determining when to seek help.
 
 ## In this module
 
@@ -14,3 +14,5 @@ Something's not working, or you want to make sure it doesn't break in the first 
 4. **[304 — Checking System Status](304%20-%20Checking%20System%20Status/304%20-%20Checking%20System%20Status.md)** — rule out PACE-side issues before debugging your own script
 5. **[305 — Getting Help](305%20-%20Getting%20Help/305%20-%20Getting%20Help.md)** — who to contact, in order, and what to include so you get a fast answer
 
+## By the end of this module
+You should be able to explain how shared storage works on ICE, audit your storage usage, validate Slurm scripts before submission, check system status to identify potential cluster issues, and seek support with the information needed to resolve problems efficiently.
