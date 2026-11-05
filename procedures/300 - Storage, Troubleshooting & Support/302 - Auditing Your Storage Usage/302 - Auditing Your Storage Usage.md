@@ -1,5 +1,5 @@
 ---
-title: "302 - Validating Your Job Before Submission"
+title: "302 - Auditing Your Storage Usage"
 ---
 # 302 — Auditing Your Storage Usage
 
@@ -303,10 +303,7 @@ Based on the audit results, researchers may decide to:
 
 HAAG uses the storage auditing tool as part of its ongoing HPC storage monitoring.
 
-The report is distributed **biweekly** to:
-
-- Bree Shi — Director of HAAG.
-- Charlie Chark — Head TA.
+The report is distributed **biweekly** to  designated HAAG staff.
 
 This provides regular visibility into storage usage across shared research projects.
 
