@@ -12,7 +12,7 @@ The point is to learn how an ML workload reaches a compute node. This tiny datas
 
 - You can connect to the Georgia Tech VPN and sign in to [ICE Open OnDemand](https://ondemand-ice.pace.gatech.edu/). If not, start with [Module 100](../../100%20-%20Access%20and%20Setup/README.md).
 - You have room in your ICE storage for a Python environment. The GPU environment may need several gigabytes. See [Storage on ICE](../../300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/301%20-%20Storage%20on%20ICE/301%20-%20Storage%20on%20ICE.md).
-- Download the [companion notebook](405%20-%20ML%20on%20ICE.ipynb) to your computer. It contains the code used below.
+- Download the <a href="405%20-%20ML%20on%20ICE.ipynb" download="405 - ML on ICE.ipynb">companion notebook (.ipynb)</a> to your computer. It contains the code used below.
 
 Your course or research group may have its own account, quality of service, or node choices. Use those instructions when they differ from the example here. Check the current [PACE Open OnDemand guide](https://docs.pace.gatech.edu/ood/guide/) if a menu or resource label has changed.
 
