@@ -4,7 +4,7 @@ title: "405 - Run an ML Notebook on CPU and GPU"
 
 # 405 - Run an ML Notebook on CPU and GPU
 
-This walkthrough uses Jupyter on PACE ICE to train a small neural network twice: once in a CPU session and once in a GPU session. You will check which device TensorFlow can see, run the same notebook in both sessions, and compare the results. The example adapts the breast cancer classification exercise in PACE's *Applications of Machine Learning* workshop. It uses the public Wisconsin dataset bundled with scikit-learn; no patient data or external dataset download is needed.
+This walkthrough uses Jupyter on PACE ICE to train a small neural network twice: once in a CPU session and once in a GPU session. You will check which device TensorFlow can see, run the same notebook in both sessions, and compare the results. The example adapts the breast cancer classification exercise in PACE's *Applications of Machine Learning* workshop. It uses the public Wisconsin dataset bundled with scikit-learn; no private records or separate dataset download are needed.
 
 The point is to learn how an ML workload reaches a compute node. This tiny dataset is **not** a useful GPU speed benchmark. A GPU run can be slower because starting the GPU and moving data have costs too.
 
@@ -77,41 +77,13 @@ python -m pip install 'tensorflow[and-cuda]'
 python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
 ```
 
-The last command must show at least one GPU before the notebook can run in GPU mode. If it prints `[]` while `nvidia-smi` shows a GPU, follow the [TensorFlow GPU installation guide](https://www.tensorflow.org/install/pip) to link the installed CUDA libraries. This was needed on our ICE session:
-
-```bash
-pushd "$(dirname "$(python -c 'print(__import__("tensorflow").__file__)')")"
-ln -svf ../nvidia/*/lib/*.so* .
-popd
-```
-
-The Terminal check still printed `[]`, so we added the installed CUDA library directories to the **HAAG ML demo** Jupyter kernel. Run this block with the virtual environment active if you see the same issue:
-
-```bash
-python - <<'PY'
-import glob
-import json
-import os
-import sysconfig
-from pathlib import Path
-
-kernel = Path.home() / ".local/share/jupyter/kernels/haag-ml-demo/kernel.json"
-spec = json.loads(kernel.read_text())
-root = sysconfig.get_paths()["purelib"]
-paths = glob.glob(f"{root}/nvidia/*/lib")
-spec.setdefault("env", {})["LD_LIBRARY_PATH"] = ":".join(
-    paths + [os.environ.get("LD_LIBRARY_PATH", "")]
-)
-kernel.write_text(json.dumps(spec, indent=2) + "\n")
-print("Configured", len(paths), "CUDA library paths for the Jupyter kernel")
-PY
-```
+The last command should list at least one GPU. If it prints `[]` while `nvidia-smi` shows a GPU, use the [GPU troubleshooting steps](#the-gpu-list-is-empty) below before running the notebook in GPU mode.
 
 Open the notebook with the **HAAG ML demo** kernel, change the first code cell to `RUN_ON = "GPU"`, and choose **Kernel → Restart**. Run the first code cell. Continue only if it lists a visible GPU and prints `Requested device: /GPU:0`.
 
 ![Notebook output listing a visible GPU and requested device GPU:0; job ID redacted](images/gpu-detection-redacted.png)
 
-Then choose **Cell → Run All**. The notebook stops if no GPU is visible, so it cannot silently report a CPU run as a GPU run. TensorFlow may still run its data-loading operations on the CPU; the model operations can use the GPU.
+Then choose **Cell → Run All**. The notebook stops if no GPU is visible when GPU mode is selected. TensorFlow may still run some operations, including data loading, on the CPU. The visible GPU and TensorFlow's device initialization message confirm that the GPU is available to the model, but the reported device alone does not prove that every operation ran on it.
 
 ![GPU training output showing Quadro RTX 6000 initialization, training time, and training accuracy](images/gpu-training-output.png)
 
@@ -137,8 +109,45 @@ Both runs had the same test accuracy and confusion matrix (`[[40, 2], [5, 67]]`)
 
 - **Jupyter stays queued:** Shorten the wall time or try another permitted node type. Do not switch to a different account or quality of service without permission.
 - **The kernel is missing:** In a Jupyter Terminal, activate the environment and rerun the `ipykernel install` command. Refresh Jupyter's browser tab.
-- **The GPU list is empty:** Check that the session requested a GPU and that `nvidia-smi` works. If it does, use the CUDA library steps above. A GPU allocation alone does not guarantee that TensorFlow can load its CUDA libraries.
 - **Training says `RangeDataset` cannot run on GPU:** Use the current companion notebook, which sets `tf.config.set_soft_device_placement(True)`. TensorFlow can then run the input pipeline on the CPU while using the GPU for supported model operations.
 - **Storage is full:** Check your usage before installing more packages; see [Module 300](../../300%20-%20Storage%2C%20Troubleshooting%20%26%20Support/README.md).
+
+### The GPU list is empty
+
+If TensorFlow prints `[]`, first check that the Jupyter session requested a GPU and `nvidia-smi` can see it. A GPU allocation alone does not guarantee that TensorFlow can find its CUDA libraries.
+
+If `nvidia-smi` works, activate the virtual environment and try the library links in the [TensorFlow GPU installation guide](https://www.tensorflow.org/install/pip):
+
+```bash
+source ~/scratch/haag-ml-demo/ml-venv/bin/activate
+pushd "$(dirname "$(python -c 'print(__import__("tensorflow").__file__)')")"
+ln -svf ../nvidia/*/lib/*.so* .
+popd
+python -c "import tensorflow as tf; print(tf.config.list_physical_devices('GPU'))"
+```
+
+If that check still prints `[]`, add the installed CUDA library directories to the **HAAG ML demo** Jupyter kernel. This second step was needed in our ICE session:
+
+```bash
+python - <<'PY'
+import glob
+import json
+import os
+import sysconfig
+from pathlib import Path
+
+kernel = Path.home() / ".local/share/jupyter/kernels/haag-ml-demo/kernel.json"
+spec = json.loads(kernel.read_text())
+root = sysconfig.get_paths()["purelib"]
+paths = glob.glob(f"{root}/nvidia/*/lib")
+spec.setdefault("env", {})["LD_LIBRARY_PATH"] = ":".join(
+    paths + [os.environ.get("LD_LIBRARY_PATH", "")]
+)
+kernel.write_text(json.dumps(spec, indent=2) + "\n")
+print("Configured", len(paths), "CUDA library paths for the Jupyter kernel")
+PY
+```
+
+Restart the **HAAG ML demo** kernel and rerun the notebook's first code cell. Continue with the GPU run only when it lists a visible GPU and prints `Requested device: /GPU:0`.
 
 This lesson is based on the provided [PACE Applications of Machine Learning workshop](https://github.com/jeffvaldez/PACE-Apps-of-ML). Its notebook uses the same dataset and general classification workflow, but this shorter example is focused on requesting and verifying CPU and GPU resources on ICE.
