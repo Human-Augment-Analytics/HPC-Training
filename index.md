@@ -41,7 +41,7 @@ home: true
   <a class="module-card" href="{{ '/procedures/400%20-%20Specialized%20Workloads%20%26%20Staying%20Current/README.html' | relative_url }}">
     <span class="module-number">400</span>
     <strong>Specialized Workloads &amp; Staying Current</strong>
-    <span>Run LLMs, keep software current, and explore distributed training and bioinformatics.</span>
+    <span>Run LLMs and ML notebooks, keep software current, and explore distributed training and bioinformatics.</span>
     <small>Choose a topic after the core modules.</small>
     <span class="module-card-action">Explore module <span aria-hidden="true">→</span></span>
   </a>

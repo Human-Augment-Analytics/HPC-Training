@@ -12,5 +12,6 @@ Choose a topic after you are comfortable logging into ICE and submitting a Slurm
 - [402 - Staying Current](402%20-%20Staying%20Current/README.md) - check PACE updates, inspect available software, and keep a reproducible Python environment.
 - [403 - Distributed Training](403%20-%20Distributed%20Training/README.md) - learn PyTorch DDP and inspect a two-GPU Slurm example.
 - [404 - Bioinformatics](404%20-%20Bioinformatics/README.md) - learn common biological data formats and when HPC helps. This is an overview, not a step-by-step analysis.
+- [405 - Run an ML Notebook on CPU and GPU](405%20-%20Run%20an%20ML%20Notebook%20on%20CPU%20and%20GPU/README.md) - launch Jupyter on ICE and run the same small model on a CPU session and a GPU session.
 
 Check the [official PACE documentation](https://pace.gatech.edu/) for current cluster policies and software before trying a new workload.
