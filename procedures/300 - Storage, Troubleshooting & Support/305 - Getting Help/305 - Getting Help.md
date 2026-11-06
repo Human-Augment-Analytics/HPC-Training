@@ -2,7 +2,7 @@
 title: "305 - Getting Help"
 ---
 
-# 305 — Getting Additional Help
+# 305 - Getting Additional Help
 
 When working with PACE ICE, researchers may encounter issues involving Slurm jobs, storage, software environments, resource allocations, or system access.
 

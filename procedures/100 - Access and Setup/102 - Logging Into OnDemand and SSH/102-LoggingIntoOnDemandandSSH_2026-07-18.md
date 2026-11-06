@@ -59,13 +59,12 @@ Use GlobalProtect to connect to Georgia Tech's network, then log into ICE throug
 #### OnDemand Portal Navigation
 
 
-9\. To create Jobs and use GUI services, connect via [https://ondemand-\
-ice.pace.gatech.edu/](https://ondemand-ice.pace.gatech.edu/) in your browser.
+9\. To create Jobs and use GUI services, connect via [this link](https://ondemand-ice.pace.gatech.edu/) in your browser.
 
 ![](https://colony-recorder.s3.amazonaws.com/files/2026-07-18/bc87ab2d-4b52-40c3-a375-43f1f9e84a71/sps-redacted-d3751b90b43d40dc9b00696e751ecdab_3568760da5064d068ede06553629f792_text_export.jpeg)
 
 
-Tip: See the following link for more details on OnDemand and links to other compute\
+>**Tip**: See the following link for more details on OnDemand and links to other compute\
 clusters: <https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042133>
 
 

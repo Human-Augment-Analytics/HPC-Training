@@ -2,19 +2,19 @@
 title: "303 - Validating Your Job Before Submission"
 ---
 
-# 303 — Validating Your Job Before Submission
+# 303 - Validating Your Job Before Submission
 
 
 
-Zach Wallace built a command-line tool that checks a Slurm job script for common mistakes **before** you submit it — catching problems that would otherwise only show up after the job fails and you're digging through logs to figure out why. It checks five things:
+Zach Wallace built a command-line tool that checks a Slurm job script for common mistakes **before** you submit it - catching problems that would otherwise only show up after the job fails and you're digging through logs to figure out why. It checks five things:
 
-- **Resource requests** — memory, CPUs, GPUs, and wall time are defined and reasonable for the job
-- **Parameter configuration** — partition names, QoS settings, account, and job naming are valid
-- **Output/error file setup** — log files are configured so debugging is actually possible
-- **Environment setup** — module loads and required environment variables are present
-- **Script structure** — shebang line, no duplicate directives, an actual executable command exists
+- **Resource requests** - memory, CPUs, GPUs, and wall time are defined and reasonable for the job
+- **Parameter configuration** - partition names, QoS settings, account, and job naming are valid
+- **Output/error file setup** - log files are configured so debugging is actually possible
+- **Environment setup** - module loads and required environment variables are present
+- **Script structure** - shebang line, no duplicate directives, an actual executable command exists
 
-Every issue it flags comes with a plain-language explanation and a concrete fix — not just "this is wrong."
+Every issue it flags comes with a plain-language explanation and a concrete fix - not just "this is wrong."
 
 ## Who this is for
 
@@ -45,9 +45,9 @@ Requires Python 3.10+. Check your version with `python3 --version`, or load it o
 
 Issues come back labeled by severity:
 
-- **ERROR** — will cause the job to fail. Must be fixed before submitting.
-- **WARNING** — should be reviewed and resolved unless you have a specific reason to proceed anyway.
-- **INFO** — best-practice suggestions that won't block submission.
+- **ERROR** - will cause the job to fail. Must be fixed before submitting.
+- **WARNING** - should be reviewed and resolved unless you have a specific reason to proceed anyway.
+- **INFO** - best-practice suggestions that won't block submission.
 
 Fix what's flagged, rerun the validator, and submit once it reports clean.
 
@@ -55,8 +55,8 @@ Fix what's flagged, rerun the validator, and submit once it reports clean.
 
 Two ways this is meant to get used beyond a one-off check:
 
-- **New-member onboarding** — run alongside initial PACE account setup, so validating a script becomes a standard step from day one rather than something people discover after their first failure.
-- **Project lead review** — leads reviewing teammates' scripts run the validator as part of approving a submission, not just the author.
+- **New-member onboarding** - run alongside initial PACE account setup, so validating a script becomes a standard step from day one rather than something people discover after their first failure.
+- **Project lead review** - leads reviewing teammates' scripts run the validator as part of approving a submission, not just the author.
 
 The tool also supports `--exit-code` (non-zero exit on failure), which means it can be wired into a CI/CD or pre-commit hook for teams that want this enforced automatically rather than manually.
 

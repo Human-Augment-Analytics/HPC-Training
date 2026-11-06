@@ -2,7 +2,7 @@
 title: "202 - Finding Your Sizing Recipe"
 ---
 
-# Finding Your Sizing Recipe
+# 202 - Finding Your Sizing Recipe
 
 You know the four numbers your job needs: CPU cores, GPU VRAM, system RAM, and storage. The next step is to find a workload recipe that gives you a defensible first estimate.
 
@@ -150,8 +150,3 @@ The final decision is based on the combination of all four numbers, not GPU VRAM
 
 > ICE currently provides a 30 GB home quota and a 300 GB scratch quota per student. Quotas and retention rules can change, so check [Storage on ICE](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) before planning a large dataset.
 
----
-
-## Next step
-
-Once your recipe gives you a GPU VRAM estimate, continue to **Choosing Your GPU**.
