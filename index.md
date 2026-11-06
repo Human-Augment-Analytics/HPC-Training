@@ -54,4 +54,4 @@ home: true
   <a href="{{ '/procedures/200%20-%20Running%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job/205%20-%20Submitting%20Your%20First%20Job.html' | relative_url }}">Open the first-job walkthrough <span aria-hidden="true">→</span></a>
 </section>
 
-<p class="site-note">Technical details may change. Verify current cluster policy and resources with <a href="https://pace.gatech.edu/">PACE</a> before relying on them.</p>
+<p class="site-note">Technical details may change. Verify current policies with <a href="https://pace.gatech.edu/">PACE</a> before relying on them.</p>
