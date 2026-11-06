@@ -2,7 +2,7 @@
 title: "300 - Storage, Troubleshooting & Support"
 ---
 
-# 300 — Storage, Troubleshooting & Support
+# 300 - Storage, Troubleshooting & Support
 
 This module walks through how to manage storage, troubleshoot common job issues, and find support when problems occur on ICE. It is meant for researchers who can already submit Slurm jobs but are not yet comfortable monitoring storage usage, identifying errors, or determining when to seek help.
 
