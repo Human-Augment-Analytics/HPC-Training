@@ -2,7 +2,7 @@
 title: "206 - Further Reading"
 ---
 
-# Further Reading
+#  206 - Further Reading
 
 You have now learned how to estimate resources, choose an ICE GPU, and submit a basic Slurm job.
 

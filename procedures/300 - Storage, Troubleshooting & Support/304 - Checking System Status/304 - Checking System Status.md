@@ -2,7 +2,7 @@
 title: "304 - Checking System Status"
 ---
 
-# 304 — Checking System Status
+# 304 - Checking System Status
 
 Before troubleshooting a failed or delayed job on PACE ICE, it is important to determine whether the issue is related to your job or the cluster itself.
 
@@ -172,7 +172,7 @@ Researchers should distinguish between system-wide problems and issues related t
 | Files cannot be accessed | Storage disruption or file permissions | Storage status, quota, and permissions |
 | Job stops during maintenance | Planned or unplanned infrastructure interruption | Maintenance announcements and Slurm job status |
 
-**Important:** A job remaining in the `PENDING` state does not necessarily indicate a system problem. Slurm may be waiting for the requested resources to become available.
+>**Important:** A job remaining in the `PENDING` state does not necessarily indicate a system problem. Slurm may be waiting for the requested resources to become available.
 
 # Checking Your Job Status with Slurm
 

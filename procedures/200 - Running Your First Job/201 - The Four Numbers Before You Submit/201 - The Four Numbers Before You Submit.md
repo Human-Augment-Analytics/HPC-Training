@@ -2,7 +2,7 @@
 title: "201 - The Four Numbers Before You Submit"
 ---
 
-# The Four Numbers Before You Submit
+# 201 - The Four Numbers Before You Submit
 
 Before PACE can run your program, Slurm needs to know what resources to reserve for it. For a first estimate, focus on four numbers:
 
@@ -143,8 +143,4 @@ Complete this before writing the final job script:
 
 > **PACE note:** ICE hardware, quotas, limits, and Slurm options can change. This guide was verified against the official PACE documentation on July 31, 2026. Check [Using Slurm on ICE](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042096) and [Storage on ICE](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042094) before submitting a large job.
 
----
 
-## Next step
-
-Continue to **Finding Your Sizing Recipe** to turn the four-number framework into a first estimate for your workload.
