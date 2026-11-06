@@ -22,7 +22,7 @@ Since this training track is built on ICE, the fastest path through the hub is t
 
 ## Workshops and live training
 
-PACE runs no-cost, live virtual workshops taught by PACE Research Scientists on a recurring basis, including Linux 101, Linux 102, Python 101 (Intro to Data Analysis with NumPy), Git 101, Optimization 101, Using Containers at PACE, and Applications of Machine Learning. The current schedule and sign-up details are at [KB0042298](https://gatech.service-now.com/home?id=kb_article_view&sysparm_article=KB0042298). If you want a structured, taught introduction rather than reading through docs on your own, this is the better fit.
+PACE runs no-cost, live virtual workshops taught by PACE Research Scientists on a recurring basis, including Linux 101, Linux 102, Python 101 (Intro to Data Analysis with NumPy), Git 101, Optimization 101, Using Containers at PACE, and Applications of Machine Learning. See [PACE Trainings, Workshops, and Other Events](https://pace.gatech.edu/pace-trainings/) for current offerings and registration details. If you want a structured, taught introduction rather than reading through docs on your own, this is the better fit.
 
 ---
 
